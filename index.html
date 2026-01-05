@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Team - Member Management System</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,7 +13,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
@@ -25,58 +25,58 @@
             --purple: #9b59b6;
             --teal: #1abc9c;
         }
-        
+
         body {
             background-color: #f5f7fa;
             color: #333;
             line-height: 1.6;
         }
-        
+
         .container {
             width: 100%;
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         /* Header Styles */
         header {
             background-color: var(--primary);
             color: white;
             padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-        
+
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .logo h1 {
             font-size: 1.8rem;
             font-weight: 700;
         }
-        
+
         .logo span {
             color: var(--secondary);
         }
-        
+
         .motto {
             font-style: italic;
             font-size: 0.9rem;
             opacity: 0.8;
         }
-        
+
         /* Hamburger Menu */
         .hamburger-menu {
             display: none;
@@ -86,7 +86,7 @@
             height: 21px;
             cursor: pointer;
         }
-        
+
         .hamburger-menu span {
             height: 3px;
             width: 100%;
@@ -94,14 +94,14 @@
             border-radius: 10px;
             transition: 0.3s;
         }
-        
+
         /* Navigation */
         nav ul {
             display: flex;
             list-style: none;
             gap: 1.5rem;
         }
-        
+
         nav a {
             color: white;
             text-decoration: none;
@@ -110,16 +110,17 @@
             border-radius: 4px;
             transition: background-color 0.3s;
         }
-        
-        nav a:hover, nav a.active {
+
+        nav a:hover,
+        nav a.active {
             background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         /* Main Content */
         main {
             padding: 2rem 0;
         }
-        
+
         .section-title {
             color: var(--primary);
             margin-bottom: 1.5rem;
@@ -129,15 +130,15 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .card {
             background-color: white;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             padding: 1.5rem;
             margin-bottom: 2rem;
         }
-        
+
         /* Dashboard */
         .stats-grid {
             display: grid;
@@ -145,22 +146,22 @@
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-        
+
         .stat-card {
             background-color: white;
             border-radius: 10px;
             padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             display: flex;
             align-items: center;
             gap: 1rem;
             transition: transform 0.3s;
         }
-        
+
         .stat-card:hover {
             transform: translateY(-5px);
         }
-        
+
         .stat-icon {
             width: 60px;
             height: 60px;
@@ -171,25 +172,42 @@
             font-size: 1.5rem;
             color: white;
         }
-        
-        .stat-1 { background-color: #3498db; }
-        .stat-2 { background-color: #2ecc71; }
-        .stat-3 { background-color: #e74c3c; }
-        .stat-4 { background-color: #f39c12; }
-        .stat-5 { background-color: #9b59b6; }
-        .stat-6 { background-color: #1abc9c; }
-        
+
+        .stat-1 {
+            background-color: #3498db;
+        }
+
+        .stat-2 {
+            background-color: #2ecc71;
+        }
+
+        .stat-3 {
+            background-color: #e74c3c;
+        }
+
+        .stat-4 {
+            background-color: #f39c12;
+        }
+
+        .stat-5 {
+            background-color: #9b59b6;
+        }
+
+        .stat-6 {
+            background-color: #1abc9c;
+        }
+
         .stat-info h3 {
             font-size: 2rem;
             margin-bottom: 5px;
             font-weight: 700;
         }
-        
+
         .stat-info p {
             color: #666;
             font-size: 0.9rem;
         }
-        
+
         /* Real-time Deadline Counter */
         .deadline-counter {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -203,25 +221,25 @@
             align-items: center;
             flex-wrap: wrap;
         }
-        
+
         .counter-box {
             flex: 1;
             min-width: 200px;
             padding: 1rem;
         }
-        
+
         .counter-value {
             font-size: 3rem;
             font-weight: 700;
             margin: 0.5rem 0;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-        
+
         .counter-label {
             font-size: 0.9rem;
             opacity: 0.9;
         }
-        
+
         /* Payment Section */
         .payment-box {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -231,38 +249,38 @@
             text-align: center;
             margin-bottom: 2rem;
         }
-        
+
         .payment-box h2 {
             margin-bottom: 1rem;
         }
-        
+
         .payment-amount {
             font-size: 2.5rem;
             font-weight: 700;
             margin: 1rem 0;
         }
-        
+
         .payment-stats {
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
             margin: 1.5rem 0;
         }
-        
+
         .payment-stat {
             margin: 0.5rem;
         }
-        
+
         .payment-stat-number {
             font-size: 2rem;
             font-weight: 700;
         }
-        
+
         .payment-stat-label {
             font-size: 0.9rem;
             opacity: 0.9;
         }
-        
+
         .payment-deadline {
             background-color: rgba(255, 255, 255, 0.2);
             padding: 0.5rem 1rem;
@@ -270,7 +288,7 @@
             display: inline-block;
             margin: 1rem 0;
         }
-        
+
         .payment-btn {
             display: inline-block;
             background-color: var(--success);
@@ -285,12 +303,12 @@
             border: none;
             cursor: pointer;
         }
-        
+
         .payment-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .penalty-notice {
             background-color: rgba(255, 255, 255, 0.2);
             padding: 1rem;
@@ -298,19 +316,19 @@
             border-radius: 10px;
             border-left: 4px solid var(--warning);
         }
-        
+
         /* Monthly Contributions Chart */
         .contributions-chart {
             margin-top: 2rem;
         }
-        
+
         .months-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
-        
+
         .month-box {
             background-color: #f8f9fa;
             border-radius: 8px;
@@ -319,59 +337,60 @@
             transition: all 0.3s;
             border: 2px solid transparent;
         }
-        
+
         .month-box.current {
             border-color: var(--secondary);
             background-color: #e3f2fd;
             transform: scale(1.05);
         }
-        
+
         .month-box.paid {
             background-color: #d4edda;
             border-color: #c3e6cb;
         }
-        
+
         .month-box.pending {
             background-color: #fff3cd;
             border-color: #ffeaa7;
         }
-        
+
         .month-box.overdue {
             background-color: #f8d7da;
             border-color: #f5c6cb;
         }
-        
+
         .month-name {
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
-        
+
         .month-status {
             font-size: 0.8rem;
             padding: 3px 8px;
             border-radius: 12px;
             display: inline-block;
         }
-        
+
         /* Member Table */
         .table-container {
             overflow-x: auto;
             border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 1rem;
         }
-        
-        th, td {
+
+        th,
+        td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
-        
+
         th {
             background-color: var(--primary);
             color: white;
@@ -379,57 +398,57 @@
             position: sticky;
             top: 0;
         }
-        
+
         tr:hover {
             background-color: #f9f9f9;
         }
-        
+
         .status {
             padding: 5px 10px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
         }
-        
+
         .paid {
             background-color: #d4edda;
             color: #155724;
         }
-        
+
         .pending {
             background-color: #fff3cd;
             color: #856404;
         }
-        
+
         .overdue {
             background-color: #f8d7da;
             color: #721c24;
         }
-        
+
         /* Constitution Styles */
         .constitution-section {
             margin-top: 2rem;
         }
-        
+
         .constitution-item {
             margin-bottom: 1.5rem;
             padding-left: 1.5rem;
             border-left: 3px solid var(--secondary);
         }
-        
+
         .constitution-item h3 {
             color: var(--primary);
             margin-bottom: 0.5rem;
         }
-        
+
         .constitution-item ul {
             margin-left: 1.5rem;
         }
-        
+
         .constitution-item li {
             margin-bottom: 0.5rem;
         }
-        
+
         /* Footer */
         footer {
             background-color: var(--dark);
@@ -437,30 +456,30 @@
             padding: 2rem 0;
             margin-top: 2rem;
         }
-        
+
         .footer-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             gap: 2rem;
         }
-        
+
         .footer-section {
             flex: 1;
             min-width: 250px;
         }
-        
+
         .footer-section h3 {
             margin-bottom: 1rem;
             color: var(--secondary);
         }
-        
+
         .social-links {
             display: flex;
             gap: 1rem;
             margin-top: 1rem;
         }
-        
+
         .social-links a {
             display: flex;
             align-items: center;
@@ -473,12 +492,12 @@
             text-decoration: none;
             transition: background-color 0.3s, transform 0.3s;
         }
-        
+
         .social-links a:hover {
             background-color: var(--secondary);
             transform: translateY(-3px);
         }
-        
+
         .copyright {
             text-align: center;
             padding-top: 2rem;
@@ -487,13 +506,13 @@
             font-size: 0.9rem;
             opacity: 0.7;
         }
-        
+
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .hamburger-menu {
                 display: flex;
             }
-            
+
             nav {
                 position: fixed;
                 top: 70px;
@@ -504,35 +523,35 @@
                 transition: left 0.3s;
                 z-index: 99;
                 padding: 2rem;
-                box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
             }
-            
+
             nav.active {
                 left: 0;
             }
-            
+
             nav ul {
                 flex-direction: column;
                 gap: 1rem;
             }
-            
+
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .header-container {
                 padding: 0 10px;
             }
-            
+
             .counter-box {
                 min-width: 150px;
             }
-            
+
             .counter-value {
                 font-size: 2.5rem;
             }
         }
-        
+
         /* WhatsApp Link */
         .whatsapp-link {
             position: fixed;
@@ -547,17 +566,17 @@
             align-items: center;
             justify-content: center;
             font-size: 1.8rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             z-index: 99;
             text-decoration: none;
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        
+
         .whatsapp-link:hover {
             transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
-        
+
         /* Tabs */
         .tabs {
             display: flex;
@@ -565,7 +584,7 @@
             margin-bottom: 1.5rem;
             overflow-x: auto;
         }
-        
+
         .tab {
             padding: 10px 20px;
             background: none;
@@ -578,32 +597,32 @@
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
         }
-        
+
         .tab.active {
             color: var(--primary);
             border-bottom: 3px solid var(--secondary);
         }
-        
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
         /* Form Styles */
         .form-group {
             margin-bottom: 1.5rem;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: var(--primary);
         }
-        
+
         .form-control {
             width: 100%;
             padding: 10px 15px;
@@ -611,7 +630,7 @@
             border-radius: 5px;
             font-size: 1rem;
         }
-        
+
         .btn {
             background-color: var(--secondary);
             color: white;
@@ -623,12 +642,12 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.3s;
         }
-        
+
         .btn:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
         }
-        
+
         /* Loan Calculator */
         .loan-calculator {
             background-color: #f8f9fa;
@@ -636,39 +655,39 @@
             padding: 1.5rem;
             margin-top: 2rem;
         }
-        
+
         .calculator-result {
             background-color: white;
             border-radius: 8px;
             padding: 1rem;
             margin-top: 1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
-        
+
         /* Progress Bar */
         .progress-container {
             margin: 1rem 0;
         }
-        
+
         .progress-label {
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.5rem;
         }
-        
+
         .progress-bar {
             height: 10px;
             background-color: #e9ecef;
             border-radius: 5px;
             overflow: hidden;
         }
-        
+
         .progress-fill {
             height: 100%;
             background-color: var(--success);
             transition: width 0.5s;
         }
-        
+
         /* Notification Badge */
         .notification-badge {
             position: absolute;
@@ -685,7 +704,7 @@
             font-size: 0.7rem;
             font-weight: bold;
         }
-        
+
         /* Export Button */
         .export-btn {
             background-color: var(--teal);
@@ -700,12 +719,198 @@
             font-weight: 600;
             transition: background-color 0.3s;
         }
-        
+
         .export-btn:hover {
             background-color: #16a085;
         }
+
+        /* Image Upload */
+        .image-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .image-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-btn {
+            background-color: var(--purple);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Notification Settings */
+        .notification-settings {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Payment Prompt Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Member Details Modal */
+        .member-details-grid {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Switch Toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--success);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Simple Payment Prompt */
+        .simple-payment-prompt {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--success);
+        }
+
+        .auto-update-notice {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid var(--secondary);
+        }
+
+        /* User Payment Prompt */
+        .user-payment-prompt {
+            background-color: #fff3cd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--warning);
+        }
+
+        .payment-instructions {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
     </style>
 </head>
+
 <body>
     <!-- Header with Navigation -->
     <header>
@@ -714,14 +919,14 @@
                 <h1>THE <span>TEAM</span></h1>
                 <div class="motto">Diverse but United</div>
             </div>
-            
+
             <!-- Hamburger Menu -->
             <div class="hamburger-menu" id="hamburger">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
-            
+
             <!-- Navigation -->
             <nav id="nav-menu">
                 <ul>
@@ -731,12 +936,13 @@
                     <li><a href="#payments">Payments</a></li>
                     <li><a href="#loans">Loans</a></li>
                     <li><a href="#reports">Reports</a></li>
+                    <li><a href="#notifications">Notifications</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-    
+
     <!-- Main Content -->
     <main class="container">
         <!-- Dashboard Section -->
@@ -745,7 +951,7 @@
                 <h2>Group Dashboard</h2>
                 <div id="current-date-time" style="font-size: 0.9rem; color: #666;"></div>
             </div>
-            
+
             <!-- Real-time Deadline Counter -->
             <div class="deadline-counter">
                 <div class="counter-box">
@@ -753,26 +959,26 @@
                     <div class="counter-value" id="days-counter">5</div>
                     <div class="counter-label">10th of every month</div>
                 </div>
-                
+
                 <div class="counter-box">
                     <div class="counter-label">Hours</div>
                     <div class="counter-value" id="hours-counter">12</div>
                     <div class="counter-label">Until penalty applies</div>
                 </div>
-                
+
                 <div class="counter-box">
                     <div class="counter-label">Minutes</div>
                     <div class="counter-value" id="minutes-counter">45</div>
                     <div class="counter-label">Remaining</div>
                 </div>
-                
+
                 <div class="counter-box">
                     <div class="counter-label">Next Meeting</div>
                     <div class="counter-value" id="meeting-days">1</div>
                     <div class="counter-label">Days (11th monthly)</div>
                 </div>
             </div>
-            
+
             <!-- Statistics -->
             <div class="stats-grid">
                 <div class="stat-card">
@@ -780,118 +986,132 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="total-members">10</h3>
+                        <h3 id="total-members">15</h3>
                         <p>Total Members</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon stat-2">
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="paid-members">2</h3>
+                        <h3 id="paid-members">1</h3>
                         <p>Paid This Month</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon stat-3">
                         <i class="fas fa-clock"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="pending-members">8</h3>
+                        <h3 id="pending-members">14</h3>
                         <p>Pending Payments</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon stat-4">
                         <i class="fas fa-exclamation-triangle"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="overdue-members">2</h3>
+                        <h3 id="overdue-members">0</h3>
                         <p>Overdue Payments</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon stat-5">
                         <i class="fas fa-money-bill-wave"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="total-collected">1200</h3>
+                        <h3 id="total-collected">600</h3>
                         <p>KSh Collected This Month</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon stat-6">
                         <i class="fas fa-hand-holding-usd"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="expected-total">6000</h3>
+                        <h3 id="expected-total">9000</h3>
                         <p>KSh Expected This Month</p>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Payment Progress -->
             <div class="card">
                 <div class="section-title">
                     <h3>Monthly Payment Progress</h3>
-                    <span id="payment-progress-text">2 of 10 members paid</span>
+                    <span id="payment-progress-text">1 of 15 members paid</span>
                 </div>
-                
+
                 <div class="progress-container">
                     <div class="progress-label">
                         <span>Collection Rate</span>
-                        <span id="progress-percentage">20%</span>
+                        <span id="progress-percentage">7%</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill" style="width: 20%"></div>
+                        <div class="progress-fill" id="progress-fill" style="width: 7%"></div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Payment Box -->
             <div class="payment-box">
                 <h2>Monthly Contribution</h2>
                 <p>Every member is required to pay</p>
                 <div class="payment-amount">KSh 600</div>
                 <p>by the 10th of every month</p>
-                
+
                 <div class="payment-stats">
                     <div class="payment-stat">
-                        <div class="payment-stat-number" id="total-members-payment">10</div>
+                        <div class="payment-stat-number" id="total-members-payment">15</div>
                         <div class="payment-stat-label">Total Members</div>
                     </div>
                     <div class="payment-stat">
-                        <div class="payment-stat-number" id="paid-count">2</div>
+                        <div class="payment-stat-number" id="paid-count">1</div>
                         <div class="payment-stat-label">Paid</div>
                     </div>
                     <div class="payment-stat">
-                        <div class="payment-stat-number" id="pending-count">8</div>
+                        <div class="payment-stat-number" id="pending-count">14</div>
                         <div class="payment-stat-label">Pending</div>
                     </div>
                 </div>
-                
+
                 <div class="payment-deadline">
                     <i class="fas fa-calendar-alt"></i> Next Deadline: <span id="deadline-date">10th January 2026</span>
                 </div>
-                
-                <button class="payment-btn" id="pay-now-btn">
-                    <i class="fas fa-mobile-alt"></i> Pay Now via M-Pesa
-                </button>
-                
-                <p>Send to: <strong>0112199055</strong></p>
-                
+
+                <!-- User Payment Prompt -->
+                <div class="user-payment-prompt">
+                    <h3><i class="fas fa-mobile-alt"></i> Make Your Payment</h3>
+                    <p>Click below to get payment instructions:</p>
+                    <button class="payment-btn" id="user-payment-btn">
+                        <i class="fas fa-qrcode"></i> Get Payment Instructions
+                    </button>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;">
+                        <i class="fas fa-info-circle"></i> Follow the instructions to pay your contribution or penalty
+                    </p>
+                </div>
+
+                <p>Send to PayBill: <strong>247247</strong></p>
+                <p>Account Number: <strong>0718510747</strong></p>
+
+                <div class="auto-update-notice">
+                    <i class="fas fa-sync-alt"></i>
+                    <strong>Automatic Updates:</strong> After payment, your status updates automatically
+                </div>
+
                 <div class="penalty-notice">
-                    <i class="fas fa-exclamation-circle"></i> 
+                    <i class="fas fa-exclamation-circle"></i>
                     <strong>Late Payment Penalty:</strong> KSh 10 per day after the deadline
                 </div>
             </div>
-            
+
             <!-- Monthly Contributions Overview -->
             <div class="card contributions-chart">
                 <h3 class="section-title">Monthly Contributions Overview (2026)</h3>
@@ -899,20 +1119,23 @@
                     <!-- Months will be populated by JavaScript -->
                 </div>
             </div>
-            
+
             <!-- Upcoming Events -->
             <div class="card">
                 <h3 class="section-title">Upcoming Events & Notifications</h3>
                 <ul>
-                    <li><strong><i class="fas fa-users"></i> Monthly Meeting:</strong> 11th of every month - Next: <span id="next-meeting">11th April 2023</span></li>
-                    <li><strong><i class="fas fa-chart-line"></i> Financial Review:</strong> Last Sunday of each month</li>
-                    <li><strong><i class="fas fa-calendar-check"></i> Annual General Meeting:</strong> December 2026</li>
+                    <li><strong><i class="fas fa-users"></i> Monthly Meeting:</strong> 11th of every month - Next: <span
+                            id="next-meeting">11th January 2026</span></li>
+                    <li><strong><i class="fas fa-chart-line"></i> Financial Review:</strong> Last Sunday of each month
+                    </li>
+                    <li><strong><i class="fas fa-calendar-check"></i> Annual General Meeting:</strong> December 2026
+                    </li>
                     <li><strong><i class="fas fa-hand-holding-usd"></i> Withdrawal Window:</strong> December 2030</li>
-                    <li><strong><i class="fas fa-bullhorn"></i> Next Project Meeting:</strong> 15th April 2026</li>
+                    <li><strong><i class="fas fa-bullhorn"></i> Next Project Meeting:</strong> 15th January 2026</li>
                 </ul>
             </div>
         </section>
-        
+
         <!-- Members Section -->
         <section id="members" class="tab-content">
             <div class="section-title">
@@ -921,7 +1144,7 @@
                     <i class="fas fa-download"></i> Export List
                 </button>
             </div>
-            
+
             <div class="table-container">
                 <table id="members-table">
                     <thead>
@@ -941,7 +1164,7 @@
                     </tbody>
                 </table>
             </div>
-            
+
             <!-- Add Member Form -->
             <div class="card">
                 <div class="section-title">
@@ -953,64 +1176,224 @@
                         <label for="member-name">Full Name</label>
                         <input type="text" id="member-name" class="form-control" placeholder="Enter full name" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="member-phone">Phone Number</label>
                         <input type="tel" id="member-phone" class="form-control" placeholder="e.g. 0790123456" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="member-email">Email Address</label>
-                        <input type="email" id="member-email" class="form-control" placeholder="Enter email address" required>
+                        <input type="email" id="member-email" class="form-control" placeholder="Enter email address"
+                            required>
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="member-id">Member ID (Optional)</label>
-                        <input type="text" id="member-id" class="form-control" placeholder="Auto-generated if empty">
+                        <label for="member-image">Profile Image</label>
+                        <div class="image-upload-container">
+                            <div class="image-preview" id="image-preview">
+                                <i class="fas fa-user-circle" style="font-size: 4rem; color: #ccc;"></i>
+                            </div>
+                            <input type="file" id="member-image" accept="image/*" style="display: none;">
+                            <button type="button" class="upload-btn" id="upload-image-btn">
+                                <i class="fas fa-upload"></i> Upload Image
+                            </button>
+                        </div>
                     </div>
-                    
+
                     <button type="submit" class="btn">
                         <i class="fas fa-user-plus"></i> Add Member & Charge KSh 200
                     </button>
                 </form>
             </div>
         </section>
-        
+
         <!-- Constitution Section -->
         <section id="constitution" class="tab-content">
-            <h2 class="section-title">Group Constitution</h2>
-            
+            <h2 class="section-title">THE TEAM – Group Constitution</h2>
+
             <div class="constitution-section">
-                <!-- Constitution content remains the same as before -->
+
                 <div class="constitution-item">
                     <h3>MOTTO</h3>
                     <p>Diverse but United</p>
                 </div>
-                
+
                 <div class="constitution-item">
                     <h3>OBJECTIVES</h3>
                     <ul>
                         <li>Fight poverty by initiating Income Generating Activities (I.G.As)</li>
                         <li>Solicit funds from government and NGOs</li>
-                        <li>Create job opportunities through the (I.G.As)</li>
-                        <li>Source funds and knowledge to establish and expand both individual and association enterprises</li>
+                        <li>Create job opportunities through the I.G.As</li>
+                        <li>Source funds and knowledge to establish and expand both individual and association
+                            enterprises</li>
                     </ul>
                 </div>
-                
-                <!-- More constitution sections... -->
-                
+
                 <div class="constitution-item">
-                    <h3>MONTHLY CONTRIBUTIONS</h3>
+                    <h3>MEMBERSHIP</h3>
                     <ul>
-                        <li>Monthly contribution: KSh 600 due by the 10th of every month</li>
-                        <li>Late payment penalty: KSh 10 per day after the deadline</li>
-                        <li>Failure to attend meetings: KSh 50 fine</li>
-                        <li>Registration fee: KSh 200 (non-refundable)</li>
+                        <li>New members shall register at a fee of KSh 200</li>
                     </ul>
                 </div>
+
+                <div class="constitution-item">
+                    <h3>CEASING TO BE A MEMBER</h3>
+                    <ul>
+                        <li>Death</li>
+                        <li>Expulsion</li>
+                        <li>Resignation</li>
+                    </ul>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>ELECTION</h3>
+                    <ul>
+                        <li>Election of officials shall be done after one year</li>
+                        <li>Elected officials shall serve for one year</li>
+                        <li>Offices falling vacant before the end of the tenure shall be filled through a by-election
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>THE EXECUTIVE</h3>
+                    <ul>
+                        <li>Chairperson</li>
+                        <li>Vice Chairperson</li>
+                        <li>Treasurer</li>
+                        <li>Secretary</li>
+                        <li>Vice Secretary</li>
+                        <li>Organizing Secretary</li>
+                    </ul>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>DUTIES AND RESPONSIBILITIES OF OFFICE BEARERS</h3>
+
+                    <h4>Chairperson</h4>
+                    <ul>
+                        <li>Chair all group meetings</li>
+                        <li>Be the spokesperson of the group</li>
+                        <li>Be a signatory to the group's bank account</li>
+                        <li>Enforce group policies and objectives</li>
+                        <li>Authorize expenditure of group resources</li>
+                    </ul>
+
+                    <h4>Secretary</h4>
+                    <ul>
+                        <li>Write and minute all group proceedings</li>
+                        <li>Handle group correspondence</li>
+                        <li>May be a signatory to the group's bank account (optional)</li>
+                    </ul>
+
+                    <h4>Treasurer</h4>
+                    <ul>
+                        <li>Manage all group money and resources</li>
+                        <li>Keep financial records</li>
+                        <li>Present financial reports</li>
+                        <li>Be a signatory to the group's bank account</li>
+                    </ul>
+
+                    <h4>Vice Secretary</h4>
+                    <ul>
+                        <li>Assume the secretary's role in their absence (except bank signatory duties)</li>
+                    </ul>
+
+                    <h4>Organizing Secretary</h4>
+                    <ul>
+                        <li>Arrange all meetings in liaison with the chairperson</li>
+                        <li>Ensure all group sections run smoothly</li>
+                        <li>Disseminate information to members on time</li>
+                        <li>Serve as the master of ceremony in group functions</li>
+                        <li>Organize venues and seating for meetings</li>
+                        <li>Maintain order during meetings, including managing disorderly members</li>
+                    </ul>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>DISCIPLINE</h3>
+                    <ul>
+                        <li>Punctuality</li>
+                        <li>Availability</li>
+                        <li>Sobriety</li>
+                    </ul>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>MEETINGS</h3>
+                    <ul>
+                        <li>Group meetings will be held on the 11th of every month</li>
+                        <li>Failure to attend without valid reason attracts a fine of KSh 50 (deducted from shares;
+                            continues daily if persistent)</li>
+                    </ul>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>MONEY AND RESOURCES</h3>
+                    <ul>
+                        <li>KSh 200 registration fee</li>
+                        <li>KSh 500 (minimum) monthly savings</li>
+                        <li>Grants/Loans from government and NGOs</li>
+                        <li>Fundraising and donations from well-wishers</li>
+                        <li>Profit from the group's I.G.As</li>
+                    </ul>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>DEADLINES</h3>
+                    <ul>
+                        <li>Savings deadline is the 10th of every month</li>
+                        <li>Late submission attracts a penalty of KSh 10 per day</li>
+                    </ul>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>REFUNDS</h3>
+                    <ul>
+                        <li>In case of death, immediate family or next of kin receives 100% of savings</li>
+                        <li>In case of expulsion or resignation, member receives 70% of savings</li>
+                        <li>Registration fee is non-refundable</li>
+                        <li>In December 2030, members may withdraw fully and receive 100% of contributions plus profit
+                            (less transaction costs)</li>
+                        <li>Thereafter, withdrawals allowed only after every 10 years</li>
+                        <li>Early withdrawal attracts 70% refund rule</li>
+                    </ul>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>BOOKS OF RECORD AND REPORTS</h3>
+                    <p>
+                        The group shall maintain a register, minutes book, and other records as needed.
+                        Records shall be accessible to members upon reasonable notice.
+                        An annual report shall be presented at the AGM held every December.
+                    </p>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>LOAN PAYMENT POLICY</h3>
+                    <p>
+                        Loan duration is 3 months. Deadlines falling on the 25th or later extend to the 8th of the
+                        following month.
+                        Failure to repay within 3 months attracts additional interest based on total loan plus first 3
+                        months interest.
+                        This interest must be paid within 14 days, failure of which results in expulsion and a 70%
+                        refund.
+                    </p>
+                </div>
+
+                <div class="constitution-item">
+                    <h3>SHARING OF LOAN INTEREST</h3>
+                    <p>
+                        Members receive 70% of interest paid on their own loans.
+                        The remaining 30% is shared equally among all members.
+                    </p>
+                </div>
+
             </div>
         </section>
-        
+
+
         <!-- Payments Section -->
         <section id="payments" class="tab-content">
             <div class="section-title">
@@ -1021,7 +1404,38 @@
                     </button>
                 </div>
             </div>
-            
+
+            <!-- User Payment Prompt -->
+            <div class="user-payment-prompt">
+                <h4><i class="fas fa-mobile-alt"></i> Make Your Payment Here</h4>
+                <p>Select your name and click "Get Payment Instructions":</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+                    <select id="user-member-select" class="form-control" style="flex: 1; min-width: 200px;">
+                        <option value="">Select Your Name</option>
+                    </select>
+                    <button class="btn" id="user-get-instructions-btn" style="background-color: var(--success);">
+                        <i class="fas fa-qrcode"></i> Get Payment Instructions
+                    </button>
+                </div>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem; color: #666;">
+                    <i class="fas fa-info-circle"></i> Follow the instructions to pay your contribution
+                </p>
+            </div>
+
+            <!-- Simple Payment Prompt for Admin -->
+            <div class="simple-payment-prompt">
+                <h4><i class="fas fa-user-shield"></i> Admin: Quick Payment Recording</h4>
+                <p>Select a member to record their payment:</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <select id="quick-member-select" class="form-control" style="flex: 1;">
+                        <option value="">Select Member</option>
+                    </select>
+                    <button class="btn" id="quick-pay-btn">
+                        <i class="fas fa-check-circle"></i> Mark as Paid
+                    </button>
+                </div>
+            </div>
+
             <!-- Payment Filters -->
             <div class="card">
                 <h4>Filter Payments</h4>
@@ -1030,24 +1444,24 @@
                         <option value="all">All Months</option>
                         <!-- Months will be populated by JavaScript -->
                     </select>
-                    
+
                     <select id="filter-status" class="form-control" style="width: auto;">
                         <option value="all">All Statuses</option>
                         <option value="paid">Paid</option>
                         <option value="pending">Pending</option>
                         <option value="overdue">Overdue</option>
                     </select>
-                    
+
                     <button class="btn" id="apply-filters">
                         <i class="fas fa-filter"></i> Apply Filters
                     </button>
-                    
+
                     <button class="btn" id="reset-filters" style="background-color: #6c757d;">
                         <i class="fas fa-redo"></i> Reset
                     </button>
                 </div>
             </div>
-            
+
             <div class="table-container">
                 <table id="payments-table">
                     <thead>
@@ -1060,6 +1474,7 @@
                             <th>Due Date</th>
                             <th>Penalty</th>
                             <th>Status</th>
+                            <th>Receipt</th>
                         </tr>
                     </thead>
                     <tbody id="payments-tbody">
@@ -1067,7 +1482,7 @@
                     </tbody>
                 </table>
             </div>
-            
+
             <!-- Payment Instructions -->
             <div class="card">
                 <h3 class="section-title">How to Pay</h3>
@@ -1080,39 +1495,50 @@
                             <li>Select "Pay Bill"</li>
                             <li>Enter Business Number: <strong>247247</strong></li>
                             <li>Enter Account Number: <strong>0718510747</strong></li>
-                            <li>Enter Amount: <strong>600</strong></li>
+                            <li>Enter Amount: <strong>600</strong> (or amount shown)</li>
                             <li>Enter your M-Pesa PIN</li>
                             <li>Confirm payment</li>
-                             <li>Account Name: <strong>MUTEMWA WILLY</strong></li>
+                            <li>Account Name: <strong>MUTEMWA WILLY</strong></li>
                         </ol>
                     </div>
-                    
+
                     <div style="flex: 1; min-width: 300px;">
-                        <h4>Payment Reminders</h4>
+                        <h4>Important Notes</h4>
                         <ul>
-                            <li>Payments are automatically updated within 24 hours</li>
-                            <li>Keep your M-Pesa confirmation message</li>
-                            <li>Contact treasurer if payment is not reflected after 24 hours</li>
-                            <li>Late payments attract KSh 10 daily penalty</li>
-                            <li>Pay before 10th to avoid penalties</li>
+                            <li><strong>Automatic Updates:</strong> Status updates automatically after payment</li>
+                            <li><strong>Keep Receipt:</strong> Save your M-Pesa confirmation message</li>
+                            <li><strong>Penalty:</strong> KSh 10 per day after deadline</li>
+                            <li><strong>Deadline:</strong> 10th of every month</li>
+                            <li><strong>Contact:</strong> Treasurer if issues: 0718510747</li>
                         </ul>
                     </div>
                 </div>
+
+                <!-- Treasurer's Account Information -->
+                <div class="auto-update-notice" style="margin-top: 1rem;">
+                    <h4><i class="fas fa-university"></i> Official Payment Details</h4>
+                    <p><strong>PayBill Number:</strong> 247247</p>
+                    <p><strong>Account Number:</strong> 0718510747</p>
+                    <p><strong>Account Name:</strong> MUTEMWA WILLY</p>
+                    <p><strong>Monthly Contribution:</strong> KSh 600</p>
+                    <p><strong>Daily Penalty:</strong> KSh 10 (after deadline)</p>
+                </div>
             </div>
         </section>
-        
+
         <!-- Loans Section -->
         <section id="loans" class="tab-content">
             <h2 class="section-title">Loan Management</h2>
-            
+
             <div class="card">
                 <h3>Loan Calculator</h3>
                 <div class="loan-calculator">
                     <div class="form-group">
                         <label for="loan-amount">Loan Amount (KSh)</label>
-                        <input type="number" id="loan-amount" class="form-control" value="10000" min="1000" max="100000">
+                        <input type="number" id="loan-amount" class="form-control" value="10000" min="1000"
+                            max="100000">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="loan-duration">Duration (Months)</label>
                         <select id="loan-duration" class="form-control">
@@ -1124,11 +1550,11 @@
                             <option value="6">6 Months</option>
                         </select>
                     </div>
-                    
+
                     <button class="btn" id="calculate-loan">
                         <i class="fas fa-calculator"></i> Calculate Loan
                     </button>
-                    
+
                     <div class="calculator-result" id="loan-result" style="display: none;">
                         <h4>Loan Calculation Results</h4>
                         <p><strong>Monthly Installment:</strong> <span id="monthly-installment">0</span> KSh</p>
@@ -1142,7 +1568,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Active Loans Table -->
             <div class="card">
                 <h3 class="section-title">Active Loans</h3>
@@ -1169,28 +1595,27 @@
                                 <td>10,000 KSh</td>
                                 <td><span class="status pending">Active</span></td>
                             </tr>
-                         
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
-        
+
         <!-- Reports Section -->
         <section id="reports" class="tab-content">
             <h2 class="section-title">Financial Reports</h2>
-            
+
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon stat-1">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="total-collected-year">72,000</h3>
+                        <h3 id="total-collected-year">7,200</h3>
                         <p>KSh Collected This Year</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon stat-2">
                         <i class="fas fa-chart-bar"></i>
@@ -1200,7 +1625,7 @@
                         <p>Average Monthly Payment Rate</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon stat-5">
                         <i class="fas fa-hand-holding-usd"></i>
@@ -1210,7 +1635,7 @@
                         <p>KSh Active Loans</p>
                     </div>
                 </div>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon stat-6">
                         <i class="fas fa-piggy-bank"></i>
@@ -1221,15 +1646,16 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Monthly Report -->
             <div class="card">
                 <h3 class="section-title">Monthly Collection Report</h3>
-                <div id="monthly-report-chart" style="height: 300px; display: flex; align-items: flex-end; gap: 10px; margin-top: 1rem;">
+                <div id="monthly-report-chart"
+                    style="height: 300px; display: flex; align-items: flex-end; gap: 10px; margin-top: 1rem;">
                     <!-- Chart bars will be generated by JavaScript -->
                 </div>
             </div>
-            
+
             <!-- Top Performers -->
             <div class="card">
                 <h3 class="section-title">Top Performers</h3>
@@ -1251,28 +1677,114 @@
                 </div>
             </div>
         </section>
-        
+
+        <!-- Notifications Section -->
+        <section id="notifications" class="tab-content">
+            <h2 class="section-title">Notifications & Reminders</h2>
+
+            <div class="card">
+                <h3>Notification Settings</h3>
+                <div class="notification-settings">
+                    <div class="notification-item">
+                        <div>
+                            <h4>Payment Reminders</h4>
+                            <p>Send automatic reminder 5 days before payment deadline</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="payment-reminders" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div>
+                            <h4>Email Notifications</h4>
+                            <p>Send notifications to email addresses</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="email-notifications" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div>
+                            <h4>SMS Notifications</h4>
+                            <p>Send SMS to phone numbers</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="sms-notifications" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div>
+                            <h4>Meeting Reminders</h4>
+                            <p>Remind about upcoming meetings</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="meeting-reminders" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h4>Send Manual Reminder (For Testing)</h4>
+                    <p>You can test the reminder system by sending a manual reminder:</p>
+                    <button class="btn" id="send-reminder-btn">
+                        <i class="fas fa-bell"></i> Send Test Reminder Now
+                    </button>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+                        Reminders are sent only once when 5 days remain to deadline
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Notification Log</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Recipient</th>
+                                <th>Message</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="notification-log">
+                            <!-- Notification log will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact Section -->
         <section id="contact" class="tab-content">
             <h2 class="section-title">Contact & Social Media</h2>
-            
+
             <div class="card">
                 <h3>Executive Committee</h3>
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
                     <div class="executive-card">
                         <h4><i class="fas fa-user-tie"></i> Chairperson</h4>
                         <p><strong>Name:</strong> To be elected</p>
                         <p><strong>Phone:</strong> 07XXXXXXXX</p>
                         <p><strong>Email:</strong> chair@theteam.com</p>
                     </div>
-                    
+
                     <div class="executive-card">
                         <h4><i class="fas fa-user-tie"></i> Treasurer</h4>
-                        <p><strong>Name:</strong> To be elected</p>
-                        <p><strong>Phone:</strong> 07XXXXXXXX</p>
-                        <p><strong>Email:</strong> treasurer@theteam.com</p>
+                        <p><strong>Name:</strong> Mutemwa Willy</p>
+                        <p><strong>Phone:</strong> 0718510747</p>
+                        <p><strong>Email:</strong> mutemwawillie@gmail.com</p>
                     </div>
-                    
+
                     <div class="executive-card">
                         <h4><i class="fas fa-user-tie"></i> Secretary</h4>
                         <p><strong>Name:</strong> To be elected</p>
@@ -1281,14 +1793,15 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <h3>Connect With Us</h3>
                 <p>Join our WhatsApp group for updates and discussions:</p>
-                <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="payment-btn" style="background-color: #25D366;">
+                <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="payment-btn"
+                    style="background-color: #25D366;">
                     <i class="fab fa-whatsapp"></i> Join WhatsApp Group
                 </a>
-                
+
                 <div class="social-links" style="margin-top: 2rem; justify-content: center;">
                     <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" title="WhatsApp Group">
                         <i class="fab fa-whatsapp"></i>
@@ -1303,14 +1816,90 @@
                         <i class="fas fa-envelope"></i>
                     </a>
                 </div>
-                
+
                 <p class="contact-note" style="margin-top: 1rem; text-align: center;">
                     For any inquiries, please contact the organizing secretary or send an email to the group.
                 </p>
             </div>
         </section>
     </main>
-    
+
+    <!-- User Payment Instructions Modal -->
+    <div class="modal" id="user-payment-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-user-modal">&times;</span>
+            <h2><i class="fas fa-qrcode"></i> Payment Instructions</h2>
+            <div id="user-payment-details" style="margin: 1.5rem 0;">
+                <!-- Payment details will be populated by JavaScript -->
+            </div>
+            <div class="payment-instructions">
+                <h4>Follow these steps:</h4>
+                <ol>
+                    <li>Go to M-Pesa on your phone</li>
+                    <li>Select <strong>"Lipa Na M-Pesa"</strong></li>
+                    <li>Select <strong>"Pay Bill"</strong></li>
+                    <li>Enter Business No: <strong>247247</strong></li>
+                    <li>Enter Account No: <strong>0718510747</strong></li>
+                    <li>Enter Amount: <strong id="user-payment-amount">600</strong></li>
+                    <li>Enter your M-Pesa PIN</li>
+                    <li>Confirm payment</li>
+                </ol>
+                <p style="margin-top: 1rem;"><strong>Account Name:</strong> MUTEMWA WILLY</p>
+            </div>
+            <p style="margin: 1rem 0; color: #666;">
+                <i class="fas fa-sync-alt"></i> Your status will update automatically after payment
+            </p>
+            <button class="btn" id="copy-instructions-btn" style="width: 100%; background-color: var(--purple);">
+                <i class="fas fa-copy"></i> Copy Instructions
+            </button>
+        </div>
+    </div>
+
+    <!-- Simple Payment Modal -->
+    <div class="modal" id="simple-payment-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-simple-modal">&times;</span>
+            <h2><i class="fas fa-check-circle"></i> Payment Confirmed</h2>
+            <div id="simple-payment-details" style="margin: 1.5rem 0;">
+                <!-- Payment details will be populated by JavaScript -->
+            </div>
+            <p style="margin: 1rem 0; color: #666;">
+                <i class="fas fa-sync-alt"></i> Status updated automatically on the website
+            </p>
+            <button class="btn" id="ok-payment-btn" style="width: 100%;">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- Member Details Modal -->
+    <div class="modal" id="member-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-member-modal">&times;</span>
+            <h2 id="modal-member-name"></h2>
+            <div class="member-details-grid">
+                <div class="member-photo" id="modal-member-photo">
+                    <i class="fas fa-user-circle" style="font-size: 5rem; color: #ccc;"></i>
+                </div>
+                <div>
+                    <p><strong>Phone:</strong> <span id="modal-member-phone"></span></p>
+                    <p><strong>Email:</strong> <span id="modal-member-email"></span></p>
+                    <p><strong>Member ID:</strong> <span id="modal-member-id"></span></p>
+                    <p><strong>Joined Date:</strong> <span id="modal-member-joined"></span></p>
+                    <p><strong>Last Payment:</strong> <span id="modal-member-last-payment"></span></p>
+                    <p><strong>Status:</strong> <span id="modal-member-status"></span></p>
+                </div>
+            </div>
+            <div style="margin-top: 1rem;">
+                <h4>Upload New Photo</h4>
+                <input type="file" id="update-member-image" accept="image/*" style="margin-bottom: 1rem;">
+                <button class="btn" id="update-photo-btn">
+                    <i class="fas fa-upload"></i> Update Photo
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="container footer-container">
@@ -1319,13 +1908,14 @@
                 <p>Diverse but United</p>
                 <p>Fighting poverty through collective investment and income generating activities.</p>
                 <div class="social-links">
-                    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank"><i
+                            class="fab fa-whatsapp"></i></a>
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
-            
+
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
@@ -1335,23 +1925,25 @@
                     <li><a href="#payments">Make Payment</a></li>
                     <li><a href="#loans">Loan Calculator</a></li>
                     <li><a href="#reports">Financial Reports</a></li>
+                    <li><a href="#notifications">Notifications</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-section">
-                <h3>Contact Info</h3>
-                <p><i class="fas fa-phone"></i> Payment Number: 0112199055</p>
-                <p><i class="fas fa-envelope"></i> Email: info@theteam.co.ke</p>
-                <p><i class="fas fa-map-marker-alt"></i> Based in Kenya</p>
-                <p><i class="fas fa-calendar-alt"></i> Meetings: 11th monthly</p>
+                <h3>Payment Information</h3>
+                <p><i class="fas fa-university"></i> PayBill: 247247</p>
+                <p><i class="fas fa-user"></i> Account: 0718510747</p>
+                <p><i class="fas fa-id-card"></i> Name: MUTEMWA WILLY</p>
+                <p><i class="fas fa-money-bill"></i> Monthly: KSh 600</p>
+                <p><i class="fas fa-calendar-alt"></i> Deadline: 10th monthly</p>
             </div>
         </div>
-        
+
         <div class="copyright">
-            &copy; 2023 THE TEAM. All rights reserved. | Version 2.0
+            &copy; 2026 THE TEAM. All rights reserved. | Version 5.0 (User Payment System)
         </div>
     </footer>
-    
+
     <!-- WhatsApp Link -->
     <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="whatsapp-link">
         <i class="fab fa-whatsapp"></i>
@@ -1359,61 +1951,75 @@
 
     <script>
         // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Tab navigation
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
-            
+
             // Set up tab click handlers
             document.querySelectorAll('nav a').forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href').substring(1);
-                    
+
                     // Update active tab
                     tabs.forEach(tab => tab.classList.remove('active'));
                     tabContents.forEach(content => content.classList.remove('active'));
-                    
+
                     // Show target content
                     document.getElementById(targetId).classList.add('active');
-                    
+
                     // Update active nav link
                     document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
                     this.classList.add('active');
-                    
+
                     // Close mobile menu if open
                     document.getElementById('nav-menu').classList.remove('active');
                 });
             });
-            
+
             // Hamburger menu toggle
-            document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('hamburger').addEventListener('click', function () {
                 document.getElementById('nav-menu').classList.toggle('active');
             });
-            
-            // Initialize members data
+
+            // Initialize members data with all members (Caleb Mumo status: pending)
             const members = [
-                { id: 1, name: "Mark Masila", phone: "0790723609", email: "masilakisangau@gmail.com", status: "paid", joined: "2023-01-15", lastPayment: "2026-01-01", totalPaid: 2400 },
-                { id: 2, name: "Michael Kamote", phone: "0794366274", email: "michaelkamote2019@gmail.com", status: "paid", joined: "2023-01-20", lastPayment: "2026-01-01", totalPaid: 2400 },
-        ]
-            
-            // Initialize payments data
+                { id: 1, name: "Mark Masila", phone: "0790723609", email: "masilakisangau@gmail.com", status: "paid", joined: "2023-01-15", lastPayment: "2026-01-01", totalPaid: 2400, image: null },
+                { id: 2, name: "Michael Kamote", phone: "0794366274", email: "michaelkamote2019@gmail.com", status: "pending", joined: "2023-01-20", lastPayment: "Never", totalPaid: 0, image: null },
+                { id: 3, name: "Lydia Katungi", phone: "0746792834", email: "lydiakatungi2001@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null },
+                { id: 4, name: "Joel Mwetu", phone: "0796473760", email: "joedan926@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null },
+                { id: 5, name: "Munyoki Mutua", phone: "0769083128", email: "munyokimutua513@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null },
+                { id: 6, name: "Mutemwa Willy", phone: "0718510747", email: "mutemwawillie@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null },
+                { id: 7, name: "Caleb Mumo", phone: "0112199055", email: "mumokisangau91@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null }
+            ];
+
+            // Initialize payments data for December 2025 (only Mark Masila has paid)
+            // Deadline for December 2025 is January 10th, 2026
             const payments = [
-                { id: 1, member: "Mark Masila", month: "January 2026", amount: 600, date: "2026-01-01", dueDate: "2026-01-10", penalty: 0, status: "paid" },
-                { id: 2, member: "Michael Kamote", month:"January 2026", amount: 600, date: "2026-01-10", penalty: 0, status: "paid" },
-        ]
-            
+                { id: 1, member: "Mark Masila", month: "December 2025", amount: 600, date: "2025-12-01", dueDate: "2026-01-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" },
+                { id: 2, member: "Mark Masila", month: "January 2026", amount: 600, date: "2026-01-01", dueDate: "2026-01-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" }
+            ];
+
+            // Initialize notification log
+            const notifications = [
+                { id: 1, date: "2026-01-05", type: "Payment Reminder", recipient: "All Members", message: "Reminder: Payment due in 5 days", status: "Sent" }
+            ];
+
+            // Track if reminders have been sent
+            let remindersSent = false;
+
             // Months for the year
             const months = [
                 "January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
             ];
-            
+
             // Populate members table
             function populateMembersTable() {
                 const tbody = document.getElementById('members-tbody');
                 tbody.innerHTML = '';
-                
+
                 members.forEach((member, index) => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -1425,63 +2031,235 @@
                         <td>${member.joined}</td>
                         <td>${member.lastPayment}</td>
                         <td>
-                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem;" onclick="markAsPaid(${member.id})">
-                                <i class="fas fa-check"></i> Mark Paid
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem; background-color: var(--success);" onclick="recordSimplePayment(${member.id})">
+                                <i class="fas fa-check-circle"></i> Mark Paid
+                            </button>
+                            <button class="btn" style="padding: 5px 10px; font-size: 0.8rem; background-color: var(--purple); margin-top: 5px;" onclick="viewMemberDetails(${member.id})">
+                                <i class="fas fa-eye"></i> View
                             </button>
                         </td>
                     `;
                     tbody.appendChild(row);
                 });
-                
+
                 updateDashboardStats();
+                populateUserMemberSelect();
+                populateQuickMemberSelect();
             }
-            
-            // Global function to mark member as paid
-            window.markAsPaid = function(memberId) {
+
+            // Populate user member select dropdown
+            function populateUserMemberSelect() {
+                const select = document.getElementById('user-member-select');
+                select.innerHTML = '<option value="">Select Your Name</option>';
+                
+                members.forEach(member => {
+                    const option = document.createElement('option');
+                    option.value = member.id;
+                    option.textContent = `${member.name} (${member.phone})`;
+                    select.appendChild(option);
+                });
+            }
+
+            // Populate quick member select dropdown (admin)
+            function populateQuickMemberSelect() {
+                const select = document.getElementById('quick-member-select');
+                select.innerHTML = '<option value="">Select Member</option>';
+                
+                members.forEach(member => {
+                    if (member.status === 'pending') {
+                        const option = document.createElement('option');
+                        option.value = member.id;
+                        option.textContent = `${member.name} (${member.phone})`;
+                        select.appendChild(option);
+                    }
+                });
+            }
+
+            // User payment prompt
+            document.getElementById('user-get-instructions-btn').addEventListener('click', function() {
+                const memberId = parseInt(document.getElementById('user-member-select').value);
+                if (!memberId) {
+                    alert("Please select your name first");
+                    return;
+                }
+                
                 const member = members.find(m => m.id === memberId);
                 if (member) {
+                    const today = new Date();
+                    const penalty = calculatePenalty(today);
+                    const totalAmount = 600 + penalty;
+                    
+                    const modal = document.getElementById('user-payment-modal');
+                    document.getElementById('user-payment-details').innerHTML = `
+                        <p><strong>Member:</strong> ${member.name}</p>
+                        <p><strong>Phone:</strong> ${member.phone}</p>
+                        <p><strong>Month:</strong> December 2025</p>
+                        <p><strong>Contribution:</strong> KSh 600</p>
+                        <p><strong>Penalty (if any):</strong> KSh ${penalty}</p>
+                        <p><strong>Total to Pay:</strong> KSh ${totalAmount}</p>
+                        <p><strong>Deadline:</strong> January 10, 2026</p>
+                    `;
+                    
+                    document.getElementById('user-payment-amount').textContent = totalAmount;
+                    modal.style.display = 'flex';
+                    
+                    // Store member ID for copy function
+                    modal.dataset.memberId = memberId;
+                    modal.dataset.penalty = penalty;
+                    modal.dataset.totalAmount = totalAmount;
+                }
+            });
+
+            // Copy instructions button
+            document.getElementById('copy-instructions-btn').addEventListener('click', function() {
+                const modal = document.getElementById('user-payment-modal');
+                const memberId = parseInt(modal.dataset.memberId);
+                const member = members.find(m => m.id === memberId);
+                const totalAmount = modal.dataset.totalAmount;
+                
+                const instructions = `Payment Instructions for ${member.name}:
+PayBill: 247247
+Account: 0718510747
+Amount: KSh ${totalAmount}
+Account Name: MUTEMWA WILLY
+
+Steps:
+1. Go to M-Pesa
+2. Select "Lipa Na M-Pesa"
+3. Select "Pay Bill"
+4. Enter Business No: 247247
+5. Enter Account No: 0718510747
+6. Enter Amount: ${totalAmount}
+7. Enter your PIN
+8. Confirm payment
+
+Your status updates automatically after payment.`;
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(instructions)
+                    .then(() => {
+                        alert("Payment instructions copied to clipboard!");
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        // Fallback method
+                        const textArea = document.createElement('textarea');
+                        textArea.value = instructions;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        alert("Payment instructions copied to clipboard!");
+                    });
+            });
+
+            // User payment button on dashboard
+            document.getElementById('user-payment-btn').addEventListener('click', function() {
+                // Show instructions to select name
+                alert("Please go to the Payments section and select your name from the dropdown to get your specific payment instructions.");
+            });
+
+            // Simple payment recording (admin)
+            window.recordSimplePayment = function (memberId) {
+                const member = members.find(m => m.id === memberId);
+                if (member) {
+                    // Update member status
                     member.status = 'paid';
                     member.lastPayment = new Date().toISOString().split('T')[0];
-                    
+                    member.totalPaid += 600;
+
                     // Add payment record
                     const today = new Date();
-                    const month = today.toLocaleString('default', { month: 'long' }) + ' ' + today.getFullYear();
-                    
+                    const month = "December 2025"; // Current month is December
+                    const penalty = calculatePenalty(today);
+
                     payments.unshift({
                         id: payments.length + 1,
                         member: member.name,
                         month: month,
                         amount: 600,
                         date: today.toISOString().split('T')[0],
-                        dueDate: getNextDeadline(),
-                        penalty: calculatePenalty(today),
-                        status: 'paid'
+                        dueDate: "2026-01-10", // Deadline for December is Jan 10, 2026
+                        penalty: penalty,
+                        status: 'paid',
+                        receipt: 'AUTO-DETECTED'
                     });
-                    
+
                     // Update tables
                     populateMembersTable();
                     populatePaymentsTable();
                     populateMonthsGrid();
-                    
-                    alert(`Payment confirmed for ${member.name}! Status updated.`);
+
+                    // Show success message
+                    const modal = document.getElementById('simple-payment-modal');
+                    document.getElementById('simple-payment-details').innerHTML = `
+                        <p><strong>Member:</strong> ${member.name}</p>
+                        <p><strong>Month:</strong> ${month}</p>
+                        <p><strong>Amount:</strong> KSh 600</p>
+                        <p><strong>Penalty:</strong> KSh ${penalty}</p>
+                        <p><strong>Total:</strong> KSh ${600 + penalty}</p>
+                        <p><strong>Date:</strong> ${today.toLocaleDateString()}</p>
+                        <p><strong>PayBill:</strong> 247247</p>
+                        <p><strong>Account:</strong> 0718510747</p>
+                    `;
+                    modal.style.display = 'flex';
                 }
             };
-            
+
+            // Quick pay button handler (admin)
+            document.getElementById('quick-pay-btn').addEventListener('click', function() {
+                const memberId = parseInt(document.getElementById('quick-member-select').value);
+                if (!memberId) {
+                    alert("Please select a member first");
+                    return;
+                }
+                window.recordSimplePayment(memberId);
+            });
+
+            // View member details
+            window.viewMemberDetails = function (memberId) {
+                const member = members.find(m => m.id === memberId);
+                if (member) {
+                    const modal = document.getElementById('member-modal');
+
+                    document.getElementById('modal-member-name').textContent = member.name;
+                    document.getElementById('modal-member-phone').textContent = member.phone;
+                    document.getElementById('modal-member-email').textContent = member.email;
+                    document.getElementById('modal-member-id').textContent = `TM${String(member.id).padStart(3, '0')}`;
+                    document.getElementById('modal-member-joined').textContent = member.joined;
+                    document.getElementById('modal-member-last-payment').textContent = member.lastPayment;
+                    document.getElementById('modal-member-status').innerHTML = `<span class="status ${member.status}">${member.status.toUpperCase()}</span>`;
+
+                    // Show member image if available
+                    const memberPhoto = document.getElementById('modal-member-photo');
+                    if (member.image) {
+                        memberPhoto.innerHTML = `<img src="${member.image}" alt="${member.name}">`;
+                    } else {
+                        memberPhoto.innerHTML = '<i class="fas fa-user-circle" style="font-size: 5rem; color: #ccc;"></i>';
+                    }
+
+                    modal.style.display = 'flex';
+
+                    // Store member ID for photo update
+                    modal.dataset.memberId = memberId;
+                }
+            };
+
             // Populate payments table
             function populatePaymentsTable(filterMonth = 'all', filterStatus = 'all') {
                 const tbody = document.getElementById('payments-tbody');
                 tbody.innerHTML = '';
-                
+
                 let filteredPayments = payments;
-                
+
                 if (filterMonth !== 'all') {
                     filteredPayments = filteredPayments.filter(p => p.month === filterMonth);
                 }
-                
+
                 if (filterStatus !== 'all') {
                     filteredPayments = filteredPayments.filter(p => p.status === filterStatus);
                 }
-                
+
                 filteredPayments.forEach((payment, index) => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -1493,40 +2271,41 @@
                         <td>${payment.dueDate}</td>
                         <td>${payment.penalty > 0 ? `KSh ${payment.penalty}` : 'None'}</td>
                         <td><span class="status ${payment.status}">${payment.status.toUpperCase()}</span></td>
+                        <td>${payment.receipt || 'AUTO-DETECTED'}</td>
                     `;
                     tbody.appendChild(row);
                 });
             }
-            
+
             // Populate months grid
             function populateMonthsGrid() {
                 const monthsGrid = document.getElementById('months-grid');
                 monthsGrid.innerHTML = '';
-                
-                const currentMonthIndex = new Date().getMonth();
-                const currentYear = new Date().getFullYear();
-                
-                // For demo, we'll show January to December 2023
+
+                const currentMonthIndex = 11; // December (0-indexed: 11)
+                const currentYear = 2025; // Current year is 2025
+
+                // Show months for current year
                 for (let i = 0; i < 12; i++) {
                     const monthName = months[i];
-                    const monthYear = `${monthName} ${currentYear}`;
-                    
+                    const monthYear = `${monthName} ${currentYear + (i >= 9 ? 1 : 0)}`; // Adjust for next year
+
                     // Calculate payment status for this month
                     const monthPayments = payments.filter(p => p.month === monthYear);
                     const paidCount = monthPayments.filter(p => p.status === 'paid').length;
                     const totalMembers = members.length;
                     const paymentRate = totalMembers > 0 ? Math.round((paidCount / totalMembers) * 100) : 0;
-                    
+
                     let status = 'pending';
                     let statusText = `${paymentRate}% paid`;
-                    
+
                     if (i < currentMonthIndex) {
                         status = paymentRate >= 80 ? 'paid' : paymentRate >= 50 ? 'pending' : 'overdue';
                     } else if (i === currentMonthIndex) {
                         status = 'current';
                         statusText = `${paidCount}/${totalMembers} paid`;
                     }
-                    
+
                     const monthBox = document.createElement('div');
                     monthBox.className = `month-box ${status}`;
                     monthBox.innerHTML = `
@@ -1534,152 +2313,214 @@
                         <div class="month-status ${status}">${statusText}</div>
                         <div style="font-size: 0.8rem; margin-top: 5px;">${paidCount}/${totalMembers}</div>
                     `;
-                    
+
                     monthsGrid.appendChild(monthBox);
                 }
             }
-            
+
             // Update dashboard statistics
             function updateDashboardStats() {
                 const totalMembers = members.length;
                 const paidMembers = members.filter(m => m.status === 'paid').length;
                 const pendingMembers = members.filter(m => m.status === 'pending').length;
                 const overdueMembers = members.filter(m => m.status === 'overdue').length;
-                
+
                 document.getElementById('total-members').textContent = totalMembers;
                 document.getElementById('paid-members').textContent = paidMembers;
                 document.getElementById('pending-members').textContent = pendingMembers;
                 document.getElementById('overdue-members').textContent = overdueMembers;
-                
+
                 document.getElementById('total-members-payment').textContent = totalMembers;
                 document.getElementById('paid-count').textContent = paidMembers;
                 document.getElementById('pending-count').textContent = pendingMembers;
-                
+
                 const totalCollected = paidMembers * 600;
                 const expectedTotal = totalMembers * 600;
-                
+
                 document.getElementById('total-collected').textContent = totalCollected;
                 document.getElementById('expected-total').textContent = expectedTotal;
-                
+
                 // Update progress bar
                 const progressPercentage = totalMembers > 0 ? Math.round((paidMembers / totalMembers) * 100) : 0;
                 document.getElementById('progress-percentage').textContent = `${progressPercentage}%`;
                 document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
                 document.getElementById('payment-progress-text').textContent = `${paidMembers} of ${totalMembers} members paid`;
-                
+
                 // Update yearly total (estimated)
-                const monthsPassed = new Date().getMonth() + 1;
-                const avgMonthlyCollection = 4800; // Estimated average
+                const monthsPassed = 12; // Full year
+                const avgMonthlyCollection = (totalCollected / Math.max(paidMembers, 1)) * totalMembers;
                 const yearlyTotal = avgMonthlyCollection * monthsPassed;
-                document.getElementById('total-collected-year').textContent = yearlyTotal.toLocaleString();
-                
+                document.getElementById('total-collected-year').textContent = Math.round(yearlyTotal).toLocaleString();
+
                 // Update group savings (estimated)
                 const groupSavings = yearlyTotal * 2; // Estimated
-                document.getElementById('group-savings').textContent = groupSavings.toLocaleString();
+                document.getElementById('group-savings').textContent = Math.round(groupSavings).toLocaleString();
             }
-            
+
             // Real-time deadline counter
             function updateDeadlineCounter() {
                 const now = new Date();
-                const currentYear = now.getFullYear();
-                const currentMonth = now.getMonth();
-                
-                // Deadline is 10th of current month
-                let deadline = new Date(currentYear, currentMonth, 10, 23, 59, 59);
-                
-                // If today is past the 10th, use next month's deadline
-                if (now > deadline) {
-                    deadline = new Date(currentYear, currentMonth + 1, 10, 23, 59, 59);
-                }
-                
+                // Set deadline for December 2025 to January 10th, 2026
+                const deadline = new Date(2026, 0, 10, 23, 59, 59); // Jan 10, 2026
+
                 // Calculate time difference
                 const diff = deadline - now;
-                
+
                 // Calculate days, hours, minutes
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                
+                const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+                const hours = Math.max(0, Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+                const minutes = Math.max(0, Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
+
                 // Update counters
                 document.getElementById('days-counter').textContent = days;
                 document.getElementById('hours-counter').textContent = hours;
                 document.getElementById('minutes-counter').textContent = minutes;
-                
+
                 // Update deadline date display
-                const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                document.getElementById('deadline-date').textContent = deadline.toLocaleDateString('en-GB', options);
-                
+                document.getElementById('deadline-date').textContent = "10th January 2026";
+
                 // Calculate next meeting (11th)
-                let nextMeeting = new Date(currentYear, currentMonth, 11);
+                let nextMeeting = new Date(2026, 0, 11); // Jan 11, 2026
                 if (now > nextMeeting) {
-                    nextMeeting = new Date(currentYear, currentMonth + 1, 11);
+                    nextMeeting = new Date(2026, 1, 11); // Feb 11, 2026
                 }
-                
+
                 const meetingDiff = Math.ceil((nextMeeting - now) / (1000 * 60 * 60 * 24));
                 document.getElementById('meeting-days').textContent = meetingDiff;
                 document.getElementById('next-meeting').textContent = nextMeeting.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-                
+
                 // Update date and time display
-                const dateTimeStr = now.toLocaleDateString('en-GB', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
+                const dateTimeStr = now.toLocaleDateString('en-GB', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
                     day: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit',
                     second: '2-digit'
                 });
                 document.getElementById('current-date-time').textContent = dateTimeStr;
-            }
-            
-            // Get next deadline date
-            function getNextDeadline() {
-                const now = new Date();
-                const currentYear = now.getFullYear();
-                const currentMonth = now.getMonth();
-                
-                let deadline = new Date(currentYear, currentMonth, 10);
-                
-                if (now > deadline) {
-                    deadline = new Date(currentYear, currentMonth + 1, 10);
+
+                // Send automatic reminder if exactly 5 days to deadline and notifications are enabled
+                // AND reminders haven't been sent yet
+                if (days === 5 && !remindersSent && document.getElementById('payment-reminders').checked) {
+                    sendAutomaticReminders();
+                    remindersSent = true; // Set flag so reminders are sent only once
                 }
-                
-                return deadline.toISOString().split('T')[0];
             }
-            
+
             // Calculate penalty based on payment date
             function calculatePenalty(paymentDate) {
-                const now = new Date();
-                const currentYear = now.getFullYear();
-                const currentMonth = now.getMonth();
-                
-                let deadline = new Date(currentYear, currentMonth, 10);
-                
-                if (now > deadline) {
-                    deadline = new Date(currentYear, currentMonth + 1, 10);
-                }
-                
+                const deadline = new Date(2026, 0, 10); // Jan 10, 2026
+
                 if (paymentDate <= deadline) {
                     return 0;
                 }
-                
+
                 // Calculate days late
                 const diffTime = paymentDate - deadline;
                 const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                
+
                 // KSh 10 per day penalty
                 return diffDays * 10;
             }
-            
-            // Add member form handler
-            document.getElementById('add-member-form').addEventListener('submit', function(e) {
-                e.preventDefault();
+
+            // Send automatic reminders (sent only once when 5 days remain)
+            function sendAutomaticReminders() {
+                const pendingMembers = members.filter(m => m.status === 'pending');
+
+                if (pendingMembers.length > 0) {
+                    // Send notifications
+                    pendingMembers.forEach(member => {
+                        sendNotification(member, 'payment_reminder');
+                    });
+
+                    // Add to notification log
+                    const now = new Date();
+                    const newNotification = {
+                        id: notifications.length + 1,
+                        date: now.toISOString().split('T')[0],
+                        type: "Automatic Reminder",
+                        recipient: `${pendingMembers.length} Members`,
+                        message: `Reminder sent to ${pendingMembers.length} members about December payment due on January 10th, 2026`,
+                        status: "Sent"
+                    };
+
+                    notifications.unshift(newNotification);
+                    populateNotificationLog();
+                    
+                    // Show notification
+                    alert(`Payment reminders sent to ${pendingMembers.length} members with pending payments.`);
+                }
+            }
+
+            // Send notification
+            function sendNotification(member, type) {
+                const daysLeft = 5; // Always 5 days when this is called
                 
+                let message = '';
+                if (type === 'payment_reminder') {
+                    message = `Dear ${member.name},\n\nReminder: Your contribution of KSh 600 for December is due on January 10th, 2026 (in ${daysLeft} days).\n\nPay to: PayBill 247247, Account 0718510747\nAccount Name: MUTEMWA WILLY\n\nThank you.\n\nTHE TEAM`;
+                }
+
+                // Simulate sending email
+                if (document.getElementById('email-notifications').checked && member.email) {
+                    console.log(`Email sent to ${member.email}: ${message}`);
+                }
+
+                // Simulate sending SMS
+                if (document.getElementById('sms-notifications').checked && member.phone) {
+                    console.log(`SMS sent to ${member.phone}: ${message}`);
+                }
+
+                return message;
+            }
+
+            // Populate notification log
+            function populateNotificationLog() {
+                const tbody = document.getElementById('notification-log');
+                tbody.innerHTML = '';
+
+                notifications.forEach(notification => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${notification.date}</td>
+                        <td>${notification.type}</td>
+                        <td>${notification.recipient}</td>
+                        <td>${notification.message}</td>
+                        <td><span class="status ${notification.status.toLowerCase()}">${notification.status}</span></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+
+            // Add member form handler
+            document.getElementById('add-member-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+
                 const name = document.getElementById('member-name').value;
                 const phone = document.getElementById('member-phone').value;
                 const email = document.getElementById('member-email').value;
-                const memberId = document.getElementById('member-id').value || `TM${String(members.length + 1).padStart(3, '0')}`;
-                
+                const imageFile = document.getElementById('member-image').files[0];
+
+                // Create member ID
+                const memberId = `TM${String(members.length + 1).padStart(3, '0')}`;
+
+                // Process image if uploaded
+                let imageData = null;
+                if (imageFile) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imageData = e.target.result;
+                        completeAddMember(name, phone, email, memberId, imageData);
+                    };
+                    reader.readAsDataURL(imageFile);
+                } else {
+                    completeAddMember(name, phone, email, memberId, null);
+                }
+            });
+
+            function completeAddMember(name, phone, email, memberId, imageData) {
                 // Add new member
                 const newMember = {
                     id: members.length + 1,
@@ -1690,11 +2531,12 @@
                     status: "pending",
                     joined: new Date().toISOString().split('T')[0],
                     lastPayment: "Never",
-                    totalPaid: 0
+                    totalPaid: 0,
+                    image: imageData
                 };
-                
+
                 members.push(newMember);
-                
+
                 // Add registration fee payment
                 payments.push({
                     id: payments.length + 1,
@@ -1704,63 +2546,59 @@
                     date: new Date().toISOString().split('T')[0],
                     dueDate: new Date().toISOString().split('T')[0],
                     penalty: 0,
-                    status: 'paid'
+                    status: 'paid',
+                    receipt: 'REG' + Date.now().toString().slice(-6)
                 });
-                
+
                 // Reset form
-                this.reset();
-                
+                document.getElementById('add-member-form').reset();
+                document.getElementById('image-preview').innerHTML = '<i class="fas fa-user-circle" style="font-size: 4rem; color: #ccc;"></i>';
+
                 // Update tables
                 populateMembersTable();
                 populatePaymentsTable();
-                
+
                 // Show success message
                 alert(`Member ${name} added successfully! Registration fee of KSh 200 recorded. Member ID: ${memberId}`);
+            }
+
+            // Image upload for new member
+            document.getElementById('upload-image-btn').addEventListener('click', function () {
+                document.getElementById('member-image').click();
             });
-            
-            // Pay now button handler
-            document.getElementById('pay-now-btn').addEventListener('click', function() {
-                // In a real app, this would integrate with M-Pesa API
-                // For demo, we'll show a payment dialog
-                const memberName = prompt("Enter your name to confirm payment (or type 'demo' for demo payment):");
-                if (memberName) {
-                    if (memberName.toLowerCase() === 'demo') {
-                        // Demo payment for first pending member
-                        const pendingMember = members.find(m => m.status === 'pending');
-                        if (pendingMember) {
-                            window.markAsPaid(pendingMember.id);
-                        } else {
-                            alert("No pending members found for demo payment.");
-                        }
-                    } else {
-                        // Find member
-                        const member = members.find(m => m.name.toLowerCase().includes(memberName.toLowerCase()));
-                        
-                        if (member) {
-                            window.markAsPaid(member.id);
-                        } else {
-                            alert("Member not found. Please check your name and try again.");
-                        }
-                    }
+
+            document.getElementById('member-image').addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('image-preview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    };
+                    reader.readAsDataURL(file);
                 }
             });
-            
+
+            // Simple payment modal OK button
+            document.getElementById('ok-payment-btn').addEventListener('click', function () {
+                document.getElementById('simple-payment-modal').style.display = 'none';
+            });
+
             // Loan calculator
-            document.getElementById('calculate-loan').addEventListener('click', function() {
+            document.getElementById('calculate-loan').addEventListener('click', function () {
                 const amount = parseFloat(document.getElementById('loan-amount').value);
                 const duration = parseInt(document.getElementById('loan-duration').value);
-                
+
                 if (isNaN(amount) || amount < 1000) {
                     alert("Please enter a valid loan amount (minimum KSh 1000)");
                     return;
                 }
-                
+
                 // Calculate loan details
                 const interestRate = 0.10; // 10% per month
                 const interest = amount * interestRate * duration;
                 const totalRepayment = amount + interest;
                 const monthlyInstallment = totalRepayment / duration;
-                
+
                 // Display results
                 document.getElementById('monthly-installment').textContent = monthlyInstallment.toFixed(2);
                 document.getElementById('total-repayment').textContent = totalRepayment.toFixed(2);
@@ -1768,33 +2606,65 @@
                 document.getElementById('interest-rate').textContent = (interestRate * 100);
                 document.getElementById('loan-result').style.display = 'block';
             });
-            
+
             // Export buttons
-            document.getElementById('export-members').addEventListener('click', function() {
+            document.getElementById('export-members').addEventListener('click', function () {
                 alert("Members list exported as CSV. In a real application, this would download a file.");
             });
-            
-            document.getElementById('export-payments').addEventListener('click', function() {
+
+            document.getElementById('export-payments').addEventListener('click', function () {
                 alert("Payments list exported as CSV. In a real application, this would download a file.");
             });
-            
+
             // Payment filters
-            document.getElementById('apply-filters').addEventListener('click', function() {
+            document.getElementById('apply-filters').addEventListener('click', function () {
                 const monthFilter = document.getElementById('filter-month').value;
                 const statusFilter = document.getElementById('filter-status').value;
                 populatePaymentsTable(monthFilter, statusFilter);
             });
-            
-            document.getElementById('reset-filters').addEventListener('click', function() {
+
+            document.getElementById('reset-filters').addEventListener('click', function () {
                 document.getElementById('filter-month').value = 'all';
                 document.getElementById('filter-status').value = 'all';
                 populatePaymentsTable('all', 'all');
             });
-            
+
+            // Send test reminder button
+            document.getElementById('send-reminder-btn').addEventListener('click', function () {
+                const pendingMembers = members.filter(m => m.status === 'pending');
+
+                if (pendingMembers.length === 0) {
+                    alert("No pending payments to remind about!");
+                    return;
+                }
+
+                if (confirm(`Send test reminder to ${pendingMembers.length} members?`)) {
+                    pendingMembers.forEach(member => {
+                        sendNotification(member, 'payment_reminder');
+                    });
+
+                    // Add to notification log
+                    const now = new Date();
+                    const newNotification = {
+                        id: notifications.length + 1,
+                        date: now.toISOString().split('T')[0],
+                        type: "Test Reminder",
+                        recipient: `${pendingMembers.length} Members`,
+                        message: `Test reminder sent for December payment due on January 10th, 2026`,
+                        status: "Sent"
+                    };
+
+                    notifications.unshift(newNotification);
+                    populateNotificationLog();
+
+                    alert(`Test reminders sent to ${pendingMembers.length} members. Check the notification log for details.`);
+                }
+            });
+
             // Populate month filter dropdown
             function populateMonthFilter() {
                 const monthFilter = document.getElementById('filter-month');
-                
+
                 // Add months
                 const currentYear = new Date().getFullYear();
                 months.forEach(month => {
@@ -1803,93 +2673,99 @@
                     option.textContent = `${month} ${currentYear}`;
                     monthFilter.appendChild(option);
                 });
+
+                // Add December 2025 specifically
+                const decOption = document.createElement('option');
+                decOption.value = "December 2025";
+                decOption.textContent = "December 2025";
+                monthFilter.appendChild(decOption);
             }
-            
+
             // Create monthly report chart
             function createMonthlyReportChart() {
                 const chartContainer = document.getElementById('monthly-report-chart');
                 chartContainer.innerHTML = '';
-                
-                // For demo, show data for first 4 months
+
+                // Show data for recent months
                 const monthlyData = [
-                    { month: 'Jan', collected: 4800, expected: 6000 },
-                    { month: 'Feb', collected: 5400, expected: 6000 },
-                    { month: 'Mar', collected: 4200, expected: 6000 },
-                    { month: 'Apr', collected: 1200, expected: 6000 }
+                    { month: 'Sep 2025', collected: 7200, expected: 9000 },
+                    { month: 'Oct 2025', collected: 7800, expected: 9000 },
+                    { month: 'Nov 2025', collected: 6600, expected: 9000 },
+                    { month: 'Dec 2025', collected: 600, expected: 9000 }
                 ];
-                
-                const maxAmount = 6000;
+
+                const maxAmount = 9000;
                 const containerHeight = 300;
-                
+
                 monthlyData.forEach(data => {
                     const barContainer = document.createElement('div');
                     barContainer.style.display = 'flex';
                     barContainer.style.flexDirection = 'column';
                     barContainer.style.alignItems = 'center';
-                    barContainer.style.width = '60px';
-                    
+                    barContainer.style.width = '70px';
+
                     // Expected bar (light gray)
                     const expectedBar = document.createElement('div');
                     expectedBar.style.height = `${(data.expected / maxAmount) * containerHeight}px`;
-                    expectedBar.style.width = '20px';
+                    expectedBar.style.width = '25px';
                     expectedBar.style.backgroundColor = '#e9ecef';
                     expectedBar.style.borderRadius = '3px 3px 0 0';
                     expectedBar.style.marginBottom = '5px';
-                    
+
                     // Collected bar (green)
                     const collectedBar = document.createElement('div');
                     collectedBar.style.height = `${(data.collected / maxAmount) * containerHeight}px`;
-                    collectedBar.style.width = '20px';
+                    collectedBar.style.width = '25px';
                     collectedBar.style.backgroundColor = '#27ae60';
                     collectedBar.style.borderRadius = '3px 3px 0 0';
                     collectedBar.style.position = 'absolute';
-                    
+
                     const barsContainer = document.createElement('div');
                     barsContainer.style.position = 'relative';
                     barsContainer.style.display = 'flex';
                     barsContainer.style.flexDirection = 'column';
                     barsContainer.style.alignItems = 'center';
-                    
+
                     barsContainer.appendChild(expectedBar);
                     barsContainer.appendChild(collectedBar);
-                    
+
                     // Month label
                     const monthLabel = document.createElement('div');
                     monthLabel.textContent = data.month;
                     monthLabel.style.marginTop = '5px';
                     monthLabel.style.fontSize = '0.9rem';
                     monthLabel.style.fontWeight = '600';
-                    
+
                     // Amount label
                     const amountLabel = document.createElement('div');
                     amountLabel.textContent = `KSh ${data.collected}`;
                     amountLabel.style.fontSize = '0.8rem';
                     amountLabel.style.color = '#666';
                     amountLabel.style.marginTop = '5px';
-                    
+
                     barContainer.appendChild(barsContainer);
                     barContainer.appendChild(monthLabel);
                     barContainer.appendChild(amountLabel);
-                    
+
                     chartContainer.appendChild(barContainer);
                 });
             }
-            
+
             // Populate top performers
             function populateTopPerformers() {
                 const tbody = document.getElementById('top-performers');
                 tbody.innerHTML = '';
-                
+
                 // Sort members by total paid
                 const sortedMembers = [...members].sort((a, b) => b.totalPaid - a.totalPaid);
-                
+
                 // Take top 5
                 const topMembers = sortedMembers.slice(0, 5);
-                
+
                 topMembers.forEach((member, index) => {
                     const monthsActive = Math.ceil((new Date() - new Date(member.joined)) / (1000 * 60 * 60 * 24 * 30));
                     const consistency = monthsActive > 0 ? Math.round((member.totalPaid / (monthsActive * 600)) * 100) : 0;
-                    
+
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td>${index + 1}</td>
@@ -1901,7 +2777,50 @@
                     tbody.appendChild(row);
                 });
             }
-            
+
+            // Close modals
+            document.getElementById('close-user-modal').addEventListener('click', function () {
+                document.getElementById('user-payment-modal').style.display = 'none';
+            });
+
+            document.getElementById('close-simple-modal').addEventListener('click', function () {
+                document.getElementById('simple-payment-modal').style.display = 'none';
+            });
+
+            document.getElementById('close-member-modal').addEventListener('click', function () {
+                document.getElementById('member-modal').style.display = 'none';
+            });
+
+            // Update member photo
+            document.getElementById('update-photo-btn').addEventListener('click', function () {
+                const modal = document.getElementById('member-modal');
+                const memberId = parseInt(modal.dataset.memberId);
+                const member = members.find(m => m.id === memberId);
+                const fileInput = document.getElementById('update-member-image');
+
+                if (fileInput.files.length === 0) {
+                    alert("Please select an image first");
+                    return;
+                }
+
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    member.image = e.target.result;
+
+                    // Update modal display
+                    document.getElementById('modal-member-photo').innerHTML = `<img src="${e.target.result}" alt="${member.name}">`;
+
+                    // Update members table if needed
+                    populateMembersTable();
+
+                    alert("Photo updated successfully!");
+                };
+
+                reader.readAsDataURL(file);
+            });
+
             // Initialize the app
             populateMembersTable();
             populatePaymentsTable();
@@ -1909,28 +2828,31 @@
             populateMonthFilter();
             createMonthlyReportChart();
             populateTopPerformers();
+            populateNotificationLog();
             updateDeadlineCounter();
-            
+
             // Update counters every second
             setInterval(updateDeadlineCounter, 1000);
-            
-            // Update dashboard every 30 seconds (simulating real-time updates)
+
+            // Update dashboard every 30 seconds
             setInterval(() => {
                 updateDashboardStats();
             }, 30000);
-            
-            // Simulate random payment updates (for demo only)
+
+            // Simulate automatic payment detection (for demo)
             setInterval(() => {
-                // Randomly update a payment status for demo (10% chance)
-                if (Math.random() > 0.9) {
+                // 5% chance of detecting a new payment (for demo)
+                if (Math.random() < 0.05) {
                     const pendingMembers = members.filter(m => m.status === 'pending');
                     if (pendingMembers.length > 0) {
                         const randomMember = pendingMembers[Math.floor(Math.random() * pendingMembers.length)];
-                        window.markAsPaid(randomMember.id);
+                        // Auto-detect and record payment
+                        window.recordSimplePayment(randomMember.id);
                     }
                 }
-            }, 60000); // Check every minute for demo
+            }, 120000); // Check every 2 minutes
         });
     </script>
 </body>
+
 </html>
