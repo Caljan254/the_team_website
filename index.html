@@ -425,6 +425,15 @@
             color: #721c24;
         }
 
+        /* Member Photo in Table */
+        .member-photo-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+
         /* Constitution Styles */
         .constitution-section {
             margin-top: 2rem;
@@ -731,6 +740,10 @@
             align-items: center;
             gap: 1rem;
             margin: 1rem 0;
+            padding: 1rem;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            background-color: #f8f9fa;
         }
 
         .image-preview {
@@ -740,9 +753,10 @@
             border: 3px solid #ddd;
             overflow: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: #f8f9fa;
+            background-color: white;
         }
 
         .image-preview img {
@@ -760,6 +774,11 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            border: none;
+        }
+
+        .upload-btn:hover {
+            background-color: #8e44ad;
         }
 
         /* Notification Settings */
@@ -806,6 +825,11 @@
             float: right;
             font-size: 1.5rem;
             cursor: pointer;
+            color: #666;
+        }
+
+        .close-modal:hover {
+            color: #333;
         }
 
         /* Member Details Modal */
@@ -821,6 +845,7 @@
             height: 150px;
             border-radius: 10px;
             overflow: hidden;
+            border: 3px solid #ddd;
         }
 
         .member-photo img {
@@ -986,7 +1011,7 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="total-members">15</h3>
+                        <h3 id="total-members">7</h3>
                         <p>Total Members</p>
                     </div>
                 </div>
@@ -1006,7 +1031,7 @@
                         <i class="fas fa-clock"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="pending-members">14</h3>
+                        <h3 id="pending-members">6</h3>
                         <p>Pending Payments</p>
                     </div>
                 </div>
@@ -1036,7 +1061,7 @@
                         <i class="fas fa-hand-holding-usd"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="expected-total">9000</h3>
+                        <h3 id="expected-total">4200</h3>
                         <p>KSh Expected This Month</p>
                     </div>
                 </div>
@@ -1046,16 +1071,16 @@
             <div class="card">
                 <div class="section-title">
                     <h3>Monthly Payment Progress</h3>
-                    <span id="payment-progress-text">1 of 15 members paid</span>
+                    <span id="payment-progress-text">1 of 7 members paid</span>
                 </div>
 
                 <div class="progress-container">
                     <div class="progress-label">
                         <span>Collection Rate</span>
-                        <span id="progress-percentage">7%</span>
+                        <span id="progress-percentage">14%</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill" style="width: 7%"></div>
+                        <div class="progress-fill" id="progress-fill" style="width: 14%"></div>
                     </div>
                 </div>
             </div>
@@ -1069,7 +1094,7 @@
 
                 <div class="payment-stats">
                     <div class="payment-stat">
-                        <div class="payment-stat-number" id="total-members-payment">15</div>
+                        <div class="payment-stat-number" id="total-members-payment">7</div>
                         <div class="payment-stat-label">Total Members</div>
                     </div>
                     <div class="payment-stat">
@@ -1077,7 +1102,7 @@
                         <div class="payment-stat-label">Paid</div>
                     </div>
                     <div class="payment-stat">
-                        <div class="payment-stat-number" id="pending-count">14</div>
+                        <div class="payment-stat-number" id="pending-count">6</div>
                         <div class="payment-stat-label">Pending</div>
                     </div>
                 </div>
@@ -1150,6 +1175,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Photo</th>
                             <th>Name</th>
                             <th>Phone Number</th>
                             <th>Email</th>
@@ -1193,11 +1219,20 @@
                         <div class="image-upload-container">
                             <div class="image-preview" id="image-preview">
                                 <i class="fas fa-user-circle" style="font-size: 4rem; color: #ccc;"></i>
+                                <span style="font-size: 0.8rem; margin-top: 5px;">No image selected</span>
                             </div>
                             <input type="file" id="member-image" accept="image/*" style="display: none;">
-                            <button type="button" class="upload-btn" id="upload-image-btn">
-                                <i class="fas fa-upload"></i> Upload Image
-                            </button>
+                            <div style="display: flex; gap: 10px;">
+                                <button type="button" class="upload-btn" id="upload-image-btn">
+                                    <i class="fas fa-upload"></i> Choose Image
+                                </button>
+                                <button type="button" class="btn" style="background-color: #6c757d;" id="remove-image-btn">
+                                    <i class="fas fa-times"></i> Remove
+                                </button>
+                            </div>
+                            <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                                Max size: 2MB | Formats: JPG, PNG, GIF
+                            </p>
                         </div>
                     </div>
 
@@ -1585,15 +1620,11 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="active-loans-tbody">
+                            <!-- Active loans will be populated by JavaScript -->
+                            <!-- Mark Masila's loan has been removed as requested -->
                             <tr>
-                                <td>Mark Masila</td>
-                                <td>15,000 KSh</td>
-                                <td>2025-01-01</td>
-                                <td>2025-06-01</td>
-                                <td>5,000 KSh</td>
-                                <td>10,000 KSh</td>
-                                <td><span class="status pending">Active</span></td>
+                                <td colspan="7" style="text-align: center;">No active loans at the moment</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1611,7 +1642,7 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="total-collected-year">7,200</h3>
+                        <h3 id="total-collected-year">5,040</h3>
                         <p>KSh Collected This Year</p>
                     </div>
                 </div>
@@ -1631,7 +1662,7 @@
                         <i class="fas fa-hand-holding-usd"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="total-loans">25,000</h3>
+                        <h3 id="total-loans">0</h3>
                         <p>KSh Active Loans</p>
                     </div>
                 </div>
@@ -1641,7 +1672,7 @@
                         <i class="fas fa-piggy-bank"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="group-savings">150,000</h3>
+                        <h3 id="group-savings">105,000</h3>
                         <p>KSh Total Group Savings</p>
                     </div>
                 </div>
@@ -1773,9 +1804,9 @@
                     style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
                     <div class="executive-card">
                         <h4><i class="fas fa-user-tie"></i> Chairperson</h4>
-                        <p><strong>Name:</strong> To be elected</p>
-                        <p><strong>Phone:</strong> 07XXXXXXXX</p>
-                        <p><strong>Email:</strong> chair@theteam.com</p>
+                        <p><strong>Name:</strong> Munyoki Mutua	</p>
+                        <p><strong>Phone:</strong> 0769083128</p>
+                        <p><strong>Email:</strong> munyokimutua513@gmail.com</p>
                     </div>
 
                     <div class="executive-card">
@@ -1787,9 +1818,9 @@
 
                     <div class="executive-card">
                         <h4><i class="fas fa-user-tie"></i> Secretary</h4>
-                        <p><strong>Name:</strong> To be elected</p>
-                        <p><strong>Phone:</strong> 07XXXXXXXX</p>
-                        <p><strong>Email:</strong> secretary@theteam.com</p>
+                        <p><strong>Name:</strong> Michael Kamote</p>
+                        <p><strong>Phone:</strong> 0794366274</p>
+                        <p><strong>Email:</strong> michaelkamote2019@gmail.com</p>
                     </div>
                 </div>
             </div>
@@ -1891,11 +1922,16 @@
                 </div>
             </div>
             <div style="margin-top: 1rem;">
-                <h4>Upload New Photo</h4>
-                <input type="file" id="update-member-image" accept="image/*" style="margin-bottom: 1rem;">
-                <button class="btn" id="update-photo-btn">
-                    <i class="fas fa-upload"></i> Update Photo
-                </button>
+                <h4>Update Profile Photo</h4>
+                <div class="image-upload-container" style="border: none; padding: 0;">
+                    <input type="file" id="update-member-image" accept="image/*" style="margin-bottom: 1rem;">
+                    <button class="btn" id="update-photo-btn">
+                        <i class="fas fa-upload"></i> Update Photo
+                    </button>
+                    <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                        Max size: 2MB | Formats: JPG, PNG, GIF
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -1940,7 +1976,7 @@
         </div>
 
         <div class="copyright">
-            &copy; 2026 THE TEAM. All rights reserved. | Version 5.0 (User Payment System)
+            &copy; 2026 THE TEAM. All rights reserved. | Version 6.0 (Image Upload System)
         </div>
     </footer>
 
@@ -1983,15 +2019,86 @@
                 document.getElementById('nav-menu').classList.toggle('active');
             });
 
-            // Initialize members data with all members (Caleb Mumo status: pending)
+            // Initialize members data with image references
+            // IMPORTANT: You need to manually upload these images to your "images" folder in GitHub
             const members = [
-                { id: 1, name: "Mark Masila", phone: "0790723609", email: "masilakisangau@gmail.com", status: "paid", joined: "2023-01-15", lastPayment: "2026-01-01", totalPaid: 2400, image: null },
-                { id: 2, name: "Michael Kamote", phone: "0794366274", email: "michaelkamote2019@gmail.com", status: "pending", joined: "2023-01-20", lastPayment: "Never", totalPaid: 0, image: null },
-                { id: 3, name: "Lydia Katungi", phone: "0746792834", email: "lydiakatungi2001@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null },
-                { id: 4, name: "Joel Mwetu", phone: "0796473760", email: "joedan926@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null },
-                { id: 5, name: "Munyoki Mutua", phone: "0769083128", email: "munyokimutua513@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null },
-                { id: 6, name: "Mutemwa Willy", phone: "0718510747", email: "mutemwawillie@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null },
-                { id: 7, name: "Caleb Mumo", phone: "0112199055", email: "mumokisangau91@gmail.com", status: "pending", joined: "2023-12-15", lastPayment: "Never", totalPaid: 0, image: null }
+                { 
+                    id: 1, 
+                    name: "Mark Masila", 
+                    phone: "0790723609", 
+                    email: "masilakisangau@gmail.com", 
+                    status: "paid", 
+                    joined: "2023-01-15", 
+                    lastPayment: "2026-01-01", 
+                    totalPaid: 2400, 
+                    image: "images/mark.jpeg"  // You need to upload this image
+                },
+                { 
+                    id: 2, 
+                    name: "Michael Kamote", 
+                    phone: "0794366274", 
+                    email: "michaelkamote2019@gmail.com", 
+                    status: "pending", 
+                    joined: "2023-01-20", 
+                    lastPayment: "Never", 
+                    totalPaid: 0, 
+                    image: "images/michael_kamote.jpg"  // You need to upload this image
+                },
+                { 
+                    id: 3, 
+                    name: "Lydia Katungi", 
+                    phone: "0746792834", 
+                    email: "lydiakatungi2001@gmail.com", 
+                    status: "pending", 
+                    joined: "2023-12-15", 
+                    lastPayment: "Never", 
+                    totalPaid: 0, 
+                    image: "images/lydia_katungi.jpg"  // You need to upload this image
+                },
+                { 
+                    id: 4, 
+                    name: "Joel Mwetu", 
+                    phone: "0796473760", 
+                    email: "joedan926@gmail.com", 
+                    status: "pending", 
+                    joined: "2023-12-15", 
+                    lastPayment: "Never", 
+                    totalPaid: 0, 
+                    image: "images/joel.jpeg"  // You need to upload this image
+                },
+                { 
+                    id: 5, 
+                    name: "Munyoki Mutua", 
+                    phone: "0769083128", 
+                    email: "munyokimutua513@gmail.com", 
+                    status: "pending", 
+                    joined: "2023-12-15", 
+                    lastPayment: "Never", 
+                    totalPaid: 0, 
+                    image: "images/munyoki.jpeg"  // You need to upload this image
+                },
+                { 
+                    id: 6, 
+                    name: "Mutemwa Willy", 
+                    phone: "0718510747", 
+                    email: "mutemwawillie@gmail.com", 
+                    status: "pending", 
+                    joined: "2023-12-15", 
+                    lastPayment: "Never", 
+                    totalPaid: 0, 
+                    image: "images/mutemwa.jpeg"  // You need to upload this image
+                },
+                { 
+                    id: 7, 
+                    name: "Alex Musingi", 
+                    phone: "0712584869", 
+                    email: "aleckiejnr@gmail.com", 
+                    status: "pending", 
+                    joined: "2026-01-06", 
+                    lastPayment: "Never", 
+                    totalPaid: 0, 
+                    image: "images/alex_musingi.jpg"  // You need to upload this image
+                }
             ];
 
             // Initialize payments data for December 2025 (only Mark Masila has paid)
@@ -2006,6 +2113,9 @@
                 { id: 1, date: "2026-01-05", type: "Payment Reminder", recipient: "All Members", message: "Reminder: Payment due in 5 days", status: "Sent" }
             ];
 
+            // Image upload variables
+            let currentImageFile = null;
+
             // Track if reminders have been sent
             let remindersSent = false;
 
@@ -2015,15 +2125,46 @@
                 "July", "August", "September", "October", "November", "December"
             ];
 
-            // Populate members table
+            // Check if image exists
+            function checkImageExists(imageUrl, callback) {
+                const img = new Image();
+                img.onload = function() {
+                    callback(true);
+                };
+                img.onerror = function() {
+                    callback(false);
+                };
+                img.src = imageUrl;
+            }
+
+            // Get member photo URL - checks if image exists, otherwise uses placeholder
+            function getMemberPhoto(member) {
+                if (member.image) {
+                    // Return the image path - this will work if you upload images to GitHub
+                    return member.image;
+                }
+                return null; // No image
+            }
+
+            // Populate members table with images
             function populateMembersTable() {
                 const tbody = document.getElementById('members-tbody');
                 tbody.innerHTML = '';
 
                 members.forEach((member, index) => {
                     const row = document.createElement('tr');
+                    
+                    // Create photo cell
+                    let photoHTML = '<i class="fas fa-user-circle" style="font-size: 2rem; color: #ccc;"></i>';
+                    const photoUrl = getMemberPhoto(member);
+                    
+                    if (photoUrl) {
+                        photoHTML = `<img src="${photoUrl}" alt="${member.name}" class="member-photo-small" onerror="this.onerror=null; this.src=''; this.outerHTML='<i class=\'fas fa-user-circle\' style=\'font-size: 2rem; color: #ccc;\'></i>'">`;
+                    }
+                    
                     row.innerHTML = `
                         <td>${index + 1}</td>
+                        <td>${photoHTML}</td>
                         <td>${member.name}</td>
                         <td>${member.phone}</td>
                         <td>${member.email}</td>
@@ -2232,15 +2373,15 @@ Your status updates automatically after payment.`;
 
                     // Show member image if available
                     const memberPhoto = document.getElementById('modal-member-photo');
-                    if (member.image) {
-                        memberPhoto.innerHTML = `<img src="${member.image}" alt="${member.name}">`;
+                    const photoUrl = getMemberPhoto(member);
+                    
+                    if (photoUrl) {
+                        memberPhoto.innerHTML = `<img src="${photoUrl}" alt="${member.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src=''; this.outerHTML='<i class=\'fas fa-user-circle\' style=\'font-size: 5rem; color: #ccc;\'></i>'">`;
                     } else {
                         memberPhoto.innerHTML = '<i class="fas fa-user-circle" style="font-size: 5rem; color: #ccc;"></i>';
                     }
 
                     modal.style.display = 'flex';
-
-                    // Store member ID for photo update
                     modal.dataset.memberId = memberId;
                 }
             };
@@ -2494,6 +2635,90 @@ Your status updates automatically after payment.`;
                 });
             }
 
+            // ==================== IMAGE UPLOAD FUNCTIONS ====================
+            
+            // Image upload for new member
+            document.getElementById('upload-image-btn').addEventListener('click', function () {
+                document.getElementById('member-image').click();
+            });
+
+            document.getElementById('member-image').addEventListener('change', function (e) {
+                handleImageUpload(e.target.files[0], 'add');
+            });
+
+            // Remove image button
+            document.getElementById('remove-image-btn').addEventListener('click', function() {
+                currentImageFile = null;
+                document.getElementById('member-image').value = '';
+                const preview = document.getElementById('image-preview');
+                preview.innerHTML = `
+                    <i class="fas fa-user-circle" style="font-size: 4rem; color: #ccc;"></i>
+                    <span style="font-size: 0.8rem; margin-top: 5px;">No image selected</span>
+                `;
+            });
+
+            // Handle image upload
+            function handleImageUpload(file, context) {
+                if (file) {
+                    // Validate file type
+                    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                    if (!validTypes.includes(file.type)) {
+                        alert('Please select a valid image file (JPG, PNG, GIF)');
+                        return false;
+                    }
+
+                    // Validate file size (2MB max)
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('Image size must be less than 2MB');
+                        return false;
+                    }
+
+                    if (context === 'add') {
+                        currentImageFile = file;
+                        
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const preview = document.getElementById('image-preview');
+                            preview.innerHTML = `<img src="${e.target.result}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;">`;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                    
+                    return true;
+                }
+                return false;
+            }
+
+            // Save image to local storage
+            function saveImageToStorage(memberId, imageData) {
+                try {
+                    // Get existing images from localStorage
+                    const storedImages = JSON.parse(localStorage.getItem('memberImages') || '{}');
+                    
+                    // Save new image
+                    storedImages[memberId] = imageData;
+                    
+                    // Save back to localStorage
+                    localStorage.setItem('memberImages', JSON.stringify(storedImages));
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Error saving image:', error);
+                    return false;
+                }
+            }
+
+            // Get image from local storage
+            function getImageFromStorage(memberId) {
+                try {
+                    const storedImages = JSON.parse(localStorage.getItem('memberImages') || '{}');
+                    return storedImages[memberId] || null;
+                } catch (error) {
+                    console.error('Error getting image:', error);
+                    return null;
+                }
+            }
+
             // Add member form handler
             document.getElementById('add-member-form').addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -2501,38 +2726,49 @@ Your status updates automatically after payment.`;
                 const name = document.getElementById('member-name').value;
                 const phone = document.getElementById('member-phone').value;
                 const email = document.getElementById('member-email').value;
-                const imageFile = document.getElementById('member-image').files[0];
+
+                // Validate form
+                if (!name || !phone || !email) {
+                    alert("Please fill in all required fields");
+                    return;
+                }
 
                 // Create member ID
-                const memberId = `TM${String(members.length + 1).padStart(3, '0')}`;
+                const memberId = members.length + 1;
 
-                // Process image if uploaded
-                let imageData = null;
-                if (imageFile) {
+                if (currentImageFile) {
+                    // For GitHub Pages, we can only store images in localStorage
+                    // In a real app, you would upload to a server
                     const reader = new FileReader();
                     reader.onload = function (e) {
-                        imageData = e.target.result;
-                        completeAddMember(name, phone, email, memberId, imageData);
+                        const imageData = e.target.result;
+                        
+                        // Save to local storage
+                        saveImageToStorage(memberId, imageData);
+                        
+                        // Add member with image
+                        addMemberToSystem(name, phone, email, memberId, imageData);
                     };
-                    reader.readAsDataURL(imageFile);
+                    reader.readAsDataURL(currentImageFile);
                 } else {
-                    completeAddMember(name, phone, email, memberId, null);
+                    // Add member without image
+                    addMemberToSystem(name, phone, email, memberId, null);
                 }
             });
 
-            function completeAddMember(name, phone, email, memberId, imageData) {
-                // Add new member
+            function addMemberToSystem(name, phone, email, memberId, imageData) {
+                // Add new member to members array
                 const newMember = {
-                    id: members.length + 1,
+                    id: memberId,
                     name: name,
                     phone: phone,
                     email: email,
-                    memberId: memberId,
+                    memberId: `TM${String(memberId).padStart(3, '0')}`,
                     status: "pending",
                     joined: new Date().toISOString().split('T')[0],
                     lastPayment: "Never",
                     totalPaid: 0,
-                    image: imageData
+                    image: imageData // This will be a data URL for localStorage
                 };
 
                 members.push(newMember);
@@ -2552,30 +2788,60 @@ Your status updates automatically after payment.`;
 
                 // Reset form
                 document.getElementById('add-member-form').reset();
-                document.getElementById('image-preview').innerHTML = '<i class="fas fa-user-circle" style="font-size: 4rem; color: #ccc;"></i>';
+                currentImageFile = null;
+                document.getElementById('image-preview').innerHTML = `
+                    <i class="fas fa-user-circle" style="font-size: 4rem; color: #ccc;"></i>
+                    <span style="font-size: 0.8rem; margin-top: 5px;">No image selected</span>
+                `;
 
                 // Update tables
                 populateMembersTable();
                 populatePaymentsTable();
 
                 // Show success message
-                alert(`Member ${name} added successfully! Registration fee of KSh 200 recorded. Member ID: ${memberId}`);
+                alert(`Member ${name} added successfully! Registration fee of KSh 200 recorded. Member ID: TM${String(memberId).padStart(3, '0')}\n\nNote: Images are stored locally in browser storage. For permanent storage, manually upload images to your GitHub repository.`);
             }
 
-            // Image upload for new member
-            document.getElementById('upload-image-btn').addEventListener('click', function () {
-                document.getElementById('member-image').click();
-            });
+            // Update photo in modal
+            document.getElementById('update-photo-btn').addEventListener('click', function () {
+                const modal = document.getElementById('member-modal');
+                const memberId = parseInt(modal.dataset.memberId);
+                const member = members.find(m => m.id === memberId);
+                const fileInput = document.getElementById('update-member-image');
 
-            document.getElementById('member-image').addEventListener('change', function (e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        document.getElementById('image-preview').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-                    };
-                    reader.readAsDataURL(file);
+                if (fileInput.files.length === 0) {
+                    alert("Please select an image first");
+                    return;
                 }
+
+                const file = fileInput.files[0];
+                
+                // Validate file
+                if (!handleImageUpload(file, 'update')) {
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Update member object
+                    member.image = e.target.result;
+                    
+                    // Save to localStorage
+                    saveImageToStorage(memberId, e.target.result);
+                    
+                    // Update modal display
+                    document.getElementById('modal-member-photo').innerHTML = 
+                        `<img src="${e.target.result}" alt="${member.name}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                    
+                    // Update members table
+                    populateMembersTable();
+                    
+                    // Clear file input
+                    fileInput.value = '';
+                    
+                    alert("Photo updated successfully! Note: This is stored locally in your browser.");
+                };
+                reader.readAsDataURL(file);
             });
 
             // Simple payment modal OK button
@@ -2688,13 +2954,13 @@ Your status updates automatically after payment.`;
 
                 // Show data for recent months
                 const monthlyData = [
-                    { month: 'Sep 2025', collected: 7200, expected: 9000 },
-                    { month: 'Oct 2025', collected: 7800, expected: 9000 },
-                    { month: 'Nov 2025', collected: 6600, expected: 9000 },
-                    { month: 'Dec 2025', collected: 600, expected: 9000 }
+                    { month: 'Sep 2025', collected: 4200, expected: 4200 },
+                    { month: 'Oct 2025', collected: 3600, expected: 4200 },
+                    { month: 'Nov 2025', collected: 3000, expected: 4200 },
+                    { month: 'Dec 2025', collected: 600, expected: 4200 }
                 ];
 
-                const maxAmount = 9000;
+                const maxAmount = 4200;
                 const containerHeight = 300;
 
                 monthlyData.forEach(data => {
@@ -2791,34 +3057,15 @@ Your status updates automatically after payment.`;
                 document.getElementById('member-modal').style.display = 'none';
             });
 
-            // Update member photo
-            document.getElementById('update-photo-btn').addEventListener('click', function () {
-                const modal = document.getElementById('member-modal');
-                const memberId = parseInt(modal.dataset.memberId);
-                const member = members.find(m => m.id === memberId);
-                const fileInput = document.getElementById('update-member-image');
-
-                if (fileInput.files.length === 0) {
-                    alert("Please select an image first");
-                    return;
-                }
-
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-                    member.image = e.target.result;
-
-                    // Update modal display
-                    document.getElementById('modal-member-photo').innerHTML = `<img src="${e.target.result}" alt="${member.name}">`;
-
-                    // Update members table if needed
-                    populateMembersTable();
-
-                    alert("Photo updated successfully!");
-                };
-
-                reader.readAsDataURL(file);
+            // Click outside modal to close
+            window.addEventListener('click', function(event) {
+                const modals = ['user-payment-modal', 'simple-payment-modal', 'member-modal'];
+                modals.forEach(modalId => {
+                    const modal = document.getElementById(modalId);
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
             });
 
             // Initialize the app
