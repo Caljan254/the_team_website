@@ -1,0 +1,29 @@
+{
+  "name": "the_team_website",
+  "version": "1.0.0",
+  "description": "the website for the small group of members contributing some amount monthly",
+  "main": "shared.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Caljan254/the_team_website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Caljan254/the_team_website/issues"
+  },
+  "homepage": "https://github.com/Caljan254/the_team_website#readme",
+  "dependencies": {
+    "axios": "^1.13.4",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mysql2": "^3.16.2",
+    "sqlite3": "^5.1.7"
+  }
+}

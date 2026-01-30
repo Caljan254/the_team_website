@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Team - Payments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* Payments specific styles */
+        .user-payment-prompt {
+            background-color: #fff3cd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--warning);
+        }
+
+        .simple-payment-prompt {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--success);
+        }
+
+        .payment-instructions {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+
+        .month-year-select {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .month-year-select select {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .delete-payment-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        .delete-payment-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .paid {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .overdue {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-danger {
+            background-color: var(--accent);
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .export-btn {
+            background-color: var(--teal);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .export-btn:hover {
+            background-color: #16a085;
+        }
+
+        .penalty-display {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        .payment-summary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .payment-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .mpesa-steps {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--secondary);
+        }
+
+        .mpesa-steps ol {
+            margin-left: 1.5rem;
+        }
+
+        .mpesa-steps li {
+            margin-bottom: 0.8rem;
+            padding-left: 0.5rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .payment-qr {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .payment-qr-placeholder {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            margin: 0 auto;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .payment-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .payment-timeline:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #ddd;
+            z-index: 1;
+        }
+
+        .timeline-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            background-color: white;
+            padding: 10px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .step-number.active {
+            background-color: var(--success);
+        }
+
+        .step-number.completed {
+            background-color: var(--success);
+        }
+
+        .payment-history-filter {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .admin-controls {
+            background-color: #e3f2fd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header with Navigation -->
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>THE <span>TEAM</span></h1>
+                <div class="motto">Diverse but United</div>
+            </div>
+
+            <!-- Hamburger Button -->
+            <button class="hamburger" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation -->
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="constitution.html">Constitution</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="payments.html" class="active">Payments</a></li>
+                    <li><a href="loans.html">Loans</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-container" id="authContainer" style="display: none;">
+                <!-- Hidden -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Payments Section -->
+        <section id="payments">
+            <div class="section-title">
+                <h2><i class="fas fa-money-bill-wave"></i> Payment Management</h2>
+                <button class="export-btn" id="export-payments">
+                    <i class="fas fa-download"></i> Export Payments
+                </button>
+            </div>
+
+            <!-- Payment Summary -->
+            <div class="payment-summary glass-panel">
+                <h3 style="text-align: center; margin-bottom: 1rem;">January 2026 Payment Summary</h3>
+                <div class="payment-summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-value" id="total-members-summary">7</div>
+                        <div class="summary-label">Total Members</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value" id="paid-count-summary">1</div>
+                        <div class="summary-label">Paid Members</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value" id="pending-count-summary">6</div>
+                        <div class="summary-label">Pending</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value">KSh <span id="total-collected-summary">600</span></div>
+                        <div class="summary-label">Collected</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value">KSh <span id="expected-total-summary">4,200</span></div>
+                        <div class="summary-label">Expected</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value" id="collection-rate">14%</div>
+                        <div class="summary-label">Collection Rate</div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <p><i class="fas fa-calendar-alt"></i> Next Deadline: <strong>January 10, 2026</strong></p>
+                    <p><i class="fas fa-clock"></i> Days Remaining: <strong id="days-remaining">5</strong> days</p>
+                </div>
+            </div>
+
+            <!-- User Payment Prompt -->
+            <div class="user-payment-prompt" id="userPaymentSection">
+                <h4><i class="fas fa-mobile-alt"></i> Make Your Payment Here</h4>
+                <p>Select your name and click "Get Payment Instructions":</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+                    <select id="user-member-select" class="form-control" style="flex: 1; min-width: 200px;">
+                        <option value="">Select Your Name</option>
+                        <!-- Populated by JavaScript -->
+                    </select>
+                    <button class="btn btn-success" id="user-get-instructions-btn">
+                        <i class="fas fa-qrcode"></i> Get Payment Instructions
+                    </button>
+                </div>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem; color: #666;">
+                    <i class="fas fa-info-circle"></i> Follow the instructions to pay your monthly contribution
+                </p>
+            </div>
+
+            <!-- Admin Payment Control -->
+            <div class="admin-controls" id="admin-payment-control" style="display: none;">
+                <h4><i class="fas fa-user-shield"></i> Admin: Payment Management</h4>
+                <p>Select a member to record or delete their payment:</p>
+
+                <div class="month-year-select">
+                    <select id="admin-month-select" class="form-control">
+                        <option value="January" selected>January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+
+                    <select id="admin-year-select" class="form-control">
+                        <option value="2025">2025</option>
+                        <option value="2026" selected>2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+                    <select id="admin-member-select" class="form-control" style="flex: 1; min-width: 200px;">
+                        <option value="">Select Member</option>
+                        <!-- Populated by JavaScript -->
+                    </select>
+                    <button class="btn btn-success" id="admin-mark-paid-btn">
+                        <i class="fas fa-check-circle"></i> Mark as Paid
+                    </button>
+                    <button class="btn btn-danger" id="admin-delete-payment-btn">
+                        <i class="fas fa-trash"></i> Delete Payment
+                    </button>
+                </div>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem; color: #666;">
+                    <i class="fas fa-exclamation-triangle"></i> Admin actions are logged and cannot be undone
+                </p>
+            </div>
+
+            <!-- Payment Timeline -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Payment Process</h3>
+                <div class="payment-timeline">
+                    <div class="timeline-step">
+                        <div class="step-number completed">1</div>
+                        <div>Select Name</div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number active">2</div>
+                        <div>Get Instructions</div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">3</div>
+                        <div>Make M-Pesa Payment</div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">4</div>
+                        <div>Automatic Update</div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">5</div>
+                        <div>Confirmation</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- M-Pesa Payment Instructions -->
+            <div class="mpesa-steps glass-panel">
+                <h3><i class="fas fa-university"></i> M-Pesa Payment Instructions</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 1rem;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <h4>Payment Details:</h4>
+                        <div style="background-color: white; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+                            <p><strong>Business Number:</strong> 247247</p>
+                            <p><strong>Account Number:</strong> 0718510747</p>
+                            <p><strong>Account Name:</strong> MUTEMWA WILLY</p>
+                            <p><strong>Monthly Amount:</strong> KSh 600</p>
+                            <p><strong>Penalty Rate:</strong> KSh 10 per day after deadline</p>
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 300px;">
+                        <h4>Step-by-Step Guide:</h4>
+                        <ol>
+                            <li>Go to M-Pesa on your phone</li>
+                            <li>Select <strong>"Lipa Na M-Pesa"</strong></li>
+                            <li>Select <strong>"Pay Bill"</strong></li>
+                            <li>Enter Business No: <strong>247247</strong></li>
+                            <li>Enter Account No: <strong>0718510747</strong></li>
+                            <li>Enter Amount: <strong>600</strong> (or amount shown)</li>
+                            <li>Enter your M-Pesa PIN</li>
+                            <li>Confirm payment</li>
+                            <li>Save the confirmation message</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment History Filters -->
+            <div class="payment-history-filter">
+                <h4>Filter Payment Records</h4>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label for="filter-month">Month</label>
+                        <select id="filter-month" class="form-control">
+                            <option value="all">All Months</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filter-year">Year</label>
+                        <select id="filter-year" class="form-control">
+                            <option value="all">All Years</option>
+                            <option value="2025">2025</option>
+                            <option value="2026" selected>2026</option>
+                            <option value="2027">2027</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filter-status">Status</label>
+                        <select id="filter-status" class="form-control">
+                            <option value="all">All Statuses</option>
+                            <option value="paid">Paid</option>
+                            <option value="pending">Pending</option>
+                            <option value="overdue">Overdue</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>&nbsp;</label>
+                        <button class="btn" id="apply-filters">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                        <button class="btn btn-warning" id="reset-filters" style="margin-left: 10px;">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Records Table -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Payment Records</h3>
+                <div class="table-container">
+                    <table id="payments-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Member</th>
+                                <th>Month</th>
+                                <th>Year</th>
+                                <th>Amount</th>
+                                <th>Date Paid</th>
+                                <th>Due Date</th>
+                                <th>Penalty</th>
+                                <th>Status</th>
+                                <th>Receipt</th>
+                                <th id="admin-actions-header" style="display: none;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-tbody">
+                            <!-- Payments populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Payment Statistics -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Payment Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon stat-1">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-payments-year">5,040</h3>
+                            <p>KSh Collected This Year</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon stat-2">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="average-collection-rate">85%</h3>
+                            <p>Average Collection Rate</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon stat-5">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-penalties">0</h3>
+                            <p>KSh Penalties This Month</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon stat-6">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="on-time-payments">85%</h3>
+                            <p>On-Time Payment Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auto-Update Notice -->
+            <div class="card" style="background-color: #e3f2fd; border-left: 4px solid var(--secondary);">
+                <h4><i class="fas fa-sync-alt"></i> Automatic Payment Updates</h4>
+                <p>Our system automatically updates payment status when payments are detected. Here's how it works:</p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>Payments made to the official account are detected automatically</li>
+                    <li>Status updates within 2 hours of payment</li>
+                    <li>No need to submit receipts manually</li>
+                    <li>Real-time dashboard updates for all members</li>
+                    <li>Penalties are calculated automatically based on payment date</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>Note:</strong> If your payment isn't reflected within 24 hours,
+                    please contact the treasurer.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal" id="user-payment-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-user-modal">&times;</span>
+            <h2><i class="fas fa-qrcode"></i> Payment Instructions</h2>
+            <div id="user-payment-details" style="margin: 1.5rem 0;"></div>
+
+            <div class="payment-qr">
+                <div class="payment-qr-placeholder">
+                    <i class="fas fa-qrcode" style="font-size: 4rem; color: #ccc; margin-bottom: 10px;"></i>
+                    <div>Scan to view payment details</div>
+                </div>
+            </div>
+
+            <div class="payment-instructions">
+                <h4>Follow these steps:</h4>
+                <ol>
+                    <li>Go to M-Pesa on your phone</li>
+                    <li>Select <strong>"Lipa Na M-Pesa"</strong></li>
+                    <li>Select <strong>"Pay Bill"</strong></li>
+                    <li>Enter Business No: <strong>247247</strong></li>
+                    <li>Enter Account No: <strong>0718510747</strong></li>
+                    <li>Enter Amount: <strong id="user-payment-amount">600</strong> KSh</li>
+                    <li>Enter your M-Pesa PIN</li>
+                    <li>Confirm payment</li>
+                </ol>
+                <p style="margin-top: 1rem;"><strong>Account Name:</strong> MUTEMWA WILLY</p>
+            </div>
+
+            <div class="penalty-display" id="penalty-display" style="display: none;">
+                <h5><i class="fas fa-exclamation-circle"></i> Penalty Applied</h5>
+                <p>Your payment is late. A penalty of <strong id="penalty-amount">0</strong> KSh has been added to your
+                    payment.</p>
+                <p><strong>Total to pay:</strong> <span id="total-with-penalty">600</span> KSh</p>
+            </div>
+
+            <p style="margin: 1rem 0; color: #666;">
+                <i class="fas fa-sync-alt"></i> Your status will update automatically after payment
+            </p>
+
+            <div style="display: flex; gap: 10px; margin-top: 1rem;">
+                <button class="btn" id="copy-instructions-btn" style="flex: 1; background-color: var(--purple);">
+                    <i class="fas fa-copy"></i> Copy Instructions
+                </button>
+                <button class="btn" id="save-instructions-btn" style="flex: 1; background-color: var(--teal);">
+                    <i class="fas fa-save"></i> Save as PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="simple-payment-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-simple-modal">&times;</span>
+            <h2><i class="fas fa-check-circle" style="color: var(--success);"></i> Payment Recorded</h2>
+            <div id="simple-payment-details" style="margin: 1.5rem 0;"></div>
+            <p style="margin: 1rem 0; color: #666;">
+                <i class="fas fa-sync-alt"></i> Status updated in the system
+            </p>
+            <button class="btn" id="ok-payment-btn" style="width: 100%;">
+                <i class="fas fa-check"></i> OK
+            </button>
+        </div>
+    </div>
+
+    <div class="modal" id="delete-payment-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-delete-modal">&times;</span>
+            <h2><i class="fas fa-trash" style="color: var(--accent);"></i> Delete Payment Record</h2>
+            <div id="delete-payment-details" style="margin: 1.5rem 0;"></div>
+            <p style="margin: 1rem 0; color: #666;">
+                <i class="fas fa-exclamation-triangle"></i> This action cannot be undone. All records of this payment
+                will be removed.
+            </p>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button class="btn btn-danger" id="confirm-delete-payment-btn" style="flex: 1;">
+                    <i class="fas fa-trash"></i> Confirm Delete
+                </button>
+                <button class="btn" id="cancel-delete-btn" style="flex: 1; background-color: #6c757d;">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>THE TEAM</h3>
+                <p>Diverse but United</p>
+                <p>Fighting poverty through collective investment and income generating activities.</p>
+                <div class="social-links">
+                    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank"><i
+                            class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Payment Information</h3>
+                <p><i class="fas fa-university"></i> PayBill: 247247</p>
+                <p><i class="fas fa-user"></i> Account: 0718510747</p>
+                <p><i class="fas fa-id-card"></i> Name: MUTEMWA WILLY</p>
+                <p><i class="fas fa-money-bill"></i> Monthly: KSh 600</p>
+                <p><i class="fas fa-calendar-alt"></i> Deadline: 10th monthly</p>
+                <p><i class="fas fa-exclamation-circle"></i> Penalty: KSh 10/day</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Need Help?</h3>
+                <p><i class="fas fa-phone"></i> Treasurer: 0718510747</p>
+                <p><i class="fas fa-envelope"></i> Email: mutemwawillie@gmail.com</p>
+                <p><i class="fab fa-whatsapp"></i> WhatsApp: +254 71851 0747</p>
+                <p><i class="fas fa-clock"></i> Support: 8 AM - 8 PM Daily</p>
+                <p><i class="fas fa-question-circle"></i> Payment issues? Contact immediately</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 THE TEAM. All rights reserved. | Payment System v3.0
+        </div>
+    </footer>
+
+    <!-- WhatsApp Link -->
+    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="whatsapp-link">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="shared.js"></script>
+    <script>
+        // Payments page specific JavaScript
+
+        // Payment data from shared.js
+        const payments = window.payments || [
+            { id: 1, memberId: 1, member: "Mark Masila", month: "September", year: "2025", amount: 600, date: "2025-09-01", dueDate: "2025-10-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" },
+            { id: 2, memberId: 1, member: "Mark Masila", month: "October", year: "2025", amount: 600, date: "2025-10-01", dueDate: "2025-11-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" },
+            { id: 3, memberId: 1, member: "Mark Masila", month: "November", year: "2025", amount: 600, date: "2025-11-01", dueDate: "2025-12-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" },
+            { id: 4, memberId: 1, member: "Mark Masila", month: "December", year: "2025", amount: 600, date: "2025-12-01", dueDate: "2026-01-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" }
+        ];
+
+        // Calculate penalty function
+        function calculatePenalty(paymentDate, month, year) {
+            const dueDate = getDueDate(month, year);
+            if (!dueDate) return 0;
+
+            const due = new Date(dueDate);
+            const payment = new Date(paymentDate);
+
+            if (payment <= due) {
+                return 0;
+            }
+
+            // Calculate days late
+            const diffTime = payment - due;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // KSh 10 per day penalty
+            return Math.max(0, diffDays * 10);
+        }
+
+        function getDueDate(month, year) {
+            const monthMap = {
+                'January': 0, 'February': 1, 'March': 2, 'April': 3,
+                'May': 4, 'June': 5, 'July': 6, 'August': 7,
+                'September': 8, 'October': 9, 'November': 10, 'December': 11
+            };
+
+            const monthIndex = monthMap[month];
+            if (monthIndex === undefined) return null;
+
+            // Due date is 10th of the following month
+            let dueMonth = monthIndex + 1;
+            let dueYear = parseInt(year);
+
+            if (dueMonth > 11) {
+                dueMonth = 0;
+                dueYear++;
+            }
+
+            return new Date(dueYear, dueMonth, 10).toISOString().split('T')[0];
+        }
+
+        // Populate member selects
+        function populateMemberSelects() {
+            // Populate user member select
+            const userSelect = document.getElementById('user-member-select');
+            if (userSelect) {
+                userSelect.innerHTML = '<option value="">Select Your Name</option>';
+                window.members.forEach(member => {
+                    const option = document.createElement('option');
+                    option.value = member.id;
+                    option.textContent = `${member.name} (${member.phone})`;
+                    userSelect.appendChild(option);
+                });
+            }
+
+            // Populate admin member select
+            const adminSelect = document.getElementById('admin-member-select');
+            if (adminSelect) {
+                adminSelect.innerHTML = '<option value="">Select Member</option>';
+                window.members.forEach(member => {
+                    const option = document.createElement('option');
+                    option.value = member.id;
+                    option.textContent = member.name;
+                    adminSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Populate payments table
+        function populatePaymentsTable(filterMonth = 'all', filterYear = 'all', filterStatus = 'all') {
+            const tbody = document.getElementById('payments-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+
+            let filteredPayments = payments;
+
+            if (filterMonth !== 'all') {
+                filteredPayments = filteredPayments.filter(p => p.month === filterMonth);
+            }
+
+            if (filterYear !== 'all') {
+                filteredPayments = filteredPayments.filter(p => p.year === filterYear);
+            }
+
+            if (filterStatus !== 'all') {
+                filteredPayments = filteredPayments.filter(p => p.status === filterStatus);
+            }
+
+            filteredPayments.forEach((payment, index) => {
+                const row = document.createElement('tr');
+
+                // Add delete button if admin is logged in
+                let deleteButton = '';
+                if (window.isAdminLoggedIn) {
+                    deleteButton = `<td><button class="delete-payment-btn" onclick="showDeleteConfirmation(${payment.id})"><i class="fas fa-trash"></i> Delete</button></td>`;
+                }
+
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${payment.member}</td>
+                    <td>${payment.month}</td>
+                    <td>${payment.year}</td>
+                    <td>KSh ${payment.amount} ${payment.penalty > 0 ? `+ ${payment.penalty}` : ''}</td>
+                    <td>${payment.date || 'Not paid'}</td>
+                    <td>${payment.dueDate}</td>
+                    <td>${payment.penalty > 0 ? `KSh ${payment.penalty}` : 'None'}</td>
+                    <td><span class="status ${payment.status}">${payment.status.toUpperCase()}</span></td>
+                    <td>${payment.receipt || 'AUTO-DETECTED'}</td>
+                    ${deleteButton}
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Show/hide admin actions header
+            const adminHeader = document.getElementById('admin-actions-header');
+            if (adminHeader) {
+                adminHeader.style.display = window.isAdminLoggedIn ? 'table-cell' : 'none';
+            }
+        }
+
+        // Update payment summary
+        function updatePaymentSummary() {
+            const totalMembers = window.members.length;
+            const paidMembers = window.members.filter(m => m.status === 'paid').length;
+            const pendingMembers = window.members.filter(m => m.status === 'pending').length;
+            const totalCollected = paidMembers * 600;
+            const expectedTotal = totalMembers * 600;
+            const collectionRate = totalMembers > 0 ? Math.round((paidMembers / totalMembers) * 100) : 0;
+
+            // Calculate days remaining to deadline
+            const now = new Date();
+            const deadline = new Date(2026, 0, 10); // Jan 10, 2026
+            const diffTime = deadline - now;
+            const daysRemaining = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+
+            document.getElementById('total-members-summary').textContent = totalMembers;
+            document.getElementById('paid-count-summary').textContent = paidMembers;
+            document.getElementById('pending-count-summary').textContent = pendingMembers;
+            document.getElementById('total-collected-summary').textContent = totalCollected;
+            document.getElementById('expected-total-summary').textContent = expectedTotal.toLocaleString();
+            document.getElementById('collection-rate').textContent = `${collectionRate}%`;
+            document.getElementById('days-remaining').textContent = daysRemaining;
+
+            // Update other statistics
+            const totalPaymentsYear = payments.reduce((sum, p) => sum + p.amount, 0);
+            const totalPenalties = payments.reduce((sum, p) => sum + p.penalty, 0);
+
+            document.getElementById('total-payments-year').textContent = totalPaymentsYear.toLocaleString();
+            document.getElementById('total-penalties').textContent = totalPenalties;
+            document.getElementById('average-collection-rate').textContent = '85%';
+            document.getElementById('on-time-payments').textContent = '85%';
+        }
+
+        // Show user payment instructions
+        function showUserPaymentInstructions(memberId) {
+            const member = window.members.find(m => m.id === memberId);
+            if (!member) return;
+
+            const today = new Date();
+            const penalty = calculatePenalty(today.toISOString().split('T')[0], 'January', '2026');
+            const totalAmount = 600 + penalty;
+
+            const modal = document.getElementById('user-payment-modal');
+            document.getElementById('user-payment-details').innerHTML = `
+                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                    <p><strong>Member:</strong> ${member.name}</p>
+                    <p><strong>Phone:</strong> ${member.phone}</p>
+                    <p><strong>Month:</strong> January 2026</p>
+                    <p><strong>Base Amount:</strong> KSh 600</p>
+                    ${penalty > 0 ? `<p><strong>Penalty:</strong> KSh ${penalty}</p>` : ''}
+                    <p><strong>Total to Pay:</strong> KSh ${totalAmount}</p>
+                    <p><strong>Deadline:</strong> January 10, 2026</p>
+                    <p><strong>Payment Reference:</strong> TM${member.id.toString().padStart(3, '0')}-JAN26</p>
+                </div>
+            `;
+
+            document.getElementById('user-payment-amount').textContent = totalAmount;
+
+            // Show/hide penalty display
+            const penaltyDisplay = document.getElementById('penalty-display');
+            if (penalty > 0) {
+                document.getElementById('penalty-amount').textContent = penalty;
+                document.getElementById('total-with-penalty').textContent = totalAmount;
+                penaltyDisplay.style.display = 'block';
+            } else {
+                penaltyDisplay.style.display = 'none';
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        // Show delete confirmation
+        function showDeleteConfirmation(paymentId) {
+            const payment = payments.find(p => p.id === paymentId);
+            if (!payment) return;
+
+            const modal = document.getElementById('delete-payment-modal');
+            document.getElementById('delete-payment-details').innerHTML = `
+                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                    <p><strong>Member:</strong> ${payment.member}</p>
+                    <p><strong>Month:</strong> ${payment.month} ${payment.year}</p>
+                    <p><strong>Amount:</strong> KSh ${payment.amount}</p>
+                    <p><strong>Date Paid:</strong> ${payment.date}</p>
+                    <p><strong>Receipt:</strong> ${payment.receipt}</p>
+                </div>
+            `;
+            modal.style.display = 'flex';
+            modal.dataset.paymentId = paymentId;
+        }
+
+        // Delete payment
+        function deletePayment(paymentId) {
+            const index = payments.findIndex(p => p.id === paymentId);
+            if (index === -1) return;
+
+            const payment = payments[index];
+            const member = window.members.find(m => m.id === payment.memberId);
+
+            if (member) {
+                // Update member status
+                member.totalPaid -= payment.amount;
+
+                // Check if this was the member's last payment
+                const memberPayments = payments.filter(p => p.memberId === member.id && p.id !== paymentId);
+                if (memberPayments.length === 0) {
+                    member.status = 'pending';
+                    member.lastPayment = 'Never';
+                } else {
+                    // Find most recent payment
+                    const recentPayment = memberPayments.reduce((latest, p) => {
+                        return new Date(p.date) > new Date(latest.date) ? p : latest;
+                    });
+                    member.lastPayment = recentPayment.date;
+                }
+            }
+
+            // Remove payment
+            payments.splice(index, 1);
+
+            // Update UI
+            populatePaymentsTable();
+            updatePaymentSummary();
+
+            // Close modal
+            document.getElementById('delete-payment-modal').style.display = 'none';
+
+            window.showNotification('Payment deleted successfully', 'success');
+        }
+
+        // Record admin payment
+        function recordAdminPayment(memberId, month, year) {
+            if (!window.isAdminLoggedIn) {
+                window.showAuthModal();
+                return;
+            }
+
+            const member = window.members.find(m => m.id === memberId);
+            if (!member) return;
+
+            // Check if payment already exists
+            const existingPayment = payments.find(p =>
+                p.memberId === memberId &&
+                p.month === month &&
+                p.year === year
+            );
+
+            if (existingPayment) {
+                window.showNotification(`${member.name} has already paid for ${month} ${year}`, 'warning');
+                return;
+            }
+
+            // Create new payment
+            const today = new Date();
+            const paymentId = payments.length + 1;
+
+            const newPayment = {
+                id: paymentId,
+                memberId: memberId,
+                member: member.name,
+                month: month,
+                year: year,
+                amount: 600,
+                date: today.toISOString().split('T')[0],
+                dueDate: getDueDate(month, year),
+                penalty: calculatePenalty(today, month, year),
+                status: 'paid',
+                receipt: 'ADMIN-' + Date.now().toString().slice(-6)
+            };
+
+            payments.push(newPayment);
+
+            // Update member status
+            member.status = 'paid';
+            member.lastPayment = today.toISOString().split('T')[0];
+            member.totalPaid += 600;
+
+            // Update UI
+            populatePaymentsTable();
+            updatePaymentSummary();
+
+            // Show success modal
+            const modal = document.getElementById('simple-payment-modal');
+            document.getElementById('simple-payment-details').innerHTML = `
+                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                    <p><strong>Member:</strong> ${member.name}</p>
+                    <p><strong>Month:</strong> ${month} ${year}</p>
+                    <p><strong>Amount:</strong> KSh 600</p>
+                    <p><strong>Recorded by:</strong> Admin</p>
+                    <p><strong>Date:</strong> ${today.toLocaleDateString()}</p>
+                    <p><strong>Receipt No:</strong> ${newPayment.receipt}</p>
+                </div>
+            `;
+            modal.style.display = 'flex';
+
+            window.showNotification(`Payment recorded for ${member.name}`, 'success');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize UI
+            populateMemberSelects();
+            populatePaymentsTable();
+            updatePaymentSummary();
+
+            // Show admin controls if admin is logged in
+            const adminControl = document.getElementById('admin-payment-control');
+            if (adminControl && window.isAdminLoggedIn) {
+                adminControl.style.display = 'block';
+            }
+
+            // User get instructions button
+            document.getElementById('user-get-instructions-btn').addEventListener('click', function () {
+                if (!window.currentUser) {
+                    window.showAuthModal();
+                    return;
+                }
+
+                const memberId = parseInt(document.getElementById('user-member-select').value);
+                if (!memberId) {
+                    window.showNotification('Please select your name first', 'warning');
+                    return;
+                }
+
+                showUserPaymentInstructions(memberId);
+            });
+
+            // Admin mark paid button
+            document.getElementById('admin-mark-paid-btn').addEventListener('click', function () {
+                const memberId = parseInt(document.getElementById('admin-member-select').value);
+                const month = document.getElementById('admin-month-select').value;
+                const year = document.getElementById('admin-year-select').value;
+
+                if (!memberId || !month || !year) {
+                    window.showNotification('Please select member, month and year', 'warning');
+                    return;
+                }
+
+                recordAdminPayment(memberId, month, year);
+            });
+
+            // Admin delete payment button
+            document.getElementById('admin-delete-payment-btn').addEventListener('click', function () {
+                const memberId = parseInt(document.getElementById('admin-member-select').value);
+                const month = document.getElementById('admin-month-select').value;
+                const year = document.getElementById('admin-year-select').value;
+
+                if (!memberId || !month || !year) {
+                    window.showNotification('Please select member, month and year', 'warning');
+                    return;
+                }
+
+                // Find payment to delete
+                const payment = payments.find(p =>
+                    p.memberId === memberId &&
+                    p.month === month &&
+                    p.year === year
+                );
+
+                if (!payment) {
+                    window.showNotification('No payment found for this member and period', 'warning');
+                    return;
+                }
+
+                showDeleteConfirmation(payment.id);
+            });
+
+            // Confirm delete button
+            document.getElementById('confirm-delete-payment-btn').addEventListener('click', function () {
+                const modal = document.getElementById('delete-payment-modal');
+                const paymentId = parseInt(modal.dataset.paymentId);
+                deletePayment(paymentId);
+            });
+
+            // Cancel delete button
+            document.getElementById('cancel-delete-btn').addEventListener('click', function () {
+                document.getElementById('delete-payment-modal').style.display = 'none';
+            });
+
+            // Copy instructions button
+            document.getElementById('copy-instructions-btn').addEventListener('click', function () {
+                const modal = document.getElementById('user-payment-modal');
+                const amount = document.getElementById('user-payment-amount').textContent;
+                const details = document.getElementById('user-payment-details').textContent;
+
+                const instructions = `Payment Instructions for THE TEAM:
+${details}
+
+Steps:
+1. Go to M-Pesa
+2. Select "Lipa Na M-Pesa"
+3. Select "Pay Bill"
+4. Enter Business No: 247247
+5. Enter Account No: 0718510747
+6. Enter Amount: ${amount}
+7. Enter your PIN
+8. Confirm payment
+9. Save confirmation message
+
+Account Name: MUTEMWA WILLY
+Reference: THE TEAM Contribution`;
+
+                // Copy to clipboard
+                navigator.clipboard.writeText(instructions)
+                    .then(() => {
+                        window.showNotification('Payment instructions copied to clipboard!', 'success');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        window.showNotification('Could not copy instructions', 'error');
+                    });
+            });
+
+            // Save instructions as PDF button
+            document.getElementById('save-instructions-btn').addEventListener('click', function () {
+                window.showNotification('PDF download feature coming soon', 'info');
+            });
+
+            // Apply filters button
+            document.getElementById('apply-filters').addEventListener('click', function () {
+                const month = document.getElementById('filter-month').value;
+                const year = document.getElementById('filter-year').value;
+                const status = document.getElementById('filter-status').value;
+
+                populatePaymentsTable(month, year, status);
+                window.showNotification('Filters applied', 'success');
+            });
+
+            // Reset filters button
+            document.getElementById('reset-filters').addEventListener('click', function () {
+                document.getElementById('filter-month').value = 'all';
+                document.getElementById('filter-year').value = 'all';
+                document.getElementById('filter-status').value = 'all';
+                populatePaymentsTable('all', 'all', 'all');
+                window.showNotification('Filters reset', 'success');
+            });
+
+            // Export payments button
+            document.getElementById('export-payments').addEventListener('click', function () {
+                window.showNotification('Exporting payment records to CSV...', 'info');
+
+                // Simulate export
+                setTimeout(() => {
+                    window.showNotification('Payment records exported successfully', 'success');
+                }, 1500);
+            });
+
+            // OK payment button
+            document.getElementById('ok-payment-btn').addEventListener('click', function () {
+                document.getElementById('simple-payment-modal').style.display = 'none';
+            });
+
+            // Close modals
+            document.querySelectorAll('.close-modal').forEach(closeBtn => {
+                closeBtn.addEventListener('click', function () {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+
+            // Close modals on outside click
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+
+            // Update payment status for members
+            function updateMemberPaymentStatus() {
+                const currentMonth = 'January';
+                const currentYear = '2026';
+
+                window.members.forEach(member => {
+                    const hasPaid = payments.some(p =>
+                        p.memberId === member.id &&
+                        p.month === currentMonth &&
+                        p.year === currentYear
+                    );
+
+                    member.status = hasPaid ? 'paid' : 'pending';
+                });
+
+                updatePaymentSummary();
+            }
+
+            // Initial status update
+            updateMemberPaymentStatus();
+
+            // Simulate auto-refresh every 30 seconds
+            setInterval(updateMemberPaymentStatus, 30000);
+        });
+
+        // Export functions to global scope
+        window.showDeleteConfirmation = showDeleteConfirmation;
+        window.deletePayment = deletePayment;
+        window.showUserPaymentInstructions = showUserPaymentInstructions;
+    </script>
+</body>
+
+</html>

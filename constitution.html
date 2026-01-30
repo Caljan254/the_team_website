@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Team - Constitution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .constitution-section {
+            margin-top: 2rem;
+        }
+
+        .constitution-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-left: 5px solid var(--secondary);
+            /* background-color: white; - Handled by glass-panel now */
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .constitution-item h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .constitution-item ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .constitution-item li {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .constitution-item li:before {
+            content: "•";
+            color: var(--secondary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .constitution-item p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .constitution-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .constitution-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .constitution-header .motto {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .article-number {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .constitution-note {
+            background-color: #e3f2fd;
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .constitution-footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #eee;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header with Navigation -->
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>THE <span>TEAM</span></h1>
+                <div class="motto">Diverse but United</div>
+            </div>
+
+            <!-- Hamburger Button -->
+            <button class="hamburger" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation -->
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="constitution.html" class="active">Constitution</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="payments.html">Payments</a></li>
+                    <li><a href="loans.html">Loans</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-container" id="authContainer" style="display: none;">
+                <!-- Hidden -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Constitution Header -->
+        <div class="constitution-header">
+            <h1>THE TEAM CONSTITUTION</h1>
+            <div class="motto">Diverse but United</div>
+            <p style="margin-top: 1rem; opacity: 0.9;">Official Group Constitution and By-Laws</p>
+            <p><i class="fas fa-calendar-alt"></i> Effective Date: January 1, 2026</p>
+        </div>
+
+        <!-- Constitution Content -->
+        <section id="constitution">
+            <div class="constitution-section">
+                <!-- Preamble -->
+                <div class="constitution-item glass-panel">
+                    <h3><span class="article-number">★</span> PREAMBLE</h3>
+                    <p>We, the members of THE TEAM, recognizing the need for collective action in fighting poverty and
+                        improving our economic status, do hereby establish this Constitution to guide our operations,
+                        define our objectives, and regulate our conduct as a unified group.</p>
+                </div>
+
+                <!-- Article 1 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">1</span> ARTICLE 1: NAME</h3>
+                    <p>The group shall be known as <strong>"THE TEAM"</strong>.</p>
+                    <p><strong>Motto:</strong> Diverse but United</p>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">2</span> ARTICLE 2: OBJECTIVES</h3>
+                    <p>The main objectives of the group shall be:</p>
+                    <ul>
+                        <li>To promote a culture of saving among members through regular contributions</li>
+                        <li>To provide financial assistance to members through affordable loans</li>
+                        <li>To undertake income-generating projects and investments for the benefit of members</li>
+                        <li>To support members during emergencies and difficult times</li>
+                        <li>To promote unity, cooperation, and mutual understanding among members</li>
+                        <li>To educate members on financial management and investment opportunities</li>
+                        <li>To create a social support network for members' welfare</li>
+                    </ul>
+                </div>
+
+                <!-- Article 3 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">3</span> ARTICLE 3: MEMBERSHIP</h3>
+                    <ul>
+                        <li>Membership is open to all willing individuals who accept the terms of this constitution</li>
+                        <li>Registration fee: <strong>KSh 200</strong> (non-refundable)</li>
+                        <li>Monthly contribution: <strong>KSh 600</strong> payable by the 10th of every month</li>
+                        <li>All members must attend monthly meetings (minimum 75% attendance required)</li>
+                        <li>Members must maintain regular contributions to remain in good standing</li>
+                        <li>Members can withdraw from the group after <strong>5 years</strong> of continuous membership
+                        </li>
+                        <li>New members must be introduced by an existing member</li>
+                        <li>Membership can be terminated for:
+                            <ul>
+                                <li>Non-payment of contributions for 3 consecutive months</li>
+                                <li>Gross misconduct</li>
+                                <li>Violation of group rules and regulations</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Article 4 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">4</span> ARTICLE 4: OFFICIALS</h3>
+                    <ul>
+                        <li><strong>Chairperson:</strong> Overall leadership, presides over meetings, represents the
+                            group</li>
+                        <li><strong>Treasurer:</strong> Manages finances, keeps financial records, issues receipts</li>
+                        <li><strong>Secretary:</strong> Record keeping, minutes, correspondence, membership records</li>
+                        <li><strong>Organizing Secretary:</strong> Organizes meetings and group activities</li>
+                        <li><strong>Term of Office:</strong> 2 years, renewable once</li>
+                        <li>Elections shall be held during the Annual General Meeting</li>
+                        <li>Officials can be removed by 2/3 majority vote for misconduct or negligence</li>
+                    </ul>
+                </div>
+
+                <!-- Article 5 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">5</span> ARTICLE 5: MEETINGS</h3>
+                    <ul>
+                        <li><strong>Monthly Meetings:</strong> Held on the 11th of every month at 2:00 PM</li>
+                        <li><strong>Emergency Meetings:</strong> Can be called by the Chairperson or 1/3 of members</li>
+                        <li><strong>Annual General Meeting (AGM):</strong> Held in December each year</li>
+                        <li><strong>Quorum:</strong> 2/3 of members must be present for decisions to be binding</li>
+                        <li><strong>Minutes:</strong> Must be kept for all meetings and read in subsequent meetings</li>
+                        <li>Decisions are made by simple majority vote unless otherwise specified</li>
+                        <li>Members must give advance notice if unable to attend</li>
+                    </ul>
+                </div>
+
+                <!-- Article 6 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">6</span> ARTICLE 6: FINANCES</h3>
+                    <ul>
+                        <li>Monthly contributions: <strong>KSh 600</strong> per member</li>
+                        <li>Due date: <strong>10th of every month</strong></li>
+                        <li>Late payment penalty: <strong>KSh 10 per day</strong> after the deadline</li>
+                        <li>Registration fee: <strong>KSh 200</strong> (paid once on joining)</li>
+                        <li>Loan application fee: <strong>KSh 100</strong></li>
+                        <li>All payments to be made via M-Pesa to official group account</li>
+                        <li>Treasurer must keep proper records and issue receipts</li>
+                        <li>Financial statements to be presented in every monthly meeting</li>
+                        <li>Annual audit to be conducted in December</li>
+                        <li>Group funds to be kept in a bank account requiring two signatories</li>
+                    </ul>
+                </div>
+
+                <!-- Article 7 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">7</span> ARTICLE 7: LOANS</h3>
+                    <ul>
+                        <li>Maximum loan amount: <strong>KSh 50,000</strong></li>
+                        <li>Minimum loan amount: <strong>KSh 1,000</strong></li>
+                        <li>Repayment period: <strong>3 months</strong> maximum</li>
+                        <li>Interest rate: <strong>10% per month</strong> on reducing balance</li>
+                        <li>Eligibility: Must have contributed for <strong>3 consecutive months</strong></li>
+                        <li>Guarantor required for loans above <strong>KSh 20,000</strong></li>
+                        <li>Maximum of two active loans per member at any time</li>
+                        <li>Loan applications must be submitted in writing</li>
+                        <li>Loan committee to review and approve applications</li>
+                        <li>Default penalties: Additional 5% interest for late repayment</li>
+                    </ul>
+                </div>
+
+                <!-- Article 8 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">8</span> ARTICLE 8: WITHDRAWAL</h3>
+                    <ul>
+                        <li>Members can withdraw after <strong>5 years</strong> of continuous membership</li>
+                        <li>Withdrawal window: <strong>December only</strong></li>
+                        <li>Notice period: <strong>3 months</strong> written notice required</li>
+                        <li>Withdrawing member receives all contributions plus accrued interest</li>
+                        <li>Interest on savings: <strong>5% per annum</strong></li>
+                        <li>Outstanding loans must be cleared before withdrawal</li>
+                        <li>Withdrawal form must be completed and approved by committee</li>
+                        <li>Final payment made within 30 days of approval</li>
+                    </ul>
+                </div>
+
+                <!-- Article 9 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">9</span> ARTICLE 9: COMMITTEES</h3>
+                    <ul>
+                        <li><strong>Executive Committee:</strong> Overall management of group affairs</li>
+                        <li><strong>Loan Committee:</strong> Reviews and approves loan applications</li>
+                        <li><strong>Disciplinary Committee:</strong> Handles disputes and disciplinary matters</li>
+                        <li><strong>Projects Committee:</strong> Identifies and manages income-generating projects</li>
+                        <li>Committee members serve for 1 year</li>
+                        <li>Each committee to have at least 3 members</li>
+                        <li>Committee decisions to be ratified in general meetings</li>
+                    </ul>
+                </div>
+
+                <!-- Article 10 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">10</span> ARTICLE 10: DISCIPLINE</h3>
+                    <ul>
+                        <li>Members must conduct themselves with integrity and respect</li>
+                        <li>Disciplinary actions include:
+                            <ul>
+                                <li>Verbal warning</li>
+                                <li>Written warning</li>
+                                <li>Temporary suspension</li>
+                                <li>Expulsion</li>
+                            </ul>
+                        </li>
+                        <li>Disciplinary committee to handle all disciplinary matters</li>
+                        <li>Right to appeal decisions within 14 days</li>
+                        <li>Expulsion requires 3/4 majority vote</li>
+                    </ul>
+                </div>
+
+                <!-- Article 11 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">11</span> ARTICLE 11: AMENDMENTS</h3>
+                    <p>This constitution can be amended by <strong>2/3 majority</strong> of members present in a special
+                        meeting called for that purpose. Proposed amendments must be submitted in writing at least 14
+                        days before the meeting. All amendments become effective immediately upon approval unless
+                        otherwise specified.</p>
+                </div>
+
+                <!-- Article 12 -->
+                <div class="constitution-item">
+                    <h3><span class="article-number">12</span> ARTICLE 12: DISSOLUTION</h3>
+                    <p>In the event of dissolution, all assets shall be liquidated and distributed to members in
+                        proportion to their contributions. Dissolution requires approval by <strong>90% of all
+                            members</strong>. A dissolution committee shall be formed to oversee the process.</p>
+                </div>
+
+                <!-- Important Notes -->
+                <div class="constitution-note">
+                    <h4><i class="fas fa-info-circle"></i> Important Notes</h4>
+                    <ul>
+                        <li>This constitution supersedes all previous constitutions and agreements</li>
+                        <li>All members are bound by this constitution upon joining</li>
+                        <li>Copies of this constitution are available to all members</li>
+                        <li>Interpretation of this constitution rests with the Executive Committee</li>
+                        <li>Any matter not covered herein shall be decided by the Executive Committee</li>
+                    </ul>
+                </div>
+
+                <!-- Download Button -->
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="#" class="download-btn" id="download-constitution">
+                        <i class="fas fa-download"></i> Download Constitution (PDF)
+                    </a>
+                    <a href="#" class="download-btn" style="background-color: var(--purple); margin-left: 10px;">
+                        <i class="fas fa-print"></i> Print Constitution
+                    </a>
+                </div>
+
+                <!-- Signatures Section -->
+                <div class="constitution-footer">
+                    <h4>APPROVED AND ADOPTED</h4>
+                    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin: 2rem 0;">
+                        <div style="text-align: center;">
+                            <p><strong>__________________________</strong></p>
+                            <p>Chairperson</p>
+                            <p>Munyoki Mutua</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <p><strong>__________________________</strong></p>
+                            <p>Treasurer</p>
+                            <p>Mutemwa Willy</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <p><strong>__________________________</strong></p>
+                            <p>Secretary</p>
+                            <p>Michael Kamote</p>
+                        </div>
+                    </div>
+                    <p>Date of Adoption: January 1, 2026</p>
+                    <p>Last Amended: January 1, 2026</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>THE TEAM</h3>
+                <p>Diverse but United</p>
+                <p>Fighting poverty through collective investment and income generating activities.</p>
+                <div class="social-links">
+                    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank"><i
+                            class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="constitution.html">Constitution</a></li>
+                    <li><a href="payments.html">Make Payment</a></li>
+                    <li><a href="loans.html">Loan Calculator</a></li>
+                    <li><a href="reports.html">Financial Reports</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Payment Information</h3>
+                <p><i class="fas fa-university"></i> PayBill: 247247</p>
+                <p><i class="fas fa-user"></i> Account: 0718510747</p>
+                <p><i class="fas fa-id-card"></i> Name: MUTEMWA WILLY</p>
+                <p><i class="fas fa-money-bill"></i> Monthly: KSh 600</p>
+                <p><i class="fas fa-calendar-alt"></i> Deadline: 10th monthly</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 THE TEAM. All rights reserved. | Version 10.0 (Full Authentication System)
+        </div>
+    </footer>
+
+    <!-- WhatsApp Link -->
+    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="whatsapp-link">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Download button functionality
+            document.getElementById('download-constitution').addEventListener('click', function (e) {
+                e.preventDefault();
+                showNotification('Constitution PDF download will be available soon', 'info');
+            });
+
+            // Print button functionality
+            document.querySelector('[href="#"].download-btn:nth-child(2)').addEventListener('click', function (e) {
+                e.preventDefault();
+                window.print();
+            });
+
+            // Add scroll animation for constitution items
+            const items = document.querySelectorAll('.constitution-item');
+            items.forEach(item => {
+                item.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1)';
+                });
+
+                item.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.05)';
+                });
+            });
+
+            // Add table of contents functionality
+            const createTOC = () => {
+                const articles = document.querySelectorAll('.constitution-item h3');
+                const tocContainer = document.createElement('div');
+                tocContainer.className = 'card glass-panel';
+                tocContainer.innerHTML = '<h3>Table of Contents</h3><div id="toc-list"></div>';
+
+                const tocList = tocContainer.querySelector('#toc-list');
+                articles.forEach((article, index) => {
+                    const title = article.textContent;
+                    const tocItem = document.createElement('a');
+                    tocItem.href = `#article-${index + 1}`;
+                    tocItem.textContent = title;
+                    tocItem.style.display = 'block';
+                    tocItem.style.margin = '5px 0';
+                    tocItem.style.padding = '5px 10px';
+                    tocItem.style.borderLeft = '3px solid var(--secondary)';
+                    tocItem.style.textDecoration = 'none';
+                    tocItem.style.color = 'var(--primary)';
+
+                    tocItem.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        article.scrollIntoView({ behavior: 'smooth' });
+                    });
+
+                    tocList.appendChild(tocItem);
+                });
+
+                // Insert TOC after header
+                document.querySelector('.constitution-header').after(tocContainer);
+            };
+
+            createTOC();
+        });
+    </script>
+</body>
+
+</html>

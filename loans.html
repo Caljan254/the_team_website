@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Team - Loans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* Loans specific styles */
+        .loan-calculator {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .calculator-result {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .loan-application-form {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Same header as index.html -->
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>THE <span>TEAM</span></h1>
+                <div class="motto">Diverse but United</div>
+            </div>
+
+            <!-- Hamburger Button -->
+            <button class="hamburger" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation -->
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="constitution.html">Constitution</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="payments.html">Payments</a></li>
+                    <li><a href="loans.html" class="active">Loans</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-container" id="authContainer" style="display: none;">
+                <!-- Hidden -->
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="loans">
+            <h2 class="section-title">Loan Management</h2>
+
+            <!-- Loan Calculator -->
+            <div class="card glass-panel">
+                <h3>Loan Calculator</h3>
+                <div class="loan-calculator">
+                    <div class="form-group">
+                        <label>Amount (KSh)</label>
+                        <input type="number" id="loanAmount" class="form-control" placeholder="Enter amount"
+                            max="50000">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (Months)</label>
+                        <select id="loanDuration" class="form-control">
+                            <option value="1">1 Month</option>
+                            <option value="2">2 Months</option>
+                            <option value="3">3 Months</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="calculateLoan()">Calculate Repayment</button>
+
+                    <div id="loanResult" class="calculator-result" style="display:none;">
+                        <p>Principal: <strong id="resPrincipal">0</strong></p>
+                        <p>Interest (10%): <strong id="resInterest">0</strong></p>
+                        <p>Total Repayment: <strong id="resTotal">0</strong></p>
+                    </div>
+                </div>
+                <script>
+                    function calculateLoan() {
+                        const amount = parseFloat(document.getElementById('loanAmount').value) || 0;
+                        const duration = parseInt(document.getElementById('loanDuration').value) || 1;
+                        if (amount > 50000) { alert('Max loan is 50,000'); return; }
+
+                        const interest = amount * 0.10 * duration;
+                        const total = amount + interest;
+
+                        document.getElementById('resPrincipal').innerText = amount.toLocaleString();
+                        document.getElementById('resInterest').innerText = interest.toLocaleString();
+                        document.getElementById('resTotal').innerText = total.toLocaleString();
+                        document.getElementById('loanResult').style.display = 'block';
+                    }
+                </script>
+            </div>
+
+            <!-- Loan Application (for logged in users) -->
+            <div id="user-loan-application" style="display: none;">
+                <div class="card loan-application-form">
+                    <h3>Apply for Loan</h3>
+                    <!-- Application form from original -->
+                </div>
+            </div>
+
+            <!-- Loan Information -->
+            <div class="card glass-panel">
+                <h3>Loan Terms</h3>
+                <ul>
+                    <li><strong>Maximum Loan:</strong> KSh 50,000</li>
+                    <li><strong>Repayment Period:</strong> 3 months</li>
+                    <li><strong>Interest Rate:</strong> 10% per month</li>
+                    <li><strong>Eligibility:</strong> Must have contributed for 3 months</li>
+                    <li><strong>Guarantor:</strong> Required for loans above KSh 20,000</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Same footer as index.html -->
+    <footer>
+        <!-- Footer content from index.html -->
+    </footer>
+
+    <!-- WhatsApp Link -->
+    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="whatsapp-link">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="shared.js"></script>
+    <script>
+        // Loans page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function () {
+            // Show loan application form if user is logged in
+            if (currentUser) {
+                document.getElementById('user-loan-application').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

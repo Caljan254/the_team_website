@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Team - Contact</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .executive-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+
+        .executive-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .executive-card h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .executive-card p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .executive-card .contact-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #e3f2fd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+        }
+
+        .contact-form {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .contact-info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-info-card i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .emergency-contact {
+            background-color: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .meeting-schedule {
+            background-color: #e3f2fd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .meeting-schedule h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .meeting-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .meeting-item:last-child {
+            border-bottom: none;
+        }
+
+        .location-map {
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .whatsapp-group-card {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .whatsapp-group-card h3 {
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-group-card .btn {
+            background-color: white;
+            color: #25D366;
+            margin-top: 1rem;
+        }
+
+        .contact-note {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--success);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .contact-category {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .contact-category i {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>THE <span>TEAM</span></h1>
+                <div class="motto">Diverse but United</div>
+            </div>
+
+            <!-- Hamburger Button -->
+            <button class="hamburger" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation -->
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="constitution.html">Constitution</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                    <li><a href="payments.html">Payments</a></li>
+                    <li><a href="loans.html">Loans</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-container" id="authContainer" style="display: none;">
+                <!-- Hidden -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="section-title">
+                <h2><i class="fas fa-address-book"></i> Contact & Social Media</h2>
+                <p style="font-size: 0.9rem; color: #666;">Get in touch with THE TEAM leadership and members</p>
+            </div>
+
+            <!-- Executive Committee -->
+            <div class="card glass-panel">
+                <h3 class="section-title">
+                    <i class="fas fa-user-tie"></i> Executive Committee
+                </h3>
+                <p style="margin-bottom: 1.5rem; color: #666;">Meet the leadership team of THE TEAM</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Chairperson -->
+                    <div class="executive-card">
+                        <h4><i class="fas fa-crown"></i> Chairperson</h4>
+                        <p><span class="contact-icon"><i class="fas fa-user"></i></span> <strong>Name:</strong> Munyoki
+                            Mutua</p>
+                        <p><span class="contact-icon"><i class="fas fa-phone"></i></span> <strong>Phone:</strong>
+                            0769083128</p>
+                        <p><span class="contact-icon"><i class="fas fa-envelope"></i></span> <strong>Email:</strong>
+                            munyokimutua513@gmail.com</p>
+                        <p><span class="contact-icon"><i class="fas fa-tasks"></i></span>
+                            <strong>Responsibilities:</strong>
+                        </p>
+                        <ul style="margin-left: 1.5rem; color: #555;">
+                            <li>Overall leadership and guidance</li>
+                            <li>Presiding over meetings</li>
+                            <li>Representing the group</li>
+                            <li>Conflict resolution</li>
+                        </ul>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                            <p><strong>Available:</strong> Monday-Friday, 9 AM - 5 PM</p>
+                            <p><strong>Preferred Contact:</strong> Phone call or WhatsApp</p>
+                        </div>
+                    </div>
+
+                    <!-- Treasurer -->
+                    <div class="executive-card">
+                        <h4><i class="fas fa-money-check-alt"></i> Treasurer</h4>
+                        <p><span class="contact-icon"><i class="fas fa-user"></i></span> <strong>Name:</strong> Mutemwa
+                            Willy</p>
+                        <p><span class="contact-icon"><i class="fas fa-phone"></i></span> <strong>Phone:</strong>
+                            0718510747</p>
+                        <p><span class="contact-icon"><i class="fas fa-envelope"></i></span> <strong>Email:</strong>
+                            mutemwawillie@gmail.com</p>
+                        <p><span class="contact-icon"><i class="fas fa-university"></i></span> <strong>Payment
+                                Details:</strong></p>
+                        <ul style="margin-left: 1.5rem; color: #555;">
+                            <li>PayBill: 247247</li>
+                            <li>Account: 0718510747</li>
+                            <li>Account Name: MUTEMWA WILLY</li>
+                        </ul>
+                        <p><span class="contact-icon"><i class="fas fa-tasks"></i></span>
+                            <strong>Responsibilities:</strong>
+                        </p>
+                        <ul style="margin-left: 1.5rem; color: #555;">
+                            <li>Financial management</li>
+                            <li>Payment processing</li>
+                            <li>Record keeping</li>
+                            <li>Financial reporting</li>
+                        </ul>
+                    </div>
+
+                    <!-- Secretary -->
+                    <div class="executive-card">
+                        <h4><i class="fas fa-clipboard-list"></i> Secretary</h4>
+                        <p><span class="contact-icon"><i class="fas fa-user"></i></span> <strong>Name:</strong> Michael
+                            Kamote</p>
+                        <p><span class="contact-icon"><i class="fas fa-phone"></i></span> <strong>Phone:</strong>
+                            0794366274</p>
+                        <p><span class="contact-icon"><i class="fas fa-envelope"></i></span> <strong>Email:</strong>
+                            michaelkamote2019@gmail.com</p>
+                        <p><span class="contact-icon"><i class="fas fa-tasks"></i></span>
+                            <strong>Responsibilities:</strong>
+                        </p>
+                        <ul style="margin-left: 1.5rem; color: #555;">
+                            <li>Meeting minutes</li>
+                            <li>Record keeping</li>
+                            <li>Correspondence</li>
+                            <li>Membership records</li>
+                        </ul>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                            <p><strong>Meeting Documentation:</strong></p>
+                            <p style="font-size: 0.9rem;">Contact for meeting minutes, agendas, and official documents
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WhatsApp Group Integration -->
+            <div class="whatsapp-group-card">
+                <h3><i class="fab fa-whatsapp"></i> Join Our WhatsApp Group</h3>
+                <p>Stay updated with real-time notifications, discussions, and group announcements</p>
+                <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="btn">
+                    <i class="fab fa-whatsapp"></i> Join WhatsApp Group
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">
+                    Group Code: BJGdcZlagQGDhXv5pzFpHX
+                </p>
+            </div>
+
+            <!-- Contact Information Grid -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Contact Information</h3>
+
+                <div class="contact-info-grid">
+                    <div class="contact-info-card">
+                        <i class="fas fa-phone-alt"></i>
+                        <h4>Phone Support</h4>
+                        <p><strong>Primary:</strong> 0718510747</p>
+                        <p><strong>Alternate:</strong> 0769083128</p>
+                        <p><strong>Hours:</strong> 8 AM - 8 PM Daily</p>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email Support</h4>
+                        <p><strong>General:</strong> theteam@example.com</p>
+                        <p><strong>Payments:</strong> payments@example.com</p>
+                        <p><strong>Loans:</strong> loans@example.com</p>
+                        <p><strong>Response Time:</strong> 24-48 hours</p>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h4>Physical Address</h4>
+                        <p><strong>Meeting Venue:</strong></p>
+                        <p>THE TEAM Group Office</p>
+                        <p>Nairobi, Kenya</p>
+                        <p><em>(Specific address shared with members)</em></p>
+                    </div>
+
+                    <div class="contact-info-card">
+                        <i class="fas fa-clock"></i>
+                        <h4>Office Hours</h4>
+                        <p><strong>Weekdays:</strong> 9:00 AM - 5:00 PM</p>
+                        <p><strong>Weekends:</strong> 10:00 AM - 2:00 PM</p>
+                        <p><strong>Emergency:</strong> 24/7 via Phone</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Contact -->
+            <div class="emergency-contact">
+                <h4><i class="fas fa-exclamation-circle"></i> Emergency Contact</h4>
+                <p>For urgent matters outside office hours, please contact:</p>
+                <div style="display: flex; align-items: center; gap: 20px; margin-top: 1rem; flex-wrap: wrap;">
+                    <div>
+                        <p><strong>Emergency Contact:</strong> Mutemwa Willy</p>
+                        <p><strong>Phone:</strong> 0718510747</p>
+                    </div>
+                    <div>
+                        <p><strong>Alternate Contact:</strong> Munyoki Mutua</p>
+                        <p><strong>Phone:</strong> 0769083128</p>
+                    </div>
+                    <button class="btn btn-warning" id="emergency-call-btn">
+                        <i class="fas fa-phone"></i> Call Emergency Contact
+                    </button>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> Use emergency contact only for urgent matters requiring immediate
+                    attention.
+                </p>
+            </div>
+
+            <!-- Meeting Schedule -->
+            <div class="meeting-schedule">
+                <h4><i class="fas fa-calendar-alt"></i> Regular Meeting Schedule</h4>
+                <div class="meeting-item">
+                    <span><strong>Monthly Meeting:</strong></span>
+                    <span>11th of every month, 2:00 PM</span>
+                </div>
+                <div class="meeting-item">
+                    <span><strong>Financial Review:</strong></span>
+                    <span>Last Sunday of each month, 10:00 AM</span>
+                </div>
+                <div class="meeting-item">
+                    <span><strong>Annual General Meeting:</strong></span>
+                    <span>December 15, 2026, 9:00 AM</span>
+                </div>
+                <div class="meeting-item">
+                    <span><strong>Project Meetings:</strong></span>
+                    <span>As announced (usually 15th monthly)</span>
+                </div>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(52, 152, 219, 0.2);">
+                    <p><strong>Next Meeting:</strong> January 11, 2026, 2:00 PM</p>
+                    <p><strong>Venue:</strong> THE TEAM Group Office</p>
+                    <p><strong>Agenda:</strong> Will be shared 3 days before meeting</p>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <h3 class="section-title">Send Us a Message</h3>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="contact-name">Your Name *</label>
+                        <input type="text" id="contact-name" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-email">Email Address *</label>
+                        <input type="email" id="contact-email" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-phone">Phone Number</label>
+                        <input type="tel" id="contact-phone" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-subject">Subject *</label>
+                        <select id="contact-subject" class="form-control" required>
+                            <option value="">Select a subject</option>
+                            <option value="payment">Payment Issues</option>
+                            <option value="loan">Loan Inquiry</option>
+                            <option value="membership">Membership</option>
+                            <option value="meeting">Meeting Related</option>
+                            <option value="suggestion">Suggestion</option>
+                            <option value="complaint">Complaint</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-message">Message *</label>
+                        <textarea id="contact-message" class="form-control" required
+                            placeholder="Please provide details of your inquiry..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" required>
+                            I agree to the terms and conditions
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+
+                <div class="contact-note" style="margin-top: 1.5rem;">
+                    <h5><i class="fas fa-info-circle"></i> What happens after you submit?</h5>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                        <li>You'll receive an automated confirmation email</li>
+                        <li>Our team will review your message within 24 hours</li>
+                        <li>You'll get a response within 48 hours</li>
+                        <li>For urgent matters, please call instead</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Connect With Us on Social Media</h3>
+                <div style="text-align: center;">
+                    <div class="social-links" style="justify-content: center; margin: 2rem 0;">
+                        <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank"
+                            title="WhatsApp Group" style="background-color: #25D366;">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" title="Facebook" style="background-color: #3b5998;">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" title="Twitter" style="background-color: #1da1f2;">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" title="Instagram" style="background-color: #e4405f;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" title="Email" style="background-color: var(--secondary);">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="#" title="YouTube" style="background-color: #ff0000;">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                    <p style="color: #666; margin-bottom: 1rem;">
+                        Follow us for updates, announcements, and group activities
+                    </p>
+                    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <p><strong>Facebook Group</strong></p>
+                            <p style="font-size: 0.9rem; color: #666;">@THE TEAM Official</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <p><strong>Twitter</strong></p>
+                            <p style="font-size: 0.9rem; color: #666;">@theteam_ke</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <p><strong>Instagram</strong></p>
+                            <p style="font-size: 0.9rem; color: #666;">@theteam_ke</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Map -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Our Location</h3>
+                <div class="location-map">
+                    <!-- You can embed Google Maps here -->
+                    <div
+                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 300px; display: flex; align-items: center; justify-content: center; color: white;">
+                        <div style="text-align: center;">
+                            <i class="fas fa-map-marker-alt" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                            <h3>THE TEAM Group Office</h3>
+                            <p>Nairobi, Kenya</p>
+                            <p style="font-size: 0.9rem; opacity: 0.9;">(Exact address shared with registered members)
+                            </p>
+                            <button class="btn"
+                                style="margin-top: 1rem; background-color: white; color: var(--primary);">
+                                <i class="fas fa-directions"></i> Get Directions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    style="margin-top: 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <p><strong>Nearest Landmarks:</strong></p>
+                        <ul style="margin-left: 1.5rem;">
+                            <li>Central Business District</li>
+                            <li>Nairobi City Centre</li>
+                            <li>Major public transport routes</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><strong>Parking:</strong> Available</p>
+                        <p><strong>Accessibility:</strong> Wheelchair accessible</p>
+                        <p><strong>Security:</strong> 24/7 security</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>THE TEAM</h3>
+                <p>Diverse but United</p>
+                <p>Fighting poverty through collective investment and income generating activities.</p>
+                <div class="social-links">
+                    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank"><i
+                            class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="constitution.html">Constitution</a></li>
+                    <li><a href="payments.html">Make Payment</a></li>
+                    <li><a href="loans.html">Loan Calculator</a></li>
+                    <li><a href="reports.html">Financial Reports</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-phone"></i> Phone: 0718510747</p>
+                <p><i class="fas fa-envelope"></i> Email: mutemwawillie@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                <p><i class="fab fa-whatsapp"></i> WhatsApp: +254 71851 0747</p>
+                <p><i class="fas fa-clock"></i> Hours: Mon-Fri, 9AM-5PM</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 THE TEAM. All rights reserved. | Contact: 0718510747
+        </div>
+    </footer>
+
+    <!-- WhatsApp Link -->
+    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="whatsapp-link">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Contact form submission
+            document.getElementById('contact-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById('contact-name').value;
+                const email = document.getElementById('contact-email').value;
+                const subject = document.getElementById('contact-subject').value;
+
+                // Simulate form submission
+                showNotification(`Thank you ${name}! Your message has been sent. We'll respond to ${email} within 48 hours.`, 'success');
+
+                // Reset form
+                this.reset();
+
+                // Show confirmation modal
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                modal.style.zIndex = '10000';
+
+                modal.innerHTML = `
+                    <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 500px; width: 90%; text-align: center;">
+                        <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--success); margin-bottom: 1rem;"></i>
+                        <h3>Message Sent Successfully!</h3>
+                        <p>Thank you for contacting THE TEAM. We have received your message and will respond within 48 hours.</p>
+                        <p><strong>Reference ID:</strong> TM${Date.now().toString().slice(-6)}</p>
+                        <button id="close-modal" class="btn" style="margin-top: 1rem;">OK</button>
+                    </div>
+                `;
+
+                document.body.appendChild(modal);
+
+                document.getElementById('close-modal').addEventListener('click', function () {
+                    modal.remove();
+                });
+
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+            });
+
+            // Emergency call button
+            document.getElementById('emergency-call-btn').addEventListener('click', function () {
+                if (confirm('This will call our emergency contact: 0718510747. Continue?')) {
+                    showNotification('In a real application, this would initiate a phone call to 0718510747', 'info');
+                    // In a real app: window.location.href = 'tel:+254718510747';
+                }
+            });
+
+            // Get directions button
+            document.querySelector('.btn[style*="Get Directions"]').addEventListener('click', function () {
+                showNotification('Opening directions to THE TEAM Group Office in Google Maps', 'info');
+                // In a real app: window.open('https://maps.google.com/?q=THE+TEAM+Group+Office+Nairobi', '_blank');
+            });
+
+            // Social media links
+            document.querySelectorAll('.social-links a').forEach(link => {
+                if (!link.href.includes('whatsapp')) {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const platform = this.title;
+                        showNotification(`${platform} page coming soon`, 'info');
+                    });
+                }
+            });
+
+            // Add click effects to executive cards
+            document.querySelectorAll('.executive-card').forEach(card => {
+                card.addEventListener('click', function () {
+                    const name = this.querySelector('p:first-of-type strong').nextSibling.textContent.trim();
+                    showNotification(`Contact card for ${name} selected`, 'info');
+                });
+            });
+
+            // Add copy email functionality
+            const emails = document.querySelectorAll('p:has(.fa-envelope)');
+            emails.forEach(emailElement => {
+                emailElement.style.cursor = 'pointer';
+                emailElement.title = 'Click to copy email';
+
+                emailElement.addEventListener('click', function () {
+                    const emailText = this.textContent.split(':')[1]?.trim();
+                    if (emailText && emailText.includes('@')) {
+                        navigator.clipboard.writeText(emailText)
+                            .then(() => {
+                                showNotification(`Copied: ${emailText}`, 'success');
+                            })
+                            .catch(err => {
+                                console.error('Failed to copy: ', err);
+                                showNotification('Could not copy email', 'error');
+                            });
+                    }
+                });
+            });
+
+            // Add copy phone functionality
+            const phones = document.querySelectorAll('p:has(.fa-phone)');
+            phones.forEach(phoneElement => {
+                phoneElement.style.cursor = 'pointer';
+                phoneElement.title = 'Click to copy phone number';
+
+                phoneElement.addEventListener('click', function () {
+                    const phoneText = this.textContent.split(':')[1]?.trim();
+                    if (phoneText) {
+                        navigator.clipboard.writeText(phoneText)
+                            .then(() => {
+                                showNotification(`Copied: ${phoneText}`, 'success');
+                            })
+                            .catch(err => {
+                                console.error('Failed to copy: ', err);
+                                showNotification('Could not copy phone number', 'error');
+                            });
+                    }
+                });
+            });
+
+            // Add WhatsApp quick message
+            const whatsappBtn = document.createElement('button');
+            whatsappBtn.className = 'btn';
+            whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Quick WhatsApp Message';
+            whatsappBtn.style.backgroundColor = '#25D366';
+            whatsappBtn.style.marginTop = '1rem';
+
+            whatsappBtn.addEventListener('click', function () {
+                const message = encodeURIComponent("Hello THE TEAM, I'd like to get more information about...");
+                const phone = "254718510747";
+                window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+            });
+
+            document.querySelector('.whatsapp-group-card').appendChild(whatsappBtn);
+        });
+    </script>
+</body>
+
+</html>

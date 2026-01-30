@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Team - Notifications</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .notification-settings {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s;
+        }
+
+        .notification-item:hover {
+            background-color: #f0f8ff;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-info h4 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .notification-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--success);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        .notification-badge {
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .notification-log {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .notification-card {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .notification-card:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .notification-icon.payment {
+            background-color: var(--secondary);
+        }
+
+        .notification-icon.meeting {
+            background-color: var(--success);
+        }
+
+        .notification-icon.reminder {
+            background-color: var(--warning);
+        }
+
+        .notification-icon.urgent {
+            background-color: var(--accent);
+        }
+
+        .notification-details h5 {
+            margin-bottom: 0.3rem;
+            color: var(--primary);
+        }
+
+        .notification-details p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-time {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        .notification-status {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-read {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-unread {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .send-notification-form {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .notification-preview {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--secondary);
+            display: none;
+        }
+
+        .mark-all-read {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .clear-all {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>THE <span>TEAM</span></h1>
+                <div class="motto">Diverse but United</div>
+            </div>
+
+            <!-- Hamburger Button -->
+            <button class="hamburger" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation -->
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="constitution.html">Constitution</a></li>
+                    <li><a href="reports.html">Reports</a></li>
+                    <li><a href="notifications.html" class="active">Notifications</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="payments.html">Payments</a></li>
+                    <li><a href="loans.html">Loans</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-container" id="authContainer" style="display: none;">
+                <!-- Hidden -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Notifications Section -->
+        <section id="notifications">
+            <div class="section-title">
+                <h2><i class="fas fa-bell"></i> Notifications & Reminders</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="mark-all-read" id="markAllRead">
+                        <i class="fas fa-check-double"></i> Mark All Read
+                    </button>
+                    <button class="clear-all" id="clearAll">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notification Summary -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon stat-1">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-notifications">12</h3>
+                        <p>Total Notifications</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-2">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="unread-notifications">3</h3>
+                        <p>Unread Notifications</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-3">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="upcoming-reminders">5</h3>
+                        <p>Upcoming Reminders</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-4">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="urgent-notifications">1</h3>
+                        <p>Urgent Notifications</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Notification Settings</h3>
+                <p style="margin-bottom: 1rem; color: #666;">Customize how and when you receive notifications from THE
+                    TEAM</p>
+
+                <div class="notification-settings">
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Payment Reminders</h4>
+                            <p>Send automatic reminder 5 days before payment deadline</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="payment-reminders" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Email Notifications</h4>
+                            <p>Send notifications to your registered email address</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="email-notifications" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>SMS Notifications</h4>
+                            <p>Send SMS alerts to your phone number</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="sms-notifications" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Meeting Reminders</h4>
+                            <p>Remind about upcoming meetings 24 hours in advance</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="meeting-reminders" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Loan Reminders</h4>
+                            <p>Notify about loan due dates and repayments</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="loan-reminders" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Group Announcements</h4>
+                            <p>Receive important group announcements and updates</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="announcements" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="notification-item">
+                        <div class="notification-info">
+                            <h4>Event Reminders</h4>
+                            <p>Notify about group events and activities</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="event-reminders" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; text-align: center;">
+                    <button class="btn" id="save-settings">
+                        <i class="fas fa-save"></i> Save Notification Settings
+                    </button>
+                    <button class="btn" style="background-color: #6c757d; margin-left: 10px;" id="reset-settings">
+                        <i class="fas fa-undo"></i> Reset to Default
+                    </button>
+                </div>
+            </div>
+
+            <!-- Manual Notification Test -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Test Notification System</h3>
+                <p>You can test the notification system by sending a manual reminder:</p>
+
+                <div class="send-notification-form">
+                    <div class="form-group">
+                        <label for="test-notification-type">Notification Type</label>
+                        <select id="test-notification-type" class="form-control">
+                            <option value="payment">Payment Reminder</option>
+                            <option value="meeting">Meeting Reminder</option>
+                            <option value="loan">Loan Reminder</option>
+                            <option value="general">General Announcement</option>
+                            <option value="urgent">Urgent Alert</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="test-message">Test Message</label>
+                        <textarea id="test-message" class="form-control" rows="3"
+                            placeholder="Enter test notification message"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="test-channel">Send Via</label>
+                        <div style="display: flex; gap: 15px; margin-top: 0.5rem;">
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" id="test-email" checked> Email
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" id="test-sms" checked> SMS
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="checkbox" id="test-inapp" checked> In-App
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="btn" id="send-test-notification">
+                        <i class="fas fa-paper-plane"></i> Send Test Notification
+                    </button>
+
+                    <div class="notification-preview" id="notification-preview">
+                        <h5>Preview of your notification:</h5>
+                        <p id="preview-message">Your notification will appear here</p>
+                        <p style="color: #999; font-size: 0.8rem; margin-top: 0.5rem;">
+                            <i class="fas fa-info-circle"></i> This is how your notification will look to recipients
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Log -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Notification Log</h3>
+                <p style="margin-bottom: 1rem; color: #666;">Recent notifications sent to you</p>
+
+                <div class="notification-log" id="notification-log">
+                    <!-- Notifications will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Notification Schedule -->
+            <div class="card glass-panel">
+                <h3 class="section-title">Notification Schedule</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Notification Type</th>
+                                <th>Frequency</th>
+                                <th>Timing</th>
+                                <th>Channel</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Payment Reminders</td>
+                                <td>Monthly</td>
+                                <td>5 days before deadline</td>
+                                <td>Email, SMS, In-App</td>
+                                <td><span class="status active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Meeting Reminders</td>
+                                <td>Monthly</td>
+                                <td>24 hours before meeting</td>
+                                <td>Email, SMS, In-App</td>
+                                <td><span class="status active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Loan Due Reminders</td>
+                                <td>As needed</td>
+                                <td>7 days before due date</td>
+                                <td>Email, SMS</td>
+                                <td><span class="status active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Urgent Alerts</td>
+                                <td>Immediate</td>
+                                <td>When issued</td>
+                                <td>All channels</td>
+                                <td><span class="status active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Monthly Reports</td>
+                                <td>Monthly</td>
+                                <td>After month end</td>
+                                <td>Email</td>
+                                <td><span class="status active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Annual Statements</td>
+                                <td>Yearly</td>
+                                <td>December</td>
+                                <td>Email, In-App</td>
+                                <td><span class="status active">Active</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- WhatsApp Group Integration -->
+            <div class="card glass-panel" style="background-color: #25D366; color: white;">
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <h3><i class="fab fa-whatsapp"></i> WhatsApp Group Notifications</h3>
+                        <p>Join our official WhatsApp group for instant updates and discussions:</p>
+                        <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="btn"
+                            style="background-color: white; color: #25D366;">
+                            <i class="fab fa-whatsapp"></i> Join WhatsApp Group
+                        </a>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <h4>Group Rules:</h4>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li><i class="fas fa-check-circle"></i> Respect all members</li>
+                            <li><i class="fas fa-check-circle"></i> No spam messages</li>
+                            <li><i class="fas fa-check-circle"></i> Keep discussions relevant</li>
+                            <li><i class="fas fa-check-circle"></i> Official announcements only</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>THE TEAM</h3>
+                <p>Diverse but United</p>
+                <p>Fighting poverty through collective investment and income generating activities.</p>
+                <div class="social-links">
+                    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank"><i
+                            class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="members.html">Members</a></li>
+                    <li><a href="constitution.html">Constitution</a></li>
+                    <li><a href="payments.html">Make Payment</a></li>
+                    <li><a href="loans.html">Loan Calculator</a></li>
+                    <li><a href="reports.html">Financial Reports</a></li>
+                    <li><a href="notifications.html">Notifications</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Notification Info</h3>
+                <p><i class="fas fa-bell"></i> Payment reminders sent monthly</p>
+                <p><i class="fas fa-calendar"></i> Meeting reminders 24h before</p>
+                <p><i class="fas fa-envelope"></i> Email: Check spam folder</p>
+                <p><i class="fas fa-phone"></i> SMS: Ensure number is updated</p>
+                <p><i class="fas fa-question-circle"></i> Issues? Contact Admin</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 THE TEAM. All rights reserved. | Notification System v2.0
+        </div>
+    </footer>
+
+    <!-- WhatsApp Link -->
+    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="whatsapp-link">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="shared.js"></script>
+    <script>
+        // Sample notification data
+        const notifications = [
+            {
+                id: 1,
+                type: 'payment',
+                title: 'Payment Reminder',
+                message: 'Your January 2026 payment of KSh 600 is due on 10th January. Please pay to avoid penalties.',
+                time: '2026-01-05 10:30',
+                read: false,
+                icon: 'payment'
+            },
+            {
+                id: 2,
+                type: 'meeting',
+                title: 'Monthly Meeting',
+                message: 'Next monthly meeting scheduled for 11th January 2026 at 2:00 PM. Venue: Group Office.',
+                time: '2026-01-07 09:15',
+                read: true,
+                icon: 'meeting'
+            },
+            {
+                id: 3,
+                type: 'urgent',
+                title: 'Urgent: Group Update',
+                message: 'Important: All members must update their contact information in the system by 15th January.',
+                time: '2026-01-08 14:45',
+                read: false,
+                icon: 'urgent'
+            },
+            {
+                id: 4,
+                type: 'reminder',
+                title: 'Loan Repayment Due',
+                message: 'Loan repayment of KSh 5,000 is due on 20th January. Please ensure payment is made on time.',
+                time: '2026-01-10 11:20',
+                read: true,
+                icon: 'reminder'
+            },
+            {
+                id: 5,
+                type: 'payment',
+                title: 'Payment Received',
+                message: 'Your December 2025 payment of KSh 600 has been received and recorded. Thank you!',
+                time: '2025-12-15 16:30',
+                read: true,
+                icon: 'payment'
+            },
+            {
+                id: 6,
+                type: 'meeting',
+                title: 'Meeting Minutes',
+                message: 'December meeting minutes are now available. Please review before next meeting.',
+                time: '2025-12-12 13:10',
+                read: true,
+                icon: 'meeting'
+            },
+            {
+                id: 7,
+                type: 'general',
+                title: 'Welcome New Member',
+                message: 'Welcome Alex Musingi to THE TEAM! Please make him feel welcome.',
+                time: '2026-01-06 10:00',
+                read: true,
+                icon: 'meeting'
+            },
+            {
+                id: 8,
+                type: 'urgent',
+                title: 'System Maintenance',
+                message: 'The system will undergo maintenance on 15th January from 10 PM to 2 AM. Plan accordingly.',
+                time: '2026-01-09 17:30',
+                read: false,
+                icon: 'urgent'
+            }
+        ];
+
+        // Populate notification log
+        function populateNotificationLog() {
+            const logContainer = document.getElementById('notification-log');
+            if (!logContainer) return;
+
+            logContainer.innerHTML = '';
+
+            // Sort by time (newest first)
+            const sortedNotifications = [...notifications].sort((a, b) =>
+                new Date(b.time) - new Date(a.time)
+            );
+
+            sortedNotifications.forEach(notification => {
+                const notificationCard = document.createElement('div');
+                notificationCard.className = 'notification-card';
+
+                // Format time
+                const time = new Date(notification.time);
+                const timeStr = time.toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                notificationCard.innerHTML = `
+                    <div class="notification-icon ${notification.icon}">
+                        <i class="fas fa-${notification.icon === 'payment' ? 'money-bill' :
+                        notification.icon === 'meeting' ? 'users' :
+                            notification.icon === 'urgent' ? 'exclamation-circle' : 'bell'}"></i>
+                    </div>
+                    <div class="notification-details" style="flex: 1;">
+                        <h5>${notification.title}</h5>
+                        <p>${notification.message}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="notification-time">${timeStr}</span>
+                            <span class="notification-status status-${notification.read ? 'read' : 'unread'}">
+                                ${notification.read ? 'READ' : 'UNREAD'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+
+                // Add click handler to mark as read
+                notificationCard.addEventListener('click', function () {
+                    if (!notification.read) {
+                        notification.read = true;
+                        notificationCard.querySelector('.notification-status').className = 'notification-status status-read';
+                        notificationCard.querySelector('.notification-status').textContent = 'READ';
+                        updateNotificationCounts();
+                    }
+                });
+
+                logContainer.appendChild(notificationCard);
+            });
+
+            updateNotificationCounts();
+        }
+
+        // Update notification counts
+        function updateNotificationCounts() {
+            const total = notifications.length;
+            const unread = notifications.filter(n => !n.read).length;
+            const upcoming = notifications.filter(n =>
+                new Date(n.time) > new Date() && n.type === 'reminder'
+            ).length;
+            const urgent = notifications.filter(n =>
+                n.type === 'urgent' && !n.read
+            ).length;
+
+            document.getElementById('total-notifications').textContent = total;
+            document.getElementById('unread-notifications').textContent = unread;
+            document.getElementById('upcoming-reminders').textContent = upcoming;
+            document.getElementById('urgent-notifications').textContent = urgent;
+        }
+
+        // Initialize notification system
+        document.addEventListener('DOMContentLoaded', function () {
+            populateNotificationLog();
+
+            // Mark all as read button
+            document.getElementById('markAllRead').addEventListener('click', function () {
+                notifications.forEach(n => n.read = true);
+                populateNotificationLog();
+                showNotification('All notifications marked as read', 'success');
+            });
+
+            // Clear all button
+            document.getElementById('clearAll').addEventListener('click', function () {
+                if (confirm('Are you sure you want to clear all notifications?')) {
+                    notifications.length = 0;
+                    populateNotificationLog();
+                    showNotification('All notifications cleared', 'success');
+                }
+            });
+
+            // Save settings button
+            document.getElementById('save-settings').addEventListener('click', function () {
+                showNotification('Notification settings saved successfully', 'success');
+            });
+
+            // Reset settings button
+            document.getElementById('reset-settings').addEventListener('click', function () {
+                document.querySelectorAll('.notification-settings input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = true;
+                });
+                showNotification('Settings reset to default', 'info');
+            });
+
+            // Send test notification
+            document.getElementById('send-test-notification').addEventListener('click', function () {
+                const type = document.getElementById('test-notification-type').value;
+                const message = document.getElementById('test-message').value.trim();
+
+                if (!message) {
+                    showNotification('Please enter a test message', 'warning');
+                    return;
+                }
+
+                const email = document.getElementById('test-email').checked;
+                const sms = document.getElementById('test-sms').checked;
+                const inapp = document.getElementById('test-inapp').checked;
+
+                let channels = [];
+                if (email) channels.push('Email');
+                if (sms) channels.push('SMS');
+                if (inapp) channels.push('In-App');
+
+                if (channels.length === 0) {
+                    showNotification('Please select at least one channel', 'warning');
+                    return;
+                }
+
+                // Show preview
+                const preview = document.getElementById('notification-preview');
+                document.getElementById('preview-message').textContent = message;
+                preview.style.display = 'block';
+
+                // Add to notifications
+                const newNotification = {
+                    id: notifications.length + 1,
+                    type: type,
+                    title: 'Test Notification',
+                    message: message,
+                    time: new Date().toISOString(),
+                    read: false,
+                    icon: type
+                };
+
+                notifications.unshift(newNotification);
+                populateNotificationLog();
+
+                showNotification(`Test notification sent via ${channels.join(', ')}`, 'success');
+            });
+
+            // Preview message on input
+            document.getElementById('test-message').addEventListener('input', function () {
+                const preview = document.getElementById('notification-preview');
+                if (this.value.trim()) {
+                    preview.style.display = 'block';
+                    document.getElementById('preview-message').textContent = this.value;
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+
+            // Add notification sound toggle
+            const soundToggle = document.createElement('div');
+            soundToggle.className = 'notification-item';
+            soundToggle.innerHTML = `
+                <div class="notification-info">
+                    <h4>Notification Sound</h4>
+                    <p>Play sound for new notifications</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="notification-sound" checked>
+                    <span class="slider"></span>
+                </label>
+            `;
+
+            document.querySelector('.notification-settings').appendChild(soundToggle);
+        });
+    </script>
+</body>
+
+</html>

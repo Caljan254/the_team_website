@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Team - Members</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* Members specific styles */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .paid {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .overdue {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .member-photo-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .image-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .image-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+        }
+
+        .upload-btn {
+            background-color: var(--purple);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: none;
+        }
+
+        .export-btn {
+            background-color: var(--teal);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .export-btn:hover {
+            background-color: #16a085;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Same header as index.html -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>THE <span>TEAM</span></h1>
+                <div class="motto">Diverse but United</div>
+            </div>
+            <!-- Hamburger Button -->
+            <button class="hamburger" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="members.html" class="active">Members</a></li>
+                    <li><a href="constitution.html">Constitution</a></li>
+                    <li><a href="payments.html">Payments</a></li>
+                    <li><a href="loans.html">Loans</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+            <div class="auth-container" id="authContainer" style="display: none;">
+                <!-- Hidden -->
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="members">
+            <div class="section-title">
+                <h2>Members List</h2>
+                <button class="export-btn" id="export-members">
+                    <i class="fas fa-download"></i> Export List
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table id="members-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Joined Date</th>
+                            <th>Last Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="members-tbody">
+                        <!-- Members populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add Member Form (Admin only) -->
+            <div id="admin-member-form" style="display: none;">
+                <div class="card">
+                    <div class="section-title">
+                        <h3>Add New Member</h3>
+                        <span>Registration Fee: KSh 200</span>
+                    </div>
+                    <form id="add-member-form">
+                        <div class="form-group">
+                            <label for="member-name">Full Name</label>
+                            <input type="text" id="member-name" class="form-control" placeholder="Enter full name"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="member-phone">Phone Number</label>
+                            <input type="tel" id="member-phone" class="form-control" placeholder="e.g. 0790123456"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="member-email">Email Address</label>
+                            <input type="email" id="member-email" class="form-control" placeholder="Enter email address"
+                                required>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-user-plus"></i> Add Member
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Same footer as index.html -->
+    <footer>
+        <!-- Footer content from index.html -->
+    </footer>
+
+    <!-- WhatsApp Link -->
+    <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="whatsapp-link">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="shared.js"></script>
+    <script>
+        // Members page specific JavaScript
+        function populateMembersTable() {
+            const tbody = document.getElementById('members-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+
+            members.forEach((member, index) => {
+                const row = document.createElement('tr');
+
+                let photoHTML = '<i class="fas fa-user-circle" style="font-size: 2rem; color: #ccc;"></i>';
+                if (member.image) {
+                    photoHTML = `<img src="${member.image}" alt="${member.name}" class="member-photo-small" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fas fa-user-circle\' style=\'font-size: 2rem; color: #ccc;\'></i>'">`;
+                }
+
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${photoHTML}</td>
+                    <td>${member.name}</td>
+                    <td>${member.phone}</td>
+                    <td>${member.email}</td>
+                    <td><span class="status ${member.status}">${member.status.toUpperCase()}</span></td>
+                    <td>${member.joined}</td>
+                    <td>${member.lastPayment}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            populateMembersTable();
+
+            // Show admin form if admin is logged in
+            if (isAdminLoggedIn) {
+                document.getElementById('admin-member-form').style.display = 'block';
+            }
+
+            // Export button
+            document.getElementById('export-members')?.addEventListener('click', function () {
+                showNotification('Export feature coming soon', 'info');
+            });
+        });
+    </script>
+</body>
+
+</html>
