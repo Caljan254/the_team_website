@@ -8,125 +8,335 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="shared.css">
     <style>
+        /* Text rendering improvements */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        :root {
+            --text-dark: #1f2937;
+            --text-medium: #4b5563;
+            --text-light: #ffffff;
+            --primary-dark: #2563eb;
+            --secondary-dark: #1e40af;
+            --success-dark: #059669;
+            --warning-dark: #d97706;
+            --danger-dark: #dc2626;
+        }
+
         .constitution-section {
             margin-top: 2rem;
         }
 
         .constitution-item {
             margin-bottom: 2rem;
-            padding: 1.5rem;
-            border-left: 5px solid var(--secondary);
-            /* background-color: white; - Handled by glass-panel now */
+            padding: 2rem;
+            border-left: 5px solid var(--secondary-dark);
+            background-color: #ffffff;
             border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .constitution-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
         .constitution-item h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #f0f0f0;
+            color: var(--primary-dark);
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #e5e7eb;
+            font-weight: 800;
+            font-size: 1.4rem;
         }
 
         .constitution-item ul {
             margin-left: 1.5rem;
-            margin-top: 0.5rem;
+            margin-top: 1rem;
         }
 
         .constitution-item li {
             margin-bottom: 0.8rem;
-            line-height: 1.6;
+            line-height: 1.7;
             position: relative;
             padding-left: 1.5rem;
+            color: var(--text-dark);
+            font-weight: 500;
         }
 
         .constitution-item li:before {
             content: "•";
-            color: var(--secondary);
+            color: var(--secondary-dark);
             font-weight: bold;
             position: absolute;
             left: 0;
+            font-size: 1.2rem;
         }
 
         .constitution-item p {
             line-height: 1.8;
             margin-bottom: 1rem;
+            color: var(--text-dark);
+            font-size: 1.1rem;
         }
 
         .constitution-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
             color: white;
-            padding: 2rem;
+            padding: 3rem 2rem;
             border-radius: 10px;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .constitution-header h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 0.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .constitution-header .motto {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-style: italic;
-            opacity: 0.9;
+            opacity: 0.95;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .constitution-header p {
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+            margin: 0.5rem 0;
         }
 
         .article-number {
             display: inline-block;
-            background-color: var(--secondary);
+            background-color: var(--secondary-dark);
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             text-align: center;
-            line-height: 40px;
-            margin-right: 10px;
-            font-weight: bold;
+            line-height: 45px;
+            margin-right: 12px;
+            font-weight: 800;
+            font-size: 1.2rem;
         }
 
         .constitution-note {
-            background-color: #e3f2fd;
-            border-left: 4px solid var(--secondary);
-            padding: 1.5rem;
-            margin: 2rem 0;
+            background-color: #e0f2fe;
+            border-left: 4px solid var(--primary-dark);
+            padding: 2rem;
+            margin: 2.5rem 0;
             border-radius: 8px;
+            color: var(--text-dark);
+        }
+
+        .constitution-note h4 {
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .constitution-note ul {
+            margin-left: 1.5rem;
+        }
+
+        .constitution-note li {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin-bottom: 0.8rem;
         }
 
         .download-btn {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background-color: var(--secondary);
+            gap: 12px;
+            background-color: var(--secondary-dark);
             color: white;
-            padding: 12px 25px;
-            border-radius: 5px;
+            padding: 14px 28px;
+            border-radius: 6px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.1rem;
             margin-top: 1rem;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
 
         .download-btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: #1e3a8a;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .download-btn i {
+            font-size: 1.2rem;
         }
 
         .constitution-footer {
             text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 2px solid #eee;
-            color: #666;
-            font-size: 0.9rem;
+            margin-top: 3.5rem;
+            padding-top: 2.5rem;
+            border-top: 2px solid #e5e7eb;
+            color: var(--text-medium);
+            font-size: 1rem;
+        }
+
+        .constitution-footer h4 {
+            color: var(--text-dark);
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+        }
+
+        .signatures-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 2.5rem 0;
+            gap: 2rem;
+        }
+
+        .signature-box {
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .signature-line {
+            width: 250px;
+            height: 1px;
+            background-color: #333;
+            margin: 1rem auto;
+        }
+
+        .signature-box p {
+            margin: 0.5rem 0;
+            font-weight: 600;
+        }
+
+        .signature-box p:first-of-type {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        /* Table of Contents Styles */
+        .toc-container {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .toc-container h3 {
+            color: var(--primary-dark);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        .toc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .toc-item {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--secondary-dark);
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-item:hover {
+            background-color: #e0f2fe;
+            transform: translateX(5px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .constitution-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .constitution-header {
+                padding: 2rem 1rem;
+            }
+
+            .constitution-item {
+                padding: 1.5rem;
+            }
+
+            .constitution-item h3 {
+                font-size: 1.2rem;
+            }
+
+            .article-number {
+                width: 38px;
+                height: 38px;
+                line-height: 38px;
+                font-size: 1rem;
+            }
+
+            .signatures-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .toc-list {
+                grid-template-columns: 1fr;
+            }
+
+            .download-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Additional improvements for readability */
+        strong {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .constitution-item ul ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .constitution-item ul ul li {
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+
+        .constitution-item ul ul li:before {
+            content: "▸";
+            color: var(--warning-dark);
+            font-size: 1rem;
         }
     </style>
 </head>
 
 <body>
-    <!-- Header with Navigation -->
     <!-- Header with Navigation -->
     <header>
         <div class="container header-container">
@@ -168,15 +378,25 @@
         <div class="constitution-header">
             <h1>THE TEAM CONSTITUTION</h1>
             <div class="motto">Diverse but United</div>
-            <p style="margin-top: 1rem; opacity: 0.9;">Official Group Constitution and By-Laws</p>
+            <p style="margin-top: 1rem; font-weight: 600;">Official Group Constitution and By-Laws</p>
             <p><i class="fas fa-calendar-alt"></i> Effective Date: January 1, 2026</p>
+            <p style="margin-top: 1rem; font-size: 1.1rem; opacity: 0.95;">All members are bound by this constitution
+                upon joining the group</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc-container" id="toc-container">
+            <h3><i class="fas fa-list-alt"></i> Table of Contents</h3>
+            <div class="toc-list" id="toc-list">
+                <!-- Will be populated by JavaScript -->
+            </div>
         </div>
 
         <!-- Constitution Content -->
         <section id="constitution">
             <div class="constitution-section">
                 <!-- Preamble -->
-                <div class="constitution-item glass-panel">
+                <div class="constitution-item" id="article-preamble">
                     <h3><span class="article-number">★</span> PREAMBLE</h3>
                     <p>We, the members of THE TEAM, recognizing the need for collective action in fighting poverty and
                         improving our economic status, do hereby establish this Constitution to guide our operations,
@@ -184,14 +404,14 @@
                 </div>
 
                 <!-- Article 1 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-1">
                     <h3><span class="article-number">1</span> ARTICLE 1: NAME</h3>
                     <p>The group shall be known as <strong>"THE TEAM"</strong>.</p>
                     <p><strong>Motto:</strong> Diverse but United</p>
                 </div>
 
                 <!-- Article 2 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-2">
                     <h3><span class="article-number">2</span> ARTICLE 2: OBJECTIVES</h3>
                     <p>The main objectives of the group shall be:</p>
                     <ul>
@@ -206,7 +426,7 @@
                 </div>
 
                 <!-- Article 3 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-3">
                     <h3><span class="article-number">3</span> ARTICLE 3: MEMBERSHIP</h3>
                     <ul>
                         <li>Membership is open to all willing individuals who accept the terms of this constitution</li>
@@ -228,7 +448,7 @@
                 </div>
 
                 <!-- Article 4 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-4">
                     <h3><span class="article-number">4</span> ARTICLE 4: OFFICIALS</h3>
                     <ul>
                         <li><strong>Chairperson:</strong> Overall leadership, presides over meetings, represents the
@@ -243,7 +463,7 @@
                 </div>
 
                 <!-- Article 5 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-5">
                     <h3><span class="article-number">5</span> ARTICLE 5: MEETINGS</h3>
                     <ul>
                         <li><strong>Monthly Meetings:</strong> Held on the 11th of every month at 2:00 PM</li>
@@ -257,7 +477,7 @@
                 </div>
 
                 <!-- Article 6 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-6">
                     <h3><span class="article-number">6</span> ARTICLE 6: FINANCES</h3>
                     <ul>
                         <li>Monthly contributions: <strong>KSh 600</strong> per member</li>
@@ -274,7 +494,7 @@
                 </div>
 
                 <!-- Article 7 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-7">
                     <h3><span class="article-number">7</span> ARTICLE 7: LOANS</h3>
                     <ul>
                         <li>Maximum loan amount: <strong>KSh 50,000</strong></li>
@@ -291,7 +511,7 @@
                 </div>
 
                 <!-- Article 8 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-8">
                     <h3><span class="article-number">8</span> ARTICLE 8: WITHDRAWAL</h3>
                     <ul>
                         <li>Members can withdraw after <strong>5 years</strong> of continuous membership</li>
@@ -306,7 +526,7 @@
                 </div>
 
                 <!-- Article 9 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-9">
                     <h3><span class="article-number">9</span> ARTICLE 9: COMMITTEES</h3>
                     <ul>
                         <li><strong>Executive Committee:</strong> Overall management of group affairs</li>
@@ -320,7 +540,7 @@
                 </div>
 
                 <!-- Article 10 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-10">
                     <h3><span class="article-number">10</span> ARTICLE 10: DISCIPLINE</h3>
                     <ul>
                         <li>Members must conduct themselves with integrity and respect</li>
@@ -339,7 +559,7 @@
                 </div>
 
                 <!-- Article 11 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-11">
                     <h3><span class="article-number">11</span> ARTICLE 11: AMENDMENTS</h3>
                     <p>This constitution can be amended by <strong>2/3 majority</strong> of members present in a special
                         meeting called for that purpose. Proposed amendments must be submitted in writing at least 14
@@ -348,7 +568,7 @@
                 </div>
 
                 <!-- Article 12 -->
-                <div class="constitution-item">
+                <div class="constitution-item" id="article-12">
                     <h3><span class="article-number">12</span> ARTICLE 12: DISSOLUTION</h3>
                     <p>In the event of dissolution, all assets shall be liquidated and distributed to members in
                         proportion to their contributions. Dissolution requires approval by <strong>90% of all
@@ -357,7 +577,7 @@
 
                 <!-- Important Notes -->
                 <div class="constitution-note">
-                    <h4><i class="fas fa-info-circle"></i> Important Notes</h4>
+                    <h4><i class="fas fa-info-circle"></i> IMPORTANT NOTES</h4>
                     <ul>
                         <li>This constitution supersedes all previous constitutions and agreements</li>
                         <li>All members are bound by this constitution upon joining</li>
@@ -367,38 +587,43 @@
                     </ul>
                 </div>
 
-                <!-- Download Button -->
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="#" class="download-btn" id="download-constitution">
+                <!-- Download Buttons -->
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="#" class="download-btn" id="download-constitution"
+                        style="background-color: var(--success-dark);">
                         <i class="fas fa-download"></i> Download Constitution (PDF)
                     </a>
-                    <a href="#" class="download-btn" style="background-color: var(--purple); margin-left: 10px;">
+                    <button class="download-btn" id="print-constitution"
+                        style="background-color: var(--warning-dark); margin-left: 15px;">
                         <i class="fas fa-print"></i> Print Constitution
-                    </a>
+                    </button>
                 </div>
 
                 <!-- Signatures Section -->
                 <div class="constitution-footer">
-                    <h4>APPROVED AND ADOPTED</h4>
-                    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin: 2rem 0;">
-                        <div style="text-align: center;">
-                            <p><strong>__________________________</strong></p>
-                            <p>Chairperson</p>
+                    <h4><i class="fas fa-signature"></i> APPROVED AND ADOPTED</h4>
+                    <div class="signatures-container">
+                        <div class="signature-box">
+                            <div class="signature-line"></div>
+                            <p>__________________________</p>
+                            <p><strong>Chairperson</strong></p>
                             <p>Munyoki Mutua</p>
                         </div>
-                        <div style="text-align: center;">
-                            <p><strong>__________________________</strong></p>
-                            <p>Treasurer</p>
+                        <div class="signature-box">
+                            <div class="signature-line"></div>
+                            <p>__________________________</p>
+                            <p><strong>Treasurer</strong></p>
                             <p>Mutemwa Willy</p>
                         </div>
-                        <div style="text-align: center;">
-                            <p><strong>__________________________</strong></p>
-                            <p>Secretary</p>
+                        <div class="signature-box">
+                            <div class="signature-line"></div>
+                            <p>__________________________</p>
+                            <p><strong>Secretary</strong></p>
                             <p>Michael Kamote</p>
                         </div>
                     </div>
-                    <p>Date of Adoption: January 1, 2026</p>
-                    <p>Last Amended: January 1, 2026</p>
+                    <p style="margin-top: 2rem; font-weight: 600;">Date of Adoption: January 1, 2026</p>
+                    <p style="font-weight: 600;">Last Amended: January 1, 2026</p>
                 </div>
             </div>
         </section>
@@ -456,65 +681,134 @@
     <script src="shared.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Create Table of Contents
+            function createTableOfContents() {
+                const tocList = document.getElementById('toc-list');
+                const articles = [
+                    { id: 'article-preamble', title: 'PREAMBLE' },
+                    { id: 'article-1', title: 'ARTICLE 1: NAME' },
+                    { id: 'article-2', title: 'ARTICLE 2: OBJECTIVES' },
+                    { id: 'article-3', title: 'ARTICLE 3: MEMBERSHIP' },
+                    { id: 'article-4', title: 'ARTICLE 4: OFFICIALS' },
+                    { id: 'article-5', title: 'ARTICLE 5: MEETINGS' },
+                    { id: 'article-6', title: 'ARTICLE 6: FINANCES' },
+                    { id: 'article-7', title: 'ARTICLE 7: LOANS' },
+                    { id: 'article-8', title: 'ARTICLE 8: WITHDRAWAL' },
+                    { id: 'article-9', title: 'ARTICLE 9: COMMITTEES' },
+                    { id: 'article-10', title: 'ARTICLE 10: DISCIPLINE' },
+                    { id: 'article-11', title: 'ARTICLE 11: AMENDMENTS' },
+                    { id: 'article-12', title: 'ARTICLE 12: DISSOLUTION' }
+                ];
+
+                articles.forEach(article => {
+                    const tocItem = document.createElement('a');
+                    tocItem.href = `#${article.id}`;
+                    tocItem.className = 'toc-item';
+                    tocItem.textContent = article.title;
+
+                    tocItem.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const targetElement = document.getElementById(article.id);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+
+                            // Highlight the article briefly
+                            targetElement.style.backgroundColor = '#e0f2fe';
+                            setTimeout(() => {
+                                targetElement.style.backgroundColor = '';
+                            }, 1500);
+                        }
+                    });
+
+                    tocList.appendChild(tocItem);
+                });
+            }
+
             // Download button functionality
             document.getElementById('download-constitution').addEventListener('click', function (e) {
                 e.preventDefault();
                 showNotification('Constitution PDF download will be available soon', 'info');
+
+                // Simulate download progress
+                const btn = this;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing PDF...';
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    showNotification('PDF generated successfully! Starting download...', 'success');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
             });
 
             // Print button functionality
-            document.querySelector('[href="#"].download-btn:nth-child(2)').addEventListener('click', function (e) {
-                e.preventDefault();
+            document.getElementById('print-constitution').addEventListener('click', function () {
                 window.print();
             });
 
-            // Add scroll animation for constitution items
-            const items = document.querySelectorAll('.constitution-item');
-            items.forEach(item => {
+            // Hover effects for constitution items
+            const constitutionItems = document.querySelectorAll('.constitution-item');
+            constitutionItems.forEach(item => {
                 item.addEventListener('mouseenter', function () {
-                    this.style.transform = 'translateY(-5px)';
+                    this.style.transform = 'translateY(-4px)';
                     this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1)';
                 });
 
                 item.addEventListener('mouseleave', function () {
                     this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.05)';
+                    this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
                 });
             });
 
-            // Add table of contents functionality
-            const createTOC = () => {
-                const articles = document.querySelectorAll('.constitution-item h3');
-                const tocContainer = document.createElement('div');
-                tocContainer.className = 'card glass-panel';
-                tocContainer.innerHTML = '<h3>Table of Contents</h3><div id="toc-list"></div>';
+            // Back to top button
+            const backToTopBtn = document.createElement('button');
+            backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+            backToTopBtn.style.position = 'fixed';
+            backToTopBtn.style.bottom = '80px';
+            backToTopBtn.style.right = '20px';
+            backToTopBtn.style.backgroundColor = 'var(--primary-dark)';
+            backToTopBtn.style.color = 'white';
+            backToTopBtn.style.border = 'none';
+            backToTopBtn.style.borderRadius = '50%';
+            backToTopBtn.style.width = '50px';
+            backToTopBtn.style.height = '50px';
+            backToTopBtn.style.fontSize = '1.2rem';
+            backToTopBtn.style.cursor = 'pointer';
+            backToTopBtn.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+            backToTopBtn.style.zIndex = '1000';
+            backToTopBtn.style.display = 'none';
 
-                const tocList = tocContainer.querySelector('#toc-list');
-                articles.forEach((article, index) => {
-                    const title = article.textContent;
-                    const tocItem = document.createElement('a');
-                    tocItem.href = `#article-${index + 1}`;
-                    tocItem.textContent = title;
-                    tocItem.style.display = 'block';
-                    tocItem.style.margin = '5px 0';
-                    tocItem.style.padding = '5px 10px';
-                    tocItem.style.borderLeft = '3px solid var(--secondary)';
-                    tocItem.style.textDecoration = 'none';
-                    tocItem.style.color = 'var(--primary)';
-
-                    tocItem.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        article.scrollIntoView({ behavior: 'smooth' });
-                    });
-
-                    tocList.appendChild(tocItem);
+            backToTopBtn.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
+            });
 
-                // Insert TOC after header
-                document.querySelector('.constitution-header').after(tocContainer);
-            };
+            document.body.appendChild(backToTopBtn);
 
-            createTOC();
+            // Show/hide back to top button
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 500) {
+                    backToTopBtn.style.display = 'block';
+                } else {
+                    backToTopBtn.style.display = 'none';
+                }
+            });
+
+            // Initialize table of contents
+            createTableOfContents();
+
+            // Add current year to footer if needed
+            const currentYear = new Date().getFullYear();
+            const copyrightElement = document.querySelector('.copyright');
+            if (copyrightElement) {
+                copyrightElement.textContent = copyrightElement.textContent.replace('2026', currentYear);
+            }
         });
     </script>
 </body>

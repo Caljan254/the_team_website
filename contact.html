@@ -8,213 +8,496 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="shared.css">
     <style>
+        /* Text rendering improvements */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        :root {
+            --text-dark: #1f2937;
+            --text-medium: #4b5563;
+            --text-light: #ffffff;
+            --primary-dark: #2563eb;
+            --secondary-dark: #1e40af;
+            --success-dark: #059669;
+            --warning-dark: #d97706;
+            --danger-dark: #dc2626;
+            --whatsapp-green: #25D366;
+            --whatsapp-dark: #128C7E;
+        }
+
         .executive-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
             height: 100%;
+            border: 1px solid #e5e7eb;
         }
 
         .executive-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
         }
 
         .executive-card h4 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--secondary);
-        }
-
-        .executive-card p {
-            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 3px solid var(--secondary-dark);
+            font-weight: 800;
+            font-size: 1.4rem;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
+        .executive-card p {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .executive-card strong {
+            color: var(--text-dark);
+            font-weight: 700;
+            min-width: 120px;
+        }
+
         .executive-card .contact-icon {
-            width: 30px;
-            height: 30px;
-            background-color: #e3f2fd;
+            width: 36px;
+            height: 36px;
+            background-color: #e0f2fe;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--secondary);
+            color: var(--secondary-dark);
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+
+        .executive-card ul {
+            margin-left: 1.8rem;
+            margin-top: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .executive-card li {
+            color: var(--text-medium);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
         }
 
         .contact-form {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
         }
 
         .contact-info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
             margin-top: 2rem;
         }
 
         .contact-info-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s;
+            border: 1px solid #e5e7eb;
         }
 
         .contact-info-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
 
         .contact-info-card i {
-            font-size: 2.5rem;
-            color: var(--secondary);
+            font-size: 3rem;
+            color: var(--secondary-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info-card h4 {
+            color: var(--primary-dark);
+            font-weight: 700;
             margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .contact-info-card p {
+            color: var(--text-medium);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info-card strong {
+            color: var(--text-dark);
+            font-weight: 700;
         }
 
         .emergency-contact {
-            background-color: #fff3cd;
-            border-left: 4px solid var(--warning);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
+            background-color: #fef3c7;
+            border-left: 5px solid var(--warning-dark);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2.5rem 0;
+            color: var(--text-dark);
+        }
+
+        .emergency-contact h4 {
+            color: var(--text-dark);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
         }
 
         .meeting-schedule {
-            background-color: #e3f2fd;
+            background-color: #e0f2fe;
             border-radius: 10px;
-            padding: 1.5rem;
-            margin: 2rem 0;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border: 1px solid var(--primary-dark);
         }
 
         .meeting-schedule h4 {
-            color: var(--primary);
-            margin-bottom: 1rem;
+            color: var(--primary-dark);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .meeting-item {
             display: flex;
             justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+            color: var(--text-dark);
         }
 
         .meeting-item:last-child {
             border-bottom: none;
         }
 
+        .meeting-item span:first-child {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .meeting-item span:last-child {
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+
         .location-map {
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            margin: 2rem 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 2.5rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
         }
 
         .whatsapp-group-card {
-            background: linear-gradient(135deg, #25D366, #128C7E);
+            background: linear-gradient(135deg, var(--whatsapp-green), var(--whatsapp-dark));
             color: white;
-            border-radius: 10px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 3rem 2rem;
             text-align: center;
-            margin: 2rem 0;
+            margin: 2.5rem 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .whatsapp-group-card h3 {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
 
-        .whatsapp-group-card .btn {
-            background-color: white;
-            color: #25D366;
-            margin-top: 1rem;
+        .whatsapp-group-card p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+            font-weight: 500;
         }
 
         .contact-note {
-            background-color: #f8f9fa;
+            background-color: #f8fafc;
             border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border-left: 4px solid var(--success);
+            padding: 1.8rem;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--success-dark);
+            color: var(--text-dark);
+        }
+
+        .contact-note h5 {
+            color: var(--success-dark);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-note ul {
+            margin-left: 1.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .contact-note li {
+            color: var(--text-medium);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 1.1rem;
         }
 
         .form-control {
             width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
+            padding: 14px 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-dark);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         textarea.form-control {
-            min-height: 150px;
+            min-height: 180px;
             resize: vertical;
         }
 
         .btn {
-            background-color: var(--secondary);
+            background-color: var(--secondary-dark);
             color: white;
-            padding: 12px 30px;
+            padding: 16px 35px;
             border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: 600;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
+            transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
         }
 
         .btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
+            background-color: #1e3a8a;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
         .btn-success {
-            background-color: var(--success);
+            background-color: var(--success-dark);
         }
 
         .btn-success:hover {
-            background-color: #218838;
+            background-color: #047857;
         }
 
         .btn-warning {
-            background-color: var(--warning);
+            background-color: var(--warning-dark);
         }
 
         .btn-warning:hover {
-            background-color: #e0a800;
+            background-color: #b45309;
         }
 
-        .contact-category {
+        .btn-whatsapp {
+            background-color: var(--whatsapp-green);
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+        }
+
+        .section-title {
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+        }
+
+        .section-title h2 {
+            font-weight: 800;
+            font-size: 2.2rem;
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
-            color: var(--primary);
+            gap: 15px;
         }
 
-        .contact-category i {
+        .section-title p {
+            color: var(--text-medium);
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .card.glass-panel {
+            background: #ffffff;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: 1px solid #e5e7eb;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            transition: transform 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .executive-card {
+                padding: 1.5rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .contact-info-card {
+                padding: 1.5rem;
+            }
+
+            .whatsapp-group-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .btn {
+                padding: 14px 25px;
+                font-size: 1rem;
+                width: 100%;
+            }
+
+            .meeting-item {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .form-control {
+                padding: 12px 15px;
+            }
+        }
+
+        /* Copy functionality styling */
+        .copy-email,
+        .copy-phone {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-email:hover,
+        .copy-phone:hover {
+            background-color: #f3f4f6;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content i {
+            font-size: 4rem;
+            color: var(--success-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-content h3 {
+            color: var(--text-dark);
+            font-weight: 800;
+            margin-bottom: 1rem;
             font-size: 1.5rem;
+        }
+
+        .modal-content p {
+            color: var(--text-medium);
+            margin-bottom: 1rem;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -261,7 +544,7 @@
         <section id="contact">
             <div class="section-title">
                 <h2><i class="fas fa-address-book"></i> Contact & Social Media</h2>
-                <p style="font-size: 0.9rem; color: #666;">Get in touch with THE TEAM leadership and members</p>
+                <p>Get in touch with THE TEAM leadership and members</p>
             </div>
 
             <!-- Executive Committee -->
@@ -269,28 +552,38 @@
                 <h3 class="section-title">
                     <i class="fas fa-user-tie"></i> Executive Committee
                 </h3>
-                <p style="margin-bottom: 1.5rem; color: #666;">Meet the leadership team of THE TEAM</p>
+                <p style="margin-bottom: 2rem; color: var(--text-medium); font-weight: 500;">Meet the leadership team of
+                    THE TEAM</p>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
                     <!-- Chairperson -->
                     <div class="executive-card">
                         <h4><i class="fas fa-crown"></i> Chairperson</h4>
-                        <p><span class="contact-icon"><i class="fas fa-user"></i></span> <strong>Name:</strong> Munyoki
-                            Mutua</p>
-                        <p><span class="contact-icon"><i class="fas fa-phone"></i></span> <strong>Phone:</strong>
-                            0769083128</p>
-                        <p><span class="contact-icon"><i class="fas fa-envelope"></i></span> <strong>Email:</strong>
-                            munyokimutua513@gmail.com</p>
+                        <p>
+                            <span class="contact-icon"><i class="fas fa-user"></i></span>
+                            <strong>Name:</strong>
+                            <span>Munyoki Mutua</span>
+                        </p>
+                        <p class="copy-phone">
+                            <span class="contact-icon"><i class="fas fa-phone"></i></span>
+                            <strong>Phone:</strong>
+                            <span>0769083128</span>
+                        </p>
+                        <p class="copy-email">
+                            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+                            <strong>Email:</strong>
+                            <span>munyokimutua513@gmail.com</span>
+                        </p>
                         <p><span class="contact-icon"><i class="fas fa-tasks"></i></span>
                             <strong>Responsibilities:</strong>
                         </p>
-                        <ul style="margin-left: 1.5rem; color: #555;">
+                        <ul>
                             <li>Overall leadership and guidance</li>
                             <li>Presiding over meetings</li>
                             <li>Representing the group</li>
                             <li>Conflict resolution</li>
                         </ul>
-                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid #e5e7eb;">
                             <p><strong>Available:</strong> Monday-Friday, 9 AM - 5 PM</p>
                             <p><strong>Preferred Contact:</strong> Phone call or WhatsApp</p>
                         </div>
@@ -299,15 +592,25 @@
                     <!-- Treasurer -->
                     <div class="executive-card">
                         <h4><i class="fas fa-money-check-alt"></i> Treasurer</h4>
-                        <p><span class="contact-icon"><i class="fas fa-user"></i></span> <strong>Name:</strong> Mutemwa
-                            Willy</p>
-                        <p><span class="contact-icon"><i class="fas fa-phone"></i></span> <strong>Phone:</strong>
-                            0718510747</p>
-                        <p><span class="contact-icon"><i class="fas fa-envelope"></i></span> <strong>Email:</strong>
-                            mutemwawillie@gmail.com</p>
-                        <p><span class="contact-icon"><i class="fas fa-university"></i></span> <strong>Payment
-                                Details:</strong></p>
-                        <ul style="margin-left: 1.5rem; color: #555;">
+                        <p>
+                            <span class="contact-icon"><i class="fas fa-user"></i></span>
+                            <strong>Name:</strong>
+                            <span>Mutemwa Willy</span>
+                        </p>
+                        <p class="copy-phone">
+                            <span class="contact-icon"><i class="fas fa-phone"></i></span>
+                            <strong>Phone:</strong>
+                            <span>0718510747</span>
+                        </p>
+                        <p class="copy-email">
+                            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+                            <strong>Email:</strong>
+                            <span>mutemwawillie@gmail.com</span>
+                        </p>
+                        <p><span class="contact-icon"><i class="fas fa-university"></i></span>
+                            <strong>Payment Details:</strong>
+                        </p>
+                        <ul>
                             <li>PayBill: 247247</li>
                             <li>Account: 0718510747</li>
                             <li>Account Name: MUTEMWA WILLY</li>
@@ -315,7 +618,7 @@
                         <p><span class="contact-icon"><i class="fas fa-tasks"></i></span>
                             <strong>Responsibilities:</strong>
                         </p>
-                        <ul style="margin-left: 1.5rem; color: #555;">
+                        <ul>
                             <li>Financial management</li>
                             <li>Payment processing</li>
                             <li>Record keeping</li>
@@ -326,25 +629,34 @@
                     <!-- Secretary -->
                     <div class="executive-card">
                         <h4><i class="fas fa-clipboard-list"></i> Secretary</h4>
-                        <p><span class="contact-icon"><i class="fas fa-user"></i></span> <strong>Name:</strong> Michael
-                            Kamote</p>
-                        <p><span class="contact-icon"><i class="fas fa-phone"></i></span> <strong>Phone:</strong>
-                            0794366274</p>
-                        <p><span class="contact-icon"><i class="fas fa-envelope"></i></span> <strong>Email:</strong>
-                            michaelkamote2019@gmail.com</p>
+                        <p>
+                            <span class="contact-icon"><i class="fas fa-user"></i></span>
+                            <strong>Name:</strong>
+                            <span>Michael Kamote</span>
+                        </p>
+                        <p class="copy-phone">
+                            <span class="contact-icon"><i class="fas fa-phone"></i></span>
+                            <strong>Phone:</strong>
+                            <span>0794366274</span>
+                        </p>
+                        <p class="copy-email">
+                            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+                            <strong>Email:</strong>
+                            <span>michaelkamote2019@gmail.com</span>
+                        </p>
                         <p><span class="contact-icon"><i class="fas fa-tasks"></i></span>
                             <strong>Responsibilities:</strong>
                         </p>
-                        <ul style="margin-left: 1.5rem; color: #555;">
+                        <ul>
                             <li>Meeting minutes</li>
                             <li>Record keeping</li>
                             <li>Correspondence</li>
                             <li>Membership records</li>
                         </ul>
-                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid #e5e7eb;">
                             <p><strong>Meeting Documentation:</strong></p>
-                            <p style="font-size: 0.9rem;">Contact for meeting minutes, agendas, and official documents
-                            </p>
+                            <p style="font-weight: 500; color: var(--text-medium);">Contact for meeting minutes,
+                                agendas, and official documents</p>
                         </div>
                     </div>
                 </div>
@@ -354,17 +666,17 @@
             <div class="whatsapp-group-card">
                 <h3><i class="fab fa-whatsapp"></i> Join Our WhatsApp Group</h3>
                 <p>Stay updated with real-time notifications, discussions, and group announcements</p>
-                <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="btn">
+                <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank" class="btn btn-whatsapp">
                     <i class="fab fa-whatsapp"></i> Join WhatsApp Group
                 </a>
-                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">
+                <p style="margin-top: 1.5rem; font-weight: 500; opacity: 0.95; font-size: 1rem;">
                     Group Code: BJGdcZlagQGDhXv5pzFpHX
                 </p>
             </div>
 
             <!-- Contact Information Grid -->
             <div class="card glass-panel">
-                <h3 class="section-title">Contact Information</h3>
+                <h3 class="section-title" style="margin-bottom: 2rem;">Contact Information</h3>
 
                 <div class="contact-info-grid">
                     <div class="contact-info-card">
@@ -390,7 +702,8 @@
                         <p><strong>Meeting Venue:</strong></p>
                         <p>THE TEAM Group Office</p>
                         <p>Nairobi, Kenya</p>
-                        <p><em>(Specific address shared with members)</em></p>
+                        <p style="font-style: italic; color: var(--text-medium);">(Specific address shared with members)
+                        </p>
                     </div>
 
                     <div class="contact-info-card">
@@ -406,21 +719,23 @@
             <!-- Emergency Contact -->
             <div class="emergency-contact">
                 <h4><i class="fas fa-exclamation-circle"></i> Emergency Contact</h4>
-                <p>For urgent matters outside office hours, please contact:</p>
-                <div style="display: flex; align-items: center; gap: 20px; margin-top: 1rem; flex-wrap: wrap;">
+                <p style="margin-bottom: 1.5rem; font-weight: 500;">For urgent matters outside office hours, please
+                    contact:</p>
+                <div
+                    style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-top: 1.5rem;">
                     <div>
-                        <p><strong>Emergency Contact:</strong> Mutemwa Willy</p>
+                        <p style="font-weight: 700;">Emergency Contact: Mutemwa Willy</p>
                         <p><strong>Phone:</strong> 0718510747</p>
                     </div>
                     <div>
-                        <p><strong>Alternate Contact:</strong> Munyoki Mutua</p>
+                        <p style="font-weight: 700;">Alternate Contact: Munyoki Mutua</p>
                         <p><strong>Phone:</strong> 0769083128</p>
                     </div>
                     <button class="btn btn-warning" id="emergency-call-btn">
                         <i class="fas fa-phone"></i> Call Emergency Contact
                     </button>
                 </div>
-                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                <p style="margin-top: 1.5rem; font-weight: 500; color: var(--text-dark);">
                     <i class="fas fa-info-circle"></i> Use emergency contact only for urgent matters requiring immediate
                     attention.
                 </p>
@@ -445,7 +760,7 @@
                     <span><strong>Project Meetings:</strong></span>
                     <span>As announced (usually 15th monthly)</span>
                 </div>
-                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(52, 152, 219, 0.2);">
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid rgba(37, 99, 235, 0.2);">
                     <p><strong>Next Meeting:</strong> January 11, 2026, 2:00 PM</p>
                     <p><strong>Venue:</strong> THE TEAM Group Office</p>
                     <p><strong>Agenda:</strong> Will be shared 3 days before meeting</p>
@@ -454,21 +769,23 @@
 
             <!-- Contact Form -->
             <div class="contact-form">
-                <h3 class="section-title">Send Us a Message</h3>
+                <h3 class="section-title" style="margin-bottom: 2rem;">Send Us a Message</h3>
                 <form id="contact-form">
                     <div class="form-group">
                         <label for="contact-name">Your Name *</label>
-                        <input type="text" id="contact-name" class="form-control" required>
+                        <input type="text" id="contact-name" class="form-control" required
+                            placeholder="Enter your full name">
                     </div>
 
                     <div class="form-group">
                         <label for="contact-email">Email Address *</label>
-                        <input type="email" id="contact-email" class="form-control" required>
+                        <input type="email" id="contact-email" class="form-control" required
+                            placeholder="Enter your email address">
                     </div>
 
                     <div class="form-group">
                         <label for="contact-phone">Phone Number</label>
-                        <input type="tel" id="contact-phone" class="form-control">
+                        <input type="tel" id="contact-phone" class="form-control" placeholder="Enter your phone number">
                     </div>
 
                     <div class="form-group">
@@ -491,21 +808,21 @@
                             placeholder="Please provide details of your inquiry..."></textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" required>
+                    <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="terms-agreement" required style="width: auto;">
+                        <label for="terms-agreement" style="margin-bottom: 0; font-weight: 500; font-size: 1rem;">
                             I agree to the terms and conditions
                         </label>
                     </div>
 
-                    <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <button type="submit" class="btn btn-success" style="width: 100%; padding: 18px;">
                         <i class="fas fa-paper-plane"></i> Send Message
                     </button>
                 </form>
 
-                <div class="contact-note" style="margin-top: 1.5rem;">
+                <div class="contact-note" style="margin-top: 2rem;">
                     <h5><i class="fas fa-info-circle"></i> What happens after you submit?</h5>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <ul>
                         <li>You'll receive an automated confirmation email</li>
                         <li>Our team will review your message within 24 hours</li>
                         <li>You'll get a response within 48 hours</li>
@@ -516,11 +833,12 @@
 
             <!-- Social Media Links -->
             <div class="card glass-panel">
-                <h3 class="section-title">Connect With Us on Social Media</h3>
+                <h3 class="section-title" style="text-align: center; margin-bottom: 2rem;">Connect With Us on Social
+                    Media</h3>
                 <div style="text-align: center;">
                     <div class="social-links" style="justify-content: center; margin: 2rem 0;">
                         <a href="https://chat.whatsapp.com/BJGdcZlagQGDhXv5pzFpHX" target="_blank"
-                            title="WhatsApp Group" style="background-color: #25D366;">
+                            title="WhatsApp Group" style="background-color: var(--whatsapp-green);">
                             <i class="fab fa-whatsapp"></i>
                         </a>
                         <a href="#" title="Facebook" style="background-color: #3b5998;">
@@ -532,28 +850,29 @@
                         <a href="#" title="Instagram" style="background-color: #e4405f;">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" title="Email" style="background-color: var(--secondary);">
+                        <a href="#" title="Email" style="background-color: var(--secondary-dark);">
                             <i class="fas fa-envelope"></i>
                         </a>
                         <a href="#" title="YouTube" style="background-color: #ff0000;">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
-                    <p style="color: #666; margin-bottom: 1rem;">
+                    <p style="color: var(--text-medium); margin-bottom: 2rem; font-weight: 500;">
                         Follow us for updates, announcements, and group activities
                     </p>
-                    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
                         <div style="text-align: center;">
-                            <p><strong>Facebook Group</strong></p>
-                            <p style="font-size: 0.9rem; color: #666;">@THE TEAM Official</p>
+                            <p style="font-weight: 700; color: var(--text-dark);">Facebook Group</p>
+                            <p style="font-weight: 500; color: var(--text-medium);">@THE TEAM Official</p>
                         </div>
                         <div style="text-align: center;">
-                            <p><strong>Twitter</strong></p>
-                            <p style="font-size: 0.9rem; color: #666;">@theteam_ke</p>
+                            <p style="font-weight: 700; color: var(--text-dark);">Twitter</p>
+                            <p style="font-weight: 500; color: var(--text-medium);">@theteam_ke</p>
                         </div>
                         <div style="text-align: center;">
-                            <p><strong>Instagram</strong></p>
-                            <p style="font-size: 0.9rem; color: #666;">@theteam_ke</p>
+                            <p style="font-weight: 700; color: var(--text-dark);">Instagram</p>
+                            <p style="font-weight: 500; color: var(--text-medium);">@theteam_ke</p>
                         </div>
                     </div>
                 </div>
@@ -561,38 +880,41 @@
 
             <!-- Location Map -->
             <div class="card glass-panel">
-                <h3 class="section-title">Our Location</h3>
+                <h3 class="section-title" style="margin-bottom: 2rem;">Our Location</h3>
                 <div class="location-map">
-                    <!-- You can embed Google Maps here -->
                     <div
-                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 300px; display: flex; align-items: center; justify-content: center; color: white;">
-                        <div style="text-align: center;">
-                            <i class="fas fa-map-marker-alt" style="font-size: 4rem; margin-bottom: 1rem;"></i>
-                            <h3>THE TEAM Group Office</h3>
-                            <p>Nairobi, Kenya</p>
-                            <p style="font-size: 0.9rem; opacity: 0.9;">(Exact address shared with registered members)
-                            </p>
-                            <button class="btn"
-                                style="margin-top: 1rem; background-color: white; color: var(--primary);">
+                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 350px; display: flex; align-items: center; justify-content: center; color: white;">
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-map-marker-alt" style="font-size: 4rem; margin-bottom: 1.5rem;"></i>
+                            <h3 style="font-weight: 800; margin-bottom: 1rem; font-size: 1.8rem;">THE TEAM Group Office
+                            </h3>
+                            <p style="font-weight: 500; font-size: 1.2rem;">Nairobi, Kenya</p>
+                            <p style="font-weight: 500; opacity: 0.9; margin-top: 0.5rem;">(Exact address shared with
+                                registered members)</p>
+                            <button class="btn" id="get-directions-btn"
+                                style="margin-top: 1.5rem; background-color: white; color: var(--primary-dark); font-weight: 700;">
                                 <i class="fas fa-directions"></i> Get Directions
                             </button>
                         </div>
                     </div>
                 </div>
                 <div
-                    style="margin-top: 1rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                    style="margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
                     <div>
-                        <p><strong>Nearest Landmarks:</strong></p>
+                        <p style="font-weight: 700; color: var(--text-dark); margin-bottom: 1rem;">Nearest Landmarks:
+                        </p>
                         <ul style="margin-left: 1.5rem;">
-                            <li>Central Business District</li>
-                            <li>Nairobi City Centre</li>
-                            <li>Major public transport routes</li>
+                            <li style="color: var(--text-medium); font-weight: 500;">Central Business District</li>
+                            <li style="color: var(--text-medium); font-weight: 500;">Nairobi City Centre</li>
+                            <li style="color: var(--text-medium); font-weight: 500;">Major public transport routes</li>
                         </ul>
                     </div>
                     <div>
-                        <p><strong>Parking:</strong> Available</p>
-                        <p><strong>Accessibility:</strong> Wheelchair accessible</p>
-                        <p><strong>Security:</strong> 24/7 security</p>
+                        <p style="color: var(--text-dark); font-weight: 500;"><strong>Parking:</strong> Available</p>
+                        <p style="color: var(--text-dark); font-weight: 500;"><strong>Accessibility:</strong> Wheelchair
+                            accessible</p>
+                        <p style="color: var(--text-dark); font-weight: 500;"><strong>Security:</strong> 24/7 security
+                        </p>
                     </div>
                 </div>
             </div>
@@ -651,6 +973,17 @@
     <script src="shared.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Show notification function
+            function showNotification(message, type) {
+                // Check if notification function exists in shared.js
+                if (typeof window.showNotification === 'function') {
+                    window.showNotification(message, type);
+                } else {
+                    // Fallback notification
+                    alert(message);
+                }
+            }
+
             // Contact form submission
             document.getElementById('contact-form').addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -658,33 +991,18 @@
                 const name = document.getElementById('contact-name').value;
                 const email = document.getElementById('contact-email').value;
                 const subject = document.getElementById('contact-subject').value;
-
-                // Simulate form submission
-                showNotification(`Thank you ${name}! Your message has been sent. We'll respond to ${email} within 48 hours.`, 'success');
-
-                // Reset form
-                this.reset();
+                const referenceId = 'TM' + Date.now().toString().slice(-6);
 
                 // Show confirmation modal
                 const modal = document.createElement('div');
-                modal.style.position = 'fixed';
-                modal.style.top = '0';
-                modal.style.left = '0';
-                modal.style.width = '100%';
-                modal.style.height = '100%';
-                modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
-                modal.style.display = 'flex';
-                modal.style.justifyContent = 'center';
-                modal.style.alignItems = 'center';
-                modal.style.zIndex = '10000';
-
+                modal.className = 'modal-overlay';
                 modal.innerHTML = `
-                    <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 500px; width: 90%; text-align: center;">
-                        <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--success); margin-bottom: 1rem;"></i>
+                    <div class="modal-content">
+                        <i class="fas fa-check-circle"></i>
                         <h3>Message Sent Successfully!</h3>
                         <p>Thank you for contacting THE TEAM. We have received your message and will respond within 48 hours.</p>
-                        <p><strong>Reference ID:</strong> TM${Date.now().toString().slice(-6)}</p>
-                        <button id="close-modal" class="btn" style="margin-top: 1rem;">OK</button>
+                        <p><strong>Reference ID:</strong> ${referenceId}</p>
+                        <button class="btn" id="close-modal" style="margin-top: 1.5rem; background-color: var(--primary-dark);">OK</button>
                     </div>
                 `;
 
@@ -699,23 +1017,30 @@
                         modal.remove();
                     }
                 });
+
+                // Reset form
+                this.reset();
+
+                // Show notification
+                showNotification(`Thank you ${name}! Your message has been sent. Reference ID: ${referenceId}`, 'success');
             });
 
             // Emergency call button
             document.getElementById('emergency-call-btn').addEventListener('click', function () {
-                if (confirm('This will call our emergency contact: 0718510747. Continue?')) {
+                const confirmCall = confirm('This will call our emergency contact: 0718510747. Continue?');
+                if (confirmCall) {
                     showNotification('In a real application, this would initiate a phone call to 0718510747', 'info');
                     // In a real app: window.location.href = 'tel:+254718510747';
                 }
             });
 
             // Get directions button
-            document.querySelector('.btn[style*="Get Directions"]').addEventListener('click', function () {
+            document.getElementById('get-directions-btn').addEventListener('click', function () {
                 showNotification('Opening directions to THE TEAM Group Office in Google Maps', 'info');
                 // In a real app: window.open('https://maps.google.com/?q=THE+TEAM+Group+Office+Nairobi', '_blank');
             });
 
-            // Social media links
+            // Social media links (except WhatsApp)
             document.querySelectorAll('.social-links a').forEach(link => {
                 if (!link.href.includes('whatsapp')) {
                     link.addEventListener('click', function (e) {
@@ -726,62 +1051,45 @@
                 }
             });
 
-            // Add click effects to executive cards
-            document.querySelectorAll('.executive-card').forEach(card => {
-                card.addEventListener('click', function () {
-                    const name = this.querySelector('p:first-of-type strong').nextSibling.textContent.trim();
-                    showNotification(`Contact card for ${name} selected`, 'info');
-                });
-            });
-
-            // Add copy email functionality
-            const emails = document.querySelectorAll('p:has(.fa-envelope)');
-            emails.forEach(emailElement => {
-                emailElement.style.cursor = 'pointer';
-                emailElement.title = 'Click to copy email';
-
+            // Copy email functionality
+            document.querySelectorAll('.copy-email').forEach(emailElement => {
                 emailElement.addEventListener('click', function () {
-                    const emailText = this.textContent.split(':')[1]?.trim();
+                    const emailText = this.querySelector('span:last-child').textContent.trim();
                     if (emailText && emailText.includes('@')) {
                         navigator.clipboard.writeText(emailText)
                             .then(() => {
-                                showNotification(`Copied: ${emailText}`, 'success');
+                                showNotification(`Email copied: ${emailText}`, 'success');
                             })
                             .catch(err => {
-                                console.error('Failed to copy: ', err);
+                                console.error('Failed to copy:', err);
                                 showNotification('Could not copy email', 'error');
                             });
                     }
                 });
             });
 
-            // Add copy phone functionality
-            const phones = document.querySelectorAll('p:has(.fa-phone)');
-            phones.forEach(phoneElement => {
-                phoneElement.style.cursor = 'pointer';
-                phoneElement.title = 'Click to copy phone number';
-
+            // Copy phone functionality
+            document.querySelectorAll('.copy-phone').forEach(phoneElement => {
                 phoneElement.addEventListener('click', function () {
-                    const phoneText = this.textContent.split(':')[1]?.trim();
+                    const phoneText = this.querySelector('span:last-child').textContent.trim();
                     if (phoneText) {
                         navigator.clipboard.writeText(phoneText)
                             .then(() => {
-                                showNotification(`Copied: ${phoneText}`, 'success');
+                                showNotification(`Phone number copied: ${phoneText}`, 'success');
                             })
                             .catch(err => {
-                                console.error('Failed to copy: ', err);
+                                console.error('Failed to copy:', err);
                                 showNotification('Could not copy phone number', 'error');
                             });
                     }
                 });
             });
 
-            // Add WhatsApp quick message
+            // Add WhatsApp quick message button
             const whatsappBtn = document.createElement('button');
-            whatsappBtn.className = 'btn';
+            whatsappBtn.className = 'btn btn-whatsapp';
             whatsappBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Quick WhatsApp Message';
-            whatsappBtn.style.backgroundColor = '#25D366';
-            whatsappBtn.style.marginTop = '1rem';
+            whatsappBtn.style.marginTop = '1.5rem';
 
             whatsappBtn.addEventListener('click', function () {
                 const message = encodeURIComponent("Hello THE TEAM, I'd like to get more information about...");
@@ -790,6 +1098,24 @@
             });
 
             document.querySelector('.whatsapp-group-card').appendChild(whatsappBtn);
+
+            // Add click effects to executive cards
+            document.querySelectorAll('.executive-card').forEach(card => {
+                card.addEventListener('click', function (e) {
+                    // Don't trigger if clicking on copy elements
+                    if (!e.target.closest('.copy-email') && !e.target.closest('.copy-phone')) {
+                        const name = this.querySelector('p:first-of-type span:last-child').textContent.trim();
+                        showNotification(`Contact card for ${name} selected`, 'info');
+                    }
+                });
+            });
+
+            // Add current year to footer
+            const currentYear = new Date().getFullYear();
+            const copyrightElement = document.querySelector('.copyright');
+            if (copyrightElement) {
+                copyrightElement.textContent = copyrightElement.textContent.replace('2026', currentYear);
+            }
         });
     </script>
 </body>

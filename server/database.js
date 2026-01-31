@@ -1,41 +1,69 @@
 // server/database.js
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
+const bcrypt = require('bcryptjs');
 
 // Create a connection pool
 const pool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'Aaamumo254%', // Default to empty for local dev, user should configure this
+    password: process.env.DB_PASSWORD || 'Aaamumo254%',
     database: process.env.DB_NAME || 'the_team_db',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
 
-// Wrap pool to provide a Promise-based API compatible with our previous usage (mostly)
-// But we'll likely need to adjust server.js because mysql2 query syntax is slightly different from sqlite3
-const promisePool = pool.promise();
-
 // Function to initialize database (create tables)
 async function initDatabase() {
+    let connection;
     try {
         console.log("Checking database connection...");
-        const connection = await promisePool.getConnection();
+        connection = await pool.getConnection();
         console.log("Connected to MySQL database.");
         
-        await connection.query(`CREATE DATABASE IF NOT EXISTS \`${pool.config.connectionConfig.database}\``);
-        await connection.query(`USE \`${pool.config.connectionConfig.database}\``);
+        // Create database if not exists
+        await connection.query(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME || 'the_team_db'}\``);
+        await connection.query(`USE \`${process.env.DB_NAME || 'the_team_db'}\``);
 
-        // Members Table
+        // Members Table (for all registered users)
         await connection.query(`
             CREATE TABLE IF NOT EXISTS members (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
                 phone VARCHAR(20) NOT NULL UNIQUE,
-                email VARCHAR(255),
-                status VARCHAR(50) DEFAULT 'pending',
-                joined_date VARCHAR(50),
-                image VARCHAR(255) DEFAULT 'images/default.jpg'
+                email VARCHAR(255) UNIQUE,
+                status VARCHAR(50) DEFAULT 'active',
+                joined_date DATE,
+                image VARCHAR(255) DEFAULT 'images/default.jpg',
+                total_contributions DECIMAL(10, 2) DEFAULT 0,
+                total_loans DECIMAL(10, 2) DEFAULT 0,
+                last_payment_date DATE,
+                next_payment_deadline DATE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                user_id INT,
+                INDEX idx_email (email),
+                INDEX idx_phone (phone)
+            )
+        `);
+
+        // Users Table for Authentication
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                email VARCHAR(255) UNIQUE NOT NULL,
+                phone VARCHAR(20) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                role ENUM('admin', 'member') DEFAULT 'member',
+                status ENUM('active', 'inactive', 'pending') DEFAULT 'active',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                last_login TIMESTAMP NULL,
+                profile_image VARCHAR(255) DEFAULT 'images/default-avatar.jpg',
+                member_id INT,
+                reset_token VARCHAR(255),
+                reset_token_expiry DATETIME,
+                INDEX idx_email (email),
+                INDEX idx_phone (phone)
             )
         `);
 
@@ -44,71 +72,98 @@ async function initDatabase() {
             CREATE TABLE IF NOT EXISTS payments (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 member_id INT,
+                user_id INT,
                 amount DECIMAL(10, 2),
                 month VARCHAR(50),
                 year VARCHAR(10),
                 date_paid DATETIME,
-                status VARCHAR(50) DEFAULT 'pending',
+                due_date DATE,
+                payment_date DATE,
+                status ENUM('pending', 'paid', 'overdue', 'failed') DEFAULT 'pending',
+                penalty_amount DECIMAL(10, 2) DEFAULT 0,
                 receipt_no VARCHAR(100),
-                FOREIGN KEY (member_id) REFERENCES members(id)
+                mpesa_code VARCHAR(100),
+                payment_method ENUM('mpesa', 'cash', 'bank') DEFAULT 'mpesa',
+                verified BOOLEAN DEFAULT FALSE,
+                verified_at DATETIME
             )
         `);
-        
-        // Seed Data Check
-        const [rows] = await connection.query("SELECT count(*) as count FROM members");
-        if (rows[0].count === 0) {
-            console.log("Seeding Database...");
-            await seedData(connection);
+
+        // Loans Table
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS loans (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                member_id INT,
+                user_id INT,
+                amount DECIMAL(10, 2),
+                interest_rate DECIMAL(5, 2) DEFAULT 10.00,
+                duration_months INT DEFAULT 3,
+                status ENUM('pending', 'approved', 'rejected', 'active', 'completed', 'defaulted') DEFAULT 'pending',
+                application_date DATE,
+                approval_date DATE,
+                disbursement_date DATE,
+                due_date DATE,
+                amount_paid DECIMAL(10, 2) DEFAULT 0,
+                remaining_amount DECIMAL(10, 2),
+                penalty_applied DECIMAL(10, 2) DEFAULT 0,
+                guarantor_id INT,
+                notes TEXT
+            )
+        `);
+
+        // Password Reset Table
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS password_resets (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                email VARCHAR(255) NOT NULL,
+                token VARCHAR(255) NOT NULL,
+                expires_at DATETIME NOT NULL,
+                used BOOLEAN DEFAULT FALSE,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                INDEX idx_token (token),
+                INDEX idx_email (email)
+            )
+        `);
+
+        // Check if admin exists
+        const [userRows] = await connection.query("SELECT COUNT(*) as count FROM users WHERE role = 'admin'");
+        if (userRows[0].count === 0) {
+            console.log("Creating admin user...");
+            await seedAdminUser(connection);
         }
 
-        connection.release();
+        console.log("✓ Database initialization complete!");
+        
     } catch (error) {
-        console.error("Database Initialization Error:", error.message);
-        console.log("Ensure you have a MySQL server running and the credentials are correct.");
+        console.error("✗ Database Initialization Error:", error.message);
+    } finally {
+        if (connection) {
+            connection.release();
+        }
     }
 }
 
-async function seedData(connection) {
-    const members = [
-        { name: "Mark Masila", phone: "0790723609", email: "masilakisangau@gmail.com", joined: "2023-01-15", image: "images/mark.jpeg" },
-        { name: "Michael Kamote", phone: "0794366274", email: "michaelkamote2019@gmail.com", joined: "2023-01-20", image: "images/michael_kamote.jpg" },
-        { name: "Lydia Katungi", phone: "0746792834", email: "lydiakatungi2001@gmail.com", joined: "2023-12-15", image: "images/lydia_katungi.jpg" },
-        { name: "Joel Mwetu", phone: "0796473760", email: "joedan926@gmail.com", joined: "2023-12-15", image: "images/joel.jpeg" },
-        { name: "Munyoki Mutua", phone: "0769083128", email: "munyokimutua513@gmail.com", joined: "2023-12-15", image: "images/munyoki.jpeg" },
-        { name: "Mutemwa Willy", phone: "0718510747", email: "mutemwawillie@gmail.com", joined: "2023-12-15", image: "images/mutemwa.jpeg" },
-        { name: "Alex Musingi", phone: "0712584869", email: "aleckiejnr@gmail.com", joined: "2026-01-06", image: "images/alex_musingi.jpg" }
-    ];
-
-    for (const m of members) {
+async function seedAdminUser(connection) {
+    try {
+        const hashedPassword = await bcrypt.hash('admin123', 10);
+        
+        // Create admin user
         await connection.query(
-            "INSERT INTO members (name, phone, email, joined_date, image) VALUES (?, ?, ?, ?, ?)",
-            [m.name, m.phone, m.email, m.joined, m.image]
+            "INSERT INTO users (name, email, phone, password, role, status) VALUES (?, ?, ?, ?, 'admin', 'active')",
+            ['Admin User', 'masilakisangau@gmail.com', '0790723609', hashedPassword]
         );
+        
+        console.log("✓ Admin user created successfully!");
+        console.log("  Email: masilakisangau@gmail.com");
+        console.log("  Phone: 0790723609");
+        console.log("  Password: admin123");
+        
+    } catch (error) {
+        console.error("Error creating admin user:", error.message);
     }
-
-    // Mock history for Mark
-    // Get ID of Mark
-    const [markRows] = await connection.query("SELECT id FROM members WHERE name = 'Mark Masila'");
-    if (markRows.length > 0) {
-        const memberId = markRows[0].id;
-        const payments = [
-            { member_id: memberId, month: "September", year: "2025", amount: 600, date: "2025-09-01", status: "paid" },
-            { member_id: memberId, month: "October", year: "2025", amount: 600, date: "2025-10-01", status: "paid" },
-            { member_id: memberId, month: "November", year: "2025", amount: 600, date: "2025-11-01", status: "paid" },
-            { member_id: memberId, month: "December", year: "2025", amount: 600, date: "2025-12-01", status: "paid" }
-        ];
-
-        for (const p of payments) {
-            await connection.query(
-                "INSERT INTO payments (member_id, month, year, amount, date_paid, status) VALUES (?, ?, ?, ?, ?, ?)",
-                [p.member_id, p.month, p.year, p.amount, p.date, p.status]
-            );
-        }
-    }
-    console.log("Seeding complete.");
 }
 
 // Start initialization
 initDatabase();
 
-module.exports = promisePool;
+module.exports = { pool, initDatabase };

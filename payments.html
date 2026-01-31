@@ -737,6 +737,10 @@
             <span class="close-modal" id="close-user-modal">&times;</span>
             <h2><i class="fas fa-qrcode"></i> Payment Instructions</h2>
             <div id="user-payment-details" style="margin: 1.5rem 0;"></div>
+            <button class="btn" id="initiate-payment-btn"
+                style="width: 100%; margin-bottom: 1rem; background-color: #10b981;">
+                <i class="fas fa-bolt"></i> Initiate M-Pesa Payment
+            </button>
 
             <div class="payment-qr">
                 <div class="payment-qr-placeholder">
@@ -866,61 +870,43 @@
     <script>
         // Payments page specific JavaScript
 
-        // Payment data from shared.js
-        const payments = window.payments || [
-            { id: 1, memberId: 1, member: "Mark Masila", month: "September", year: "2025", amount: 600, date: "2025-09-01", dueDate: "2025-10-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" },
-            { id: 2, memberId: 1, member: "Mark Masila", month: "October", year: "2025", amount: 600, date: "2025-10-01", dueDate: "2025-11-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" },
-            { id: 3, memberId: 1, member: "Mark Masila", month: "November", year: "2025", amount: 600, date: "2025-11-01", dueDate: "2025-12-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" },
-            { id: 4, memberId: 1, member: "Mark Masila", month: "December", year: "2025", amount: 600, date: "2025-12-01", dueDate: "2026-01-10", penalty: 0, status: "paid", receipt: "AUTO-DETECTED" }
-        ];
+        let currentPaymentId = null;
+        let selectedMemberId = null;
 
-        // Calculate penalty function
-        function calculatePenalty(paymentDate, month, year) {
-            const dueDate = getDueDate(month, year);
-            if (!dueDate) return 0;
-
-            const due = new Date(dueDate);
-            const payment = new Date(paymentDate);
-
-            if (payment <= due) {
-                return 0;
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Check authentication
+            const isAuthenticated = await window.auth.check();
+            if (!isAuthenticated) {
+                window.utils.showNotification('Please login to access payments', 'warning');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
             }
 
-            // Calculate days late
-            const diffTime = payment - due;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            // Initialize UI
+            await populateMemberSelects();
+            await fetchAndDisplayPayments();
+            updatePaymentSummary();
 
-            // KSh 10 per day penalty
-            return Math.max(0, diffDays * 10);
-        }
-
-        function getDueDate(month, year) {
-            const monthMap = {
-                'January': 0, 'February': 1, 'March': 2, 'April': 3,
-                'May': 4, 'June': 5, 'July': 6, 'August': 7,
-                'September': 8, 'October': 9, 'November': 10, 'December': 11
-            };
-
-            const monthIndex = monthMap[month];
-            if (monthIndex === undefined) return null;
-
-            // Due date is 10th of the following month
-            let dueMonth = monthIndex + 1;
-            let dueYear = parseInt(year);
-
-            if (dueMonth > 11) {
-                dueMonth = 0;
-                dueYear++;
+            // Show admin controls if admin is logged in
+            const adminControl = document.getElementById('admin-payment-control');
+            if (adminControl && window.auth.isAdmin()) {
+                adminControl.style.display = 'block';
             }
 
-            return new Date(dueYear, dueMonth, 10).toISOString().split('T')[0];
-        }
+            // Event Listeners
+            setupEventListeners();
+        });
 
         // Populate member selects
-        function populateMemberSelects() {
-            // Populate user member select
+        async function populateMemberSelects() {
+            await window.api.fetchMembers();
+
+            // User member select
             const userSelect = document.getElementById('user-member-select');
-            if (userSelect) {
+            if (userSelect && window.members.length > 0) {
                 userSelect.innerHTML = '<option value="">Select Your Name</option>';
                 window.members.forEach(member => {
                     const option = document.createElement('option');
@@ -930,9 +916,9 @@
                 });
             }
 
-            // Populate admin member select
+            // Admin member select
             const adminSelect = document.getElementById('admin-member-select');
-            if (adminSelect) {
+            if (adminSelect && window.auth.isAdmin()) {
                 adminSelect.innerHTML = '<option value="">Select Member</option>';
                 window.members.forEach(member => {
                     const option = document.createElement('option');
@@ -940,6 +926,35 @@
                     option.textContent = member.name;
                     adminSelect.appendChild(option);
                 });
+            }
+        }
+
+        // Fetch and display payments
+        async function fetchAndDisplayPayments() {
+            try {
+                window.utils.showLoading(true, 'Loading payments...');
+
+                const token = localStorage.getItem('token') || document.cookie.split('token=')[1];
+                if (!token) return;
+
+                const response = await fetch(`${API_URL}/payments`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    payments = data.data || [];
+                    populatePaymentsTable();
+                }
+            } catch (error) {
+                console.error('Error fetching payments:', error);
+                window.utils.showNotification('Failed to load payments', 'error');
+            } finally {
+                window.utils.showLoading(false);
             }
         }
 
@@ -967,390 +982,283 @@
             filteredPayments.forEach((payment, index) => {
                 const row = document.createElement('tr');
 
-                // Add delete button if admin is logged in
-                let deleteButton = '';
-                if (window.isAdminLoggedIn) {
-                    deleteButton = `<td><button class="delete-payment-btn" onclick="showDeleteConfirmation(${payment.id})"><i class="fas fa-trash"></i> Delete</button></td>`;
-                }
+                // Format date
+                const paidDate = payment.date_paid ? new Date(payment.date_paid).toLocaleDateString('en-GB') : 'Not paid';
+                const dueDate = payment.due_date ? new Date(payment.due_date).toLocaleDateString('en-GB') : 'N/A';
+
+                // Determine status class
+                let statusClass = 'pending';
+                if (payment.status === 'paid') statusClass = 'paid';
+                if (payment.status === 'overdue') statusClass = 'overdue';
 
                 row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${payment.member}</td>
-                    <td>${payment.month}</td>
-                    <td>${payment.year}</td>
-                    <td>KSh ${payment.amount} ${payment.penalty > 0 ? `+ ${payment.penalty}` : ''}</td>
-                    <td>${payment.date || 'Not paid'}</td>
-                    <td>${payment.dueDate}</td>
-                    <td>${payment.penalty > 0 ? `KSh ${payment.penalty}` : 'None'}</td>
-                    <td><span class="status ${payment.status}">${payment.status.toUpperCase()}</span></td>
-                    <td>${payment.receipt || 'AUTO-DETECTED'}</td>
-                    ${deleteButton}
-                `;
+                <td>${index + 1}</td>
+                <td>${payment.member_name || 'N/A'}</td>
+                <td>${payment.month || 'N/A'}</td>
+                <td>${payment.year || 'N/A'}</td>
+                <td>KSh ${payment.amount || 0}</td>
+                <td>${paidDate}</td>
+                <td>${dueDate}</td>
+                <td>${payment.penalty_amount || 0}</td>
+                <td><span class="status ${statusClass}">${payment.status?.toUpperCase() || 'PENDING'}</span></td>
+                <td>${payment.receipt_no || 'N/A'}</td>
+            `;
+
                 tbody.appendChild(row);
             });
 
-            // Show/hide admin actions header
-            const adminHeader = document.getElementById('admin-actions-header');
-            if (adminHeader) {
-                adminHeader.style.display = window.isAdminLoggedIn ? 'table-cell' : 'none';
+            // Show "No payments" message if empty
+            if (filteredPayments.length === 0) {
+                tbody.innerHTML = `
+                <tr>
+                    <td colspan="11" style="text-align: center; padding: 2rem; color: #666;">
+                        <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>No payments found</p>
+                    </td>
+                </tr>
+            `;
             }
         }
 
         // Update payment summary
         function updatePaymentSummary() {
-            const totalMembers = window.members.length;
-            const paidMembers = window.members.filter(m => m.status === 'paid').length;
-            const pendingMembers = window.members.filter(m => m.status === 'pending').length;
-            const totalCollected = paidMembers * 600;
+            const totalMembers = window.members.length || 0;
+            const paidCount = payments.filter(p => p.status === 'paid').length;
+            const pendingCount = totalMembers - paidCount;
+            const totalCollected = payments
+                .filter(p => p.status === 'paid')
+                .reduce((sum, p) => sum + (p.amount || 0), 0);
             const expectedTotal = totalMembers * 600;
-            const collectionRate = totalMembers > 0 ? Math.round((paidMembers / totalMembers) * 100) : 0;
+            const collectionRate = totalMembers > 0 ? Math.round((paidCount / totalMembers) * 100) : 0;
 
-            // Calculate days remaining to deadline
-            const now = new Date();
-            const deadline = new Date(2026, 0, 10); // Jan 10, 2026
-            const diffTime = deadline - now;
-            const daysRemaining = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+            // Update summary elements
+            const updateElement = (id, value) => {
+                const element = document.getElementById(id);
+                if (element) element.textContent = value;
+            };
 
-            document.getElementById('total-members-summary').textContent = totalMembers;
-            document.getElementById('paid-count-summary').textContent = paidMembers;
-            document.getElementById('pending-count-summary').textContent = pendingMembers;
-            document.getElementById('total-collected-summary').textContent = totalCollected;
-            document.getElementById('expected-total-summary').textContent = expectedTotal.toLocaleString();
-            document.getElementById('collection-rate').textContent = `${collectionRate}%`;
-            document.getElementById('days-remaining').textContent = daysRemaining;
+            updateElement('total-members-summary', totalMembers);
+            updateElement('paid-count-summary', paidCount);
+            updateElement('pending-count-summary', pendingCount);
+            updateElement('total-collected-summary', totalCollected.toLocaleString());
+            updateElement('expected-total-summary', expectedTotal.toLocaleString());
+            updateElement('collection-rate', `${collectionRate}%`);
 
             // Update other statistics
-            const totalPaymentsYear = payments.reduce((sum, p) => sum + p.amount, 0);
-            const totalPenalties = payments.reduce((sum, p) => sum + p.penalty, 0);
-
-            document.getElementById('total-payments-year').textContent = totalPaymentsYear.toLocaleString();
-            document.getElementById('total-penalties').textContent = totalPenalties;
-            document.getElementById('average-collection-rate').textContent = '85%';
-            document.getElementById('on-time-payments').textContent = '85%';
+            updateElement('total-payments-year', totalCollected.toLocaleString());
+            updateElement('total-penalties',
+                payments.reduce((sum, p) => sum + (p.penalty_amount || 0), 0)
+            );
+            updateElement('average-collection-rate', `${collectionRate}%`);
+            updateElement('on-time-payments', '100%');
         }
 
         // Show user payment instructions
-        function showUserPaymentInstructions(memberId) {
+        async function showUserPaymentInstructions() {
+            const memberSelect = document.getElementById('user-member-select');
+            const memberId = parseInt(memberSelect.value);
+
+            if (!memberId) {
+                window.utils.showNotification('Please select your name first', 'warning');
+                return;
+            }
+
             const member = window.members.find(m => m.id === memberId);
-            if (!member) return;
+            if (!member) {
+                window.utils.showNotification('Member not found', 'error');
+                return;
+            }
 
             const today = new Date();
-            const penalty = calculatePenalty(today.toISOString().split('T')[0], 'January', '2026');
-            const totalAmount = 600 + penalty;
-
             const modal = document.getElementById('user-payment-modal');
+
             document.getElementById('user-payment-details').innerHTML = `
-                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px;">
-                    <p><strong>Member:</strong> ${member.name}</p>
-                    <p><strong>Phone:</strong> ${member.phone}</p>
-                    <p><strong>Month:</strong> January 2026</p>
-                    <p><strong>Base Amount:</strong> KSh 600</p>
-                    ${penalty > 0 ? `<p><strong>Penalty:</strong> KSh ${penalty}</p>` : ''}
-                    <p><strong>Total to Pay:</strong> KSh ${totalAmount}</p>
-                    <p><strong>Deadline:</strong> January 10, 2026</p>
-                    <p><strong>Payment Reference:</strong> TM${member.id.toString().padStart(3, '0')}-JAN26</p>
-                </div>
-            `;
+            <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                <p><strong>Member:</strong> ${member.name}</p>
+                <p><strong>Phone:</strong> ${member.phone}</p>
+                <p><strong>Month:</strong> ${today.toLocaleString('default', { month: 'long' })} ${today.getFullYear()}</p>
+                <p><strong>Amount:</strong> KSh 600</p>
+                <p><strong>Payment Method:</strong> M-Pesa</p>
+                <p><strong>Reference:</strong> TM-${member.id.toString().padStart(3, '0')}</p>
+            </div>
+        `;
 
-            document.getElementById('user-payment-amount').textContent = totalAmount;
+            modal.style.display = 'flex';
+            selectedMemberId = memberId;
+        }
 
-            // Show/hide penalty display
-            const penaltyDisplay = document.getElementById('penalty-display');
-            if (penalty > 0) {
-                document.getElementById('penalty-amount').textContent = penalty;
-                document.getElementById('total-with-penalty').textContent = totalAmount;
-                penaltyDisplay.style.display = 'block';
-            } else {
-                penaltyDisplay.style.display = 'none';
+        // Initiate M-Pesa payment
+        async function initiateMpesaPayment() {
+            if (!selectedMemberId) {
+                window.utils.showNotification('Please select a member first', 'warning');
+                return;
             }
 
-            modal.style.display = 'flex';
-        }
+            const phone = window.prompt('Enter your M-Pesa phone number (e.g., 0712345678):');
+            if (!phone || !/^(07|01)\d{8}$/.test(phone)) {
+                window.utils.showNotification('Please enter a valid Kenyan phone number', 'error');
+                return;
+            }
 
-        // Show delete confirmation
-        function showDeleteConfirmation(paymentId) {
-            const payment = payments.find(p => p.id === paymentId);
-            if (!payment) return;
+            try {
+                const result = await window.api.initiatePayment({
+                    phone: phone,
+                    amount: 600,
+                    memberId: selectedMemberId,
+                    note: 'Monthly Contribution'
+                });
 
-            const modal = document.getElementById('delete-payment-modal');
-            document.getElementById('delete-payment-details').innerHTML = `
-                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px;">
-                    <p><strong>Member:</strong> ${payment.member}</p>
-                    <p><strong>Month:</strong> ${payment.month} ${payment.year}</p>
-                    <p><strong>Amount:</strong> KSh ${payment.amount}</p>
-                    <p><strong>Date Paid:</strong> ${payment.date}</p>
-                    <p><strong>Receipt:</strong> ${payment.receipt}</p>
-                </div>
-            `;
-            modal.style.display = 'flex';
-            modal.dataset.paymentId = paymentId;
-        }
+                if (result) {
+                    window.utils.showNotification('Payment initiated! Check your phone for STK Push.', 'success');
+                    closeModal('user-payment-modal');
 
-        // Delete payment
-        function deletePayment(paymentId) {
-            const index = payments.findIndex(p => p.id === paymentId);
-            if (index === -1) return;
-
-            const payment = payments[index];
-            const member = window.members.find(m => m.id === payment.memberId);
-
-            if (member) {
-                // Update member status
-                member.totalPaid -= payment.amount;
-
-                // Check if this was the member's last payment
-                const memberPayments = payments.filter(p => p.memberId === member.id && p.id !== paymentId);
-                if (memberPayments.length === 0) {
-                    member.status = 'pending';
-                    member.lastPayment = 'Never';
-                } else {
-                    // Find most recent payment
-                    const recentPayment = memberPayments.reduce((latest, p) => {
-                        return new Date(p.date) > new Date(latest.date) ? p : latest;
-                    });
-                    member.lastPayment = recentPayment.date;
+                    // Start polling for payment status
+                    pollPaymentStatus(result.paymentId);
                 }
+            } catch (error) {
+                console.error('Payment error:', error);
             }
-
-            // Remove payment
-            payments.splice(index, 1);
-
-            // Update UI
-            populatePaymentsTable();
-            updatePaymentSummary();
-
-            // Close modal
-            document.getElementById('delete-payment-modal').style.display = 'none';
-
-            window.showNotification('Payment deleted successfully', 'success');
         }
 
-        // Record admin payment
-        function recordAdminPayment(memberId, month, year) {
-            if (!window.isAdminLoggedIn) {
-                window.showAuthModal();
-                return;
-            }
+        // Poll payment status
+        async function pollPaymentStatus(paymentId) {
+            const maxAttempts = 30;
+            let attempts = 0;
 
-            const member = window.members.find(m => m.id === memberId);
-            if (!member) return;
+            const poll = async () => {
+                attempts++;
 
-            // Check if payment already exists
-            const existingPayment = payments.find(p =>
-                p.memberId === memberId &&
-                p.month === month &&
-                p.year === year
-            );
+                try {
+                    const token = localStorage.getItem('token') || document.cookie.split('token=')[1];
+                    const response = await fetch(`${API_URL}/payments/status/${paymentId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
 
-            if (existingPayment) {
-                window.showNotification(`${member.name} has already paid for ${month} ${year}`, 'warning');
-                return;
-            }
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.payment?.status === 'paid' && data.payment?.verified) {
+                            window.utils.showNotification('Payment confirmed successfully!', 'success');
+                            await fetchAndDisplayPayments();
+                            updatePaymentSummary();
+                            return;
+                        }
+                    }
 
-            // Create new payment
-            const today = new Date();
-            const paymentId = payments.length + 1;
-
-            const newPayment = {
-                id: paymentId,
-                memberId: memberId,
-                member: member.name,
-                month: month,
-                year: year,
-                amount: 600,
-                date: today.toISOString().split('T')[0],
-                dueDate: getDueDate(month, year),
-                penalty: calculatePenalty(today, month, year),
-                status: 'paid',
-                receipt: 'ADMIN-' + Date.now().toString().slice(-6)
+                    if (attempts < maxAttempts) {
+                        setTimeout(poll, 10000); // Poll every 10 seconds
+                    } else {
+                        window.utils.showNotification('Payment confirmation timeout', 'warning');
+                    }
+                } catch (error) {
+                    console.error('Polling error:', error);
+                    if (attempts < maxAttempts) {
+                        setTimeout(poll, 10000);
+                    }
+                }
             };
 
-            payments.push(newPayment);
-
-            // Update member status
-            member.status = 'paid';
-            member.lastPayment = today.toISOString().split('T')[0];
-            member.totalPaid += 600;
-
-            // Update UI
-            populatePaymentsTable();
-            updatePaymentSummary();
-
-            // Show success modal
-            const modal = document.getElementById('simple-payment-modal');
-            document.getElementById('simple-payment-details').innerHTML = `
-                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px;">
-                    <p><strong>Member:</strong> ${member.name}</p>
-                    <p><strong>Month:</strong> ${month} ${year}</p>
-                    <p><strong>Amount:</strong> KSh 600</p>
-                    <p><strong>Recorded by:</strong> Admin</p>
-                    <p><strong>Date:</strong> ${today.toLocaleDateString()}</p>
-                    <p><strong>Receipt No:</strong> ${newPayment.receipt}</p>
-                </div>
-            `;
-            modal.style.display = 'flex';
-
-            window.showNotification(`Payment recorded for ${member.name}`, 'success');
+            poll();
         }
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function () {
-            // Initialize UI
-            populateMemberSelects();
-            populatePaymentsTable();
-            updatePaymentSummary();
-
-            // Show admin controls if admin is logged in
-            const adminControl = document.getElementById('admin-payment-control');
-            if (adminControl && window.isAdminLoggedIn) {
-                adminControl.style.display = 'block';
-            }
-
+        // Setup event listeners
+        function setupEventListeners() {
             // User get instructions button
-            document.getElementById('user-get-instructions-btn').addEventListener('click', function () {
-                if (!window.currentUser) {
-                    window.showAuthModal();
-                    return;
-                }
-
-                const memberId = parseInt(document.getElementById('user-member-select').value);
-                if (!memberId) {
-                    window.showNotification('Please select your name first', 'warning');
-                    return;
-                }
-
-                showUserPaymentInstructions(memberId);
-            });
+            document.getElementById('user-get-instructions-btn').addEventListener('click', showUserPaymentInstructions);
 
             // Admin mark paid button
-            document.getElementById('admin-mark-paid-btn').addEventListener('click', function () {
+            document.getElementById('admin-mark-paid-btn')?.addEventListener('click', async function () {
+                if (!window.auth.isAdmin()) {
+                    window.utils.showNotification('Admin access required', 'error');
+                    return;
+                }
+
                 const memberId = parseInt(document.getElementById('admin-member-select').value);
                 const month = document.getElementById('admin-month-select').value;
                 const year = document.getElementById('admin-year-select').value;
 
                 if (!memberId || !month || !year) {
-                    window.showNotification('Please select member, month and year', 'warning');
+                    window.utils.showNotification('Please select member, month and year', 'warning');
                     return;
                 }
 
-                recordAdminPayment(memberId, month, year);
-            });
+                // Record admin payment
+                try {
+                    const token = localStorage.getItem('token') || document.cookie.split('token=')[1];
+                    const response = await fetch(`${API_URL}/payments/verify/${Date.now()}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            receiptNumber: `ADMIN-${Date.now()}`
+                        })
+                    });
 
-            // Admin delete payment button
-            document.getElementById('admin-delete-payment-btn').addEventListener('click', function () {
-                const memberId = parseInt(document.getElementById('admin-member-select').value);
-                const month = document.getElementById('admin-month-select').value;
-                const year = document.getElementById('admin-year-select').value;
-
-                if (!memberId || !month || !year) {
-                    window.showNotification('Please select member, month and year', 'warning');
-                    return;
+                    if (response.ok) {
+                        window.utils.showNotification('Payment marked as paid', 'success');
+                        await fetchAndDisplayPayments();
+                        updatePaymentSummary();
+                    }
+                } catch (error) {
+                    console.error('Admin payment error:', error);
+                    window.utils.showNotification('Failed to mark payment', 'error');
                 }
-
-                // Find payment to delete
-                const payment = payments.find(p =>
-                    p.memberId === memberId &&
-                    p.month === month &&
-                    p.year === year
-                );
-
-                if (!payment) {
-                    window.showNotification('No payment found for this member and period', 'warning');
-                    return;
-                }
-
-                showDeleteConfirmation(payment.id);
-            });
-
-            // Confirm delete button
-            document.getElementById('confirm-delete-payment-btn').addEventListener('click', function () {
-                const modal = document.getElementById('delete-payment-modal');
-                const paymentId = parseInt(modal.dataset.paymentId);
-                deletePayment(paymentId);
-            });
-
-            // Cancel delete button
-            document.getElementById('cancel-delete-btn').addEventListener('click', function () {
-                document.getElementById('delete-payment-modal').style.display = 'none';
             });
 
             // Copy instructions button
             document.getElementById('copy-instructions-btn').addEventListener('click', function () {
-                const modal = document.getElementById('user-payment-modal');
-                const amount = document.getElementById('user-payment-amount').textContent;
-                const details = document.getElementById('user-payment-details').textContent;
-
                 const instructions = `Payment Instructions for THE TEAM:
-${details}
 
-Steps:
-1. Go to M-Pesa
+1. Go to M-Pesa on your phone
 2. Select "Lipa Na M-Pesa"
 3. Select "Pay Bill"
 4. Enter Business No: 247247
 5. Enter Account No: 0718510747
-6. Enter Amount: ${amount}
-7. Enter your PIN
+6. Enter Amount: 600
+7. Enter your M-Pesa PIN
 8. Confirm payment
-9. Save confirmation message
+9. Save the confirmation message
 
-Account Name: MUTEMWA WILLY
-Reference: THE TEAM Contribution`;
+Account Name: MUTEMWA WILLY`;
 
-                // Copy to clipboard
                 navigator.clipboard.writeText(instructions)
-                    .then(() => {
-                        window.showNotification('Payment instructions copied to clipboard!', 'success');
-                    })
-                    .catch(err => {
-                        console.error('Failed to copy: ', err);
-                        window.showNotification('Could not copy instructions', 'error');
-                    });
-            });
-
-            // Save instructions as PDF button
-            document.getElementById('save-instructions-btn').addEventListener('click', function () {
-                window.showNotification('PDF download feature coming soon', 'info');
+                    .then(() => window.utils.showNotification('Instructions copied to clipboard', 'success'))
+                    .catch(() => window.utils.showNotification('Failed to copy instructions', 'error'));
             });
 
             // Apply filters button
-            document.getElementById('apply-filters').addEventListener('click', function () {
+            document.getElementById('apply-filters')?.addEventListener('click', function () {
                 const month = document.getElementById('filter-month').value;
                 const year = document.getElementById('filter-year').value;
                 const status = document.getElementById('filter-status').value;
 
                 populatePaymentsTable(month, year, status);
-                window.showNotification('Filters applied', 'success');
+                window.utils.showNotification('Filters applied', 'success');
             });
 
             // Reset filters button
-            document.getElementById('reset-filters').addEventListener('click', function () {
+            document.getElementById('reset-filters')?.addEventListener('click', function () {
                 document.getElementById('filter-month').value = 'all';
                 document.getElementById('filter-year').value = 'all';
                 document.getElementById('filter-status').value = 'all';
                 populatePaymentsTable('all', 'all', 'all');
-                window.showNotification('Filters reset', 'success');
+                window.utils.showNotification('Filters reset', 'success');
             });
 
             // Export payments button
-            document.getElementById('export-payments').addEventListener('click', function () {
-                window.showNotification('Exporting payment records to CSV...', 'info');
-
-                // Simulate export
-                setTimeout(() => {
-                    window.showNotification('Payment records exported successfully', 'success');
-                }, 1500);
-            });
-
-            // OK payment button
-            document.getElementById('ok-payment-btn').addEventListener('click', function () {
-                document.getElementById('simple-payment-modal').style.display = 'none';
+            document.getElementById('export-payments')?.addEventListener('click', function () {
+                window.utils.showNotification('Export feature coming soon', 'info');
             });
 
             // Close modals
             document.querySelectorAll('.close-modal').forEach(closeBtn => {
                 closeBtn.addEventListener('click', function () {
-                    this.closest('.modal').style.display = 'none';
+                    const modal = this.closest('.modal');
+                    modal.style.display = 'none';
                 });
             });
 
@@ -1363,36 +1271,37 @@ Reference: THE TEAM Contribution`;
                 });
             });
 
-            // Update payment status for members
-            function updateMemberPaymentStatus() {
-                const currentMonth = 'January';
-                const currentYear = '2026';
+            // OK payment button
+            document.getElementById('ok-payment-btn')?.addEventListener('click', function () {
+                closeModal('simple-payment-modal');
+            });
 
-                window.members.forEach(member => {
-                    const hasPaid = payments.some(p =>
-                        p.memberId === member.id &&
-                        p.month === currentMonth &&
-                        p.year === currentYear
-                    );
+            // Cancel delete button
+            document.getElementById('cancel-delete-btn')?.addEventListener('click', function () {
+                closeModal('delete-payment-modal');
+            });
 
-                    member.status = hasPaid ? 'paid' : 'pending';
-                });
+            // Initiate payment button in modal
+            document.getElementById('initiate-payment-btn')?.addEventListener('click', initiateMpesaPayment);
+        }
 
-                updatePaymentSummary();
-            }
+        // Helper function to close modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) modal.style.display = 'none';
+        }
 
-            // Initial status update
-            updateMemberPaymentStatus();
+        // Update days remaining
+        function updateDaysRemaining() {
+            const now = new Date();
+            const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 10);
+            const diffTime = nextMonth - now;
+            const daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-            // Simulate auto-refresh every 30 seconds
-            setInterval(updateMemberPaymentStatus, 30000);
-        });
+            const daysElement = document.getElementById('days-remaining');
+            if (daysElement) daysElement.textContent = daysRemaining;
+        }
 
-        // Export functions to global scope
-        window.showDeleteConfirmation = showDeleteConfirmation;
-        window.deletePayment = deletePayment;
-        window.showUserPaymentInstructions = showUserPaymentInstructions;
+        // Initialize days remaining
+        updateDaysRemaining();
     </script>
-</body>
-
-</html>

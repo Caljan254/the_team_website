@@ -1,29 +1,46 @@
 {
   "name": "the_team_website",
-  "version": "1.0.0",
-  "description": "the website for the small group of members contributing some amount monthly",
-  "main": "shared.js",
+  "version": "2.0.0",
+  "description": "THE TEAM - Member Management System with Authentication & MPESA Integration",
+  "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup-db": "node server/setup-database.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Caljan254/the_team_website.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "membership",
+    "management",
+    "mpesa",
+    "authentication",
+    "dashboard"
+  ],
+  "author": "THE TEAM",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/Caljan254/the_team_website/issues"
   },
   "homepage": "https://github.com/Caljan254/the_team_website#readme",
   "dependencies": {
     "axios": "^1.13.4",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^2.2.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
+    "dotenv": "^16.4.7",
     "express": "^5.2.1",
+    "express-mysql-session": "^3.0.2",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.16.2",
+    "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
     "sqlite3": "^5.1.7"
   }
 }

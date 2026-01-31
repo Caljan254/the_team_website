@@ -8,13 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="shared.css">
     <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
         .login-container {
             max-width: 400px;
-            margin: 50px auto;
-            padding: 2rem;
-            /* background: white; - Handled by glass-panel */
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            padding: 2.5rem;
+            background: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-xl);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .login-container h2 {
@@ -27,40 +45,146 @@
             margin-bottom: 1.5rem;
         }
 
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
         .form-control {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 14px;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--border-radius-md);
             font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
         }
 
         .login-btn {
             width: 100%;
-            padding: 12px;
-            background-color: var(--secondary);
+            padding: 14px;
+            background: var(--gradient-primary);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: var(--border-radius-md);
             font-size: 1.1rem;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all var(--transition-base);
+            margin-top: 1rem;
         }
 
         .login-btn:hover {
-            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .login-btn:disabled {
+            background: var(--gray-500);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .login-links {
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
 
-        .admin-note {
-            background-color: #e3f2fd;
+        .login-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-links a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 12px 16px;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid var(--danger);
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .demo-credentials {
+            background-color: rgba(67, 97, 238, 0.1);
+            border-radius: var(--border-radius-md);
             padding: 1rem;
-            border-radius: 5px;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             font-size: 0.9rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .demo-credentials h4 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .forgot-password-link {
+            text-align: right;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .forgot-password-link a {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .forgot-password-link a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Hide navigation on login page */
+        nav {
+            display: none !important;
+        }
+
+        .hamburger {
+            display: none !important;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            margin-top: auto;
         }
     </style>
 </head>
@@ -73,60 +197,49 @@
                 <div class="motto">Diverse but United</div>
             </div>
 
-            <!-- Hamburger Button -->
-            <button class="hamburger" id="hamburgerBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Navigation -->
-            <nav id="mainNav">
-                <ul>
-                    <li><a href="index.html">Dashboard</a></li>
-                    <li><a href="members.html">Members</a></li>
-                    <li><a href="constitution.html">Constitution</a></li>
-                    <li><a href="reports.html">Reports</a></li>
-                    <li><a href="notifications.html">Notifications</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="payments.html">Payments</a></li>
-                    <li><a href="loans.html">Loans</a></li>
-                    <li><a href="signup.html">Sign Up</a></li>
-                    <li><a href="login.html" class="active">Login</a></li>
-                </ul>
-            </nav>
-
-            <div class="auth-container" id="authContainer" style="display: none;">
-                <!-- Hidden -->
+            <div class="auth-buttons" id="authButtons">
+                <!-- Will be populated by JavaScript -->
             </div>
         </div>
     </header>
 
     <main class="container">
-        <div class="login-container glass-panel">
+        <div class="login-container">
             <h2><i class="fas fa-sign-in-alt"></i> Member Login</h2>
+
+            <div id="errorMessage" class="error-message"></div>
 
             <form id="login-form">
                 <div class="form-group">
-                    <label for="login-username">Username/Email</label>
-                    <input type="text" id="login-username" class="form-control" required>
+                    <label for="login-username"><i class="fas fa-envelope"></i> Email or Phone Number</label>
+                    <input type="text" id="login-username" class="form-control"
+                        placeholder="Enter your email or phone number" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" class="form-control" required>
+                    <label for="login-password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Enter your password"
+                        required>
                 </div>
 
-                <button type="submit" class="login-btn">
-                    <i class="fas fa-sign-in-alt"></i> Login
+                <div class="forgot-password-link">
+                    <a href="forgot-password.html"><i class="fas fa-key"></i> Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span id="loginText">Login</span>
+                    <span id="loginLoading" class="loading" style="display: none;"></span>
                 </button>
             </form>
 
-            <div class="admin-note">
-                <p><strong>Admin Login:</strong> Username: "MarkMasila" | Password: "admin123"</p>
-            </div>
-
             <div class="login-links">
                 <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
-                <p><a href="index.html">← Back to Dashboard</a></p>
+            </div>
+
+            <div class="demo-credentials">
+                <h4><i class="fas fa-info-circle"></i> Demo Credentials</h4>
+                <p><strong>Admin:</strong> masilakisangau@gmail.com / admin123</p>
+                <p><strong>Phone:</strong> 0790723609 / admin123</p>
             </div>
         </div>
     </main>
@@ -139,18 +252,55 @@
 
     <script src="shared.js"></script>
     <script>
-        document.getElementById('login-form').addEventListener('submit', function (e) {
+        // Login form submission
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
-            const username = document.getElementById('login-username').value;
+            const identifier = document.getElementById('login-username').value.trim();
             const password = document.getElementById('login-password').value;
 
-            // Check if admin login
-            if (username === "MarkMasila" && password === "admin123") {
-                adminLogin(username, password);
-                window.location.href = "index.html";
-            } else {
-                showNotification('Invalid login credentials', 'error');
+            if (!identifier || !password) {
+                showError('Please enter email/phone and password');
+                return;
+            }
+
+            const loginBtn = document.getElementById('loginBtn');
+            const loginText = document.getElementById('loginText');
+            const loginLoading = document.getElementById('loginLoading');
+
+            loginText.textContent = 'Logging in...';
+            loginLoading.style.display = 'inline-block';
+            loginBtn.disabled = true;
+
+            document.getElementById('errorMessage').classList.remove('show');
+            document.getElementById('errorMessage').textContent = '';
+
+            try {
+                await window.auth.login(identifier, password);
+                // login() will redirect to index.html (dashboard) on success
+            } catch (error) {
+                loginText.textContent = 'Login';
+                loginLoading.style.display = 'none';
+                loginBtn.disabled = false;
+            }
+        });
+
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function () {
+            console.log('Login page loaded');
+
+            // If already logged in, redirect to dashboard immediately
+            const user = await window.auth.check();
+            if (user) {
+                console.log('Already logged in, redirecting to dashboard...');
+                window.location.href = 'index.html';
+                return;
             }
         });
     </script>

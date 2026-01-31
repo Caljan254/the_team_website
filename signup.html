@@ -12,15 +12,172 @@
             max-width: 500px;
             margin: 50px auto;
             padding: 2rem;
-            /* background: white; - Handled by glass-panel */
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-xl);
         }
 
         .signup-container h2 {
             text-align: center;
             margin-bottom: 1.5rem;
             color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all var(--transition-base);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn:disabled {
+            background: var(--gray-500);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .login-links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .login-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-links a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 12px 16px;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid var(--danger);
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 12px 16px;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid var(--success);
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .password-strength {
+            height: 4px;
+            background: var(--gray-300);
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            background: #ef4444;
+            transition: width 0.3s, background 0.3s;
+            border-radius: 2px;
+        }
+
+        .password-strength-text {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            color: var(--gray-600);
+        }
+
+        .password-match {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .terms {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .terms a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .terms a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -33,12 +190,10 @@
                 <div class="motto">Diverse but United</div>
             </div>
 
-            <!-- Hamburger Button -->
             <button class="hamburger" id="hamburgerBtn">
                 <i class="fas fa-bars"></i>
             </button>
 
-            <!-- Navigation -->
             <nav id="mainNav">
                 <ul>
                     <li><a href="index.html">Dashboard</a></li>
@@ -49,53 +204,75 @@
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="payments.html">Payments</a></li>
                     <li><a href="loans.html">Loans</a></li>
-                    <li><a href="signup.html" class="active">Sign Up</a></li>
-                    <li><a href="login.html">Login</a></li>
                 </ul>
             </nav>
 
-            <div class="auth-container" id="authContainer" style="display: none;">
-                <!-- Hidden -->
+            <div class="auth-buttons" id="authButtons">
+                <!-- Will be populated by JavaScript -->
             </div>
         </div>
     </header>
 
     <main class="container">
-        <div class="signup-container glass-panel">
+        <div class="signup-container">
             <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
 
             <form id="signup-form">
                 <div class="form-group">
-                    <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" class="form-control" required>
+                    <label for="signup-name"><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="signup-name" class="form-control" placeholder="Enter your full name"
+                        required>
                 </div>
 
                 <div class="form-group">
-                    <label for="signup-phone">Phone Number</label>
-                    <input type="tel" id="signup-phone" class="form-control" required>
+                    <label for="signup-email"><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="signup-email" class="form-control" placeholder="Enter your email address"
+                        required>
                 </div>
 
                 <div class="form-group">
-                    <label for="signup-email">Email Address</label>
-                    <input type="email" id="signup-email" class="form-control" required>
+                    <label for="signup-phone"><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" id="signup-phone" class="form-control" placeholder="07XXXXXXXX" required>
+                    <small style="color: var(--gray-600); display: block; margin-top: 5px;">
+                        Use Kenyan format (e.g., 0712345678)
+                    </small>
                 </div>
 
                 <div class="form-group">
-                    <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" class="form-control" required>
+                    <label for="signup-password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="signup-password" class="form-control"
+                        placeholder="Create a password (min. 6 characters)" required>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                    </div>
+                    <div class="password-strength-text" id="passwordStrengthText">
+                        Password strength: Very weak
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="signup-confirm">Confirm Password</label>
-                    <input type="password" id="signup-confirm" class="form-control" required>
+                    <label for="signup-confirm"><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" id="signup-confirm" class="form-control" placeholder="Confirm your password"
+                        required>
+                    <div class="password-match" id="passwordMatch"></div>
                 </div>
 
-                <button type="submit" class="btn" style="width: 100%;">
-                    <i class="fas fa-user-plus"></i> Create Account
+                <button type="submit" class="btn" id="signupBtn">
+                    <span id="signupText">Create Account</span>
+                    <span id="signupLoading" class="loading" style="display: none;"></span>
                 </button>
             </form>
 
-            <div class="login-links" style="text-align: center; margin-top: 1rem;">
+            <div class="terms">
+                By creating an account, you agree to our
+                <a href="constitution.html">Constitution</a> and
+                <a href="terms.html">Terms of Service</a>
+            </div>
+
+            <div class="login-links">
                 <p>Already have an account? <a href="login.html">Login here</a></p>
                 <p><a href="index.html">← Back to Dashboard</a></p>
             </div>
@@ -110,21 +287,145 @@
 
     <script src="shared.js"></script>
     <script>
-        document.getElementById('signup-form').addEventListener('submit', function (e) {
+        // Password strength checker
+        document.getElementById('signup-password').addEventListener('input', function (e) {
+            const password = e.target.value;
+            const strengthBar = document.getElementById('passwordStrengthBar');
+            const strengthText = document.getElementById('passwordStrengthText');
+
+            let strength = 0;
+            let text = 'Very weak';
+            let color = '#ef4444';
+
+            if (password.length >= 6) strength++;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            if (strength === 1) {
+                text = 'Weak';
+                color = '#f97316';
+            } else if (strength === 2) {
+                text = 'Fair';
+                color = '#eab308';
+            } else if (strength === 3) {
+                text = 'Good';
+                color = '#84cc16';
+            } else if (strength >= 4) {
+                text = 'Strong';
+                color = '#10b981';
+            }
+
+            strengthBar.style.width = (strength * 20) + '%';
+            strengthBar.style.background = color;
+            strengthText.textContent = `Password strength: ${text}`;
+            strengthText.style.color = color;
+        });
+
+        // Password match checker
+        document.getElementById('signup-confirm').addEventListener('input', function () {
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = this.value;
+            const matchDiv = document.getElementById('passwordMatch');
+
+            if (confirmPassword === '') {
+                matchDiv.textContent = '';
+                matchDiv.style.color = '';
+            } else if (password === confirmPassword) {
+                matchDiv.textContent = '✓ Passwords match';
+                matchDiv.style.color = '#10b981';
+            } else {
+                matchDiv.textContent = '✗ Passwords do not match';
+                matchDiv.style.color = '#ef4444';
+            }
+        });
+
+        // Signup form submission
+        document.getElementById('signup-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const phone = document.getElementById('signup-phone').value.trim();
             const password = document.getElementById('signup-password').value;
-            const confirm = document.getElementById('signup-confirm').value;
+            const confirmPassword = document.getElementById('signup-confirm').value;
 
-            if (password !== confirm) {
-                showNotification('Passwords do not match', 'error');
+            if (password !== confirmPassword) {
+                showError('Passwords do not match');
                 return;
             }
 
-            showNotification('Account created successfully! Please login.', 'success');
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 2000);
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters');
+                return;
+            }
+
+            if (!/^(07|01)\d{8}$/.test(phone)) {
+                showError('Please enter a valid Kenyan phone number (e.g., 0712345678)');
+                return;
+            }
+
+            const signupBtn = document.getElementById('signupBtn');
+            const signupText = document.getElementById('signupText');
+            const signupLoading = document.getElementById('signupLoading');
+
+            signupText.textContent = 'Creating Account...';
+            signupLoading.style.display = 'inline-block';
+            signupBtn.disabled = true;
+
+            document.getElementById('errorMessage').classList.remove('show');
+            document.getElementById('errorMessage').textContent = '';
+            document.getElementById('successMessage').classList.remove('show');
+            document.getElementById('successMessage').textContent = '';
+
+            try {
+                await window.auth.register({
+                    name,
+                    email,
+                    phone,
+                    password,
+                    confirmPassword
+                });
+
+                // Registration successful - will redirect automatically
+            } catch (error) {
+                showError(error.message || 'Registration failed. Please try again.');
+                signupText.textContent = 'Create Account';
+                signupLoading.style.display = 'none';
+                signupBtn.disabled = false;
+            }
+        });
+
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function () {
+            console.log('Signup page loaded');
+
+            // If already logged in, redirect to dashboard
+            const user = await window.auth.check();
+            if (user) {
+                console.log('Already logged in, redirecting to dashboard');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Hide navigation menu on signup page
+            const mainNav = document.getElementById('mainNav');
+            if (mainNav) {
+                mainNav.style.display = 'none';
+            }
+
+            // Hide hamburger button
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            if (hamburgerBtn) {
+                hamburgerBtn.style.display = 'none';
+            }
         });
     </script>
 </body>
